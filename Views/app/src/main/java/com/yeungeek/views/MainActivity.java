@@ -1,13 +1,30 @@
 package com.yeungeek.views;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import com.yeungeek.views.base.BaseActivity;
+import com.yeungeek.views.flow.FlowFragment;
+import com.yeungeek.views.util.FragmentUtil;
 
-public class MainActivity extends AppCompatActivity {
+import butterknife.OnClick;
+import timber.log.Timber;
+
+public class MainActivity extends BaseActivity {
+
+    private FragmentUtil fragmentUtil;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void init() {
+        super.init();
+        fragmentUtil = new FragmentUtil(this, R.id.view_container);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @OnClick(R.id.view_draw)
+    void viewDraw() {
+        Timber.d("----> click draw");
+        fragmentUtil.switchTo(FlowFragment.class);
     }
 }
