@@ -2,12 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.hugo'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion sdkVersion
+    buildToolsVersion toolsVersion
+
     defaultConfig {
         applicationId "com.yeungeek.views"
-        minSdkVersion 14
-        targetSdkVersion 23
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
         versionCode 1
         versionName "1.0"
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -26,15 +27,12 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    })
 
-    compile 'com.android.support:appcompat-v7:24.1.0'
-    compile 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile supportDependencies.appcompat
+    compile commonDependencies.butterknife
+    annotationProcessor commonDependencies.butterknife
 
-    compile 'com.jakewharton.timber:timber:4.3.1'
+    compile commonDependencies.timber
 
-    testCompile 'junit:junit:4.12'
+    testCompile testDependencies.junit
 }
