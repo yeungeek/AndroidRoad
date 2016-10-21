@@ -10,4 +10,10 @@ public class FlowFragment extends BaseFragment {
     protected int getLayoutId() {
         return R.layout.fragment_flow;
     }
+
+    @Override
+    protected void init() {
+        super.init();
+
+    }
 }

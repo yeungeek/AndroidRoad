@@ -27,4 +27,9 @@ public class MainActivity extends BaseActivity {
         Timber.d("----> click draw");
         fragmentUtil.switchTo(FlowFragment.class);
     }
+
+    @OnClick(R.id.view_custom)
+    void viewCustom() {
+
+    }
 }

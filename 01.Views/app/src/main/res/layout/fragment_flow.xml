@@ -5,8 +5,9 @@
               android:background="@android:color/white"
               android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.yeungeek.views.flow.view.CustomView
+        android:id="@+id/id_view_custom"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="view flow"/>
+        android:background="@android:color/holo_purple"/>
 </LinearLayout>
