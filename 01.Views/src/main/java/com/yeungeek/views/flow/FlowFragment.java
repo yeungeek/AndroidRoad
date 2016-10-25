@@ -14,6 +14,5 @@ public class FlowFragment extends BaseFragment {
     @Override
     protected void init() {
         super.init();
-
     }
 }

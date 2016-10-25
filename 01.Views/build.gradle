@@ -30,7 +30,7 @@ dependencies {
 
     compile supportDependencies.appcompat
     compile commonDependencies.butterknife
-    annotationProcessor commonDependencies.butterknife
+    annotationProcessor commonDependencies.butterknifeCompiler
 
     compile commonDependencies.timber
 

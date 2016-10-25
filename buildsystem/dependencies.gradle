@@ -34,8 +34,9 @@ ext {
     ]
 
     commonDependencies = [
-            butterknife: "com.jakewharton:butterknife:${butterknifeVersion}",
-            timber     : "com.jakewharton.timber:timber:${timberVersion}"
+            butterknife        : "com.jakewharton:butterknife:${butterknifeVersion}",
+            butterknifeCompiler: "com.jakewharton:butterknife-compiler:${butterknifeVersion}",
+            timber             : "com.jakewharton.timber:timber:${timberVersion}"
     ]
 
     testDependencies = [
