@@ -3,6 +3,7 @@ package com.yeungeek.views.flow.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import timber.log.Timber;
@@ -11,7 +12,7 @@ import timber.log.Timber;
  * Created by yeungeek on 2016/10/21.
  */
 
-public class CustomView extends FrameLayout {
+public class CustomView extends View {
     public CustomView(Context context) {
         super(context);
     }
@@ -69,6 +70,13 @@ public class CustomView extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         Timber.d("----> onLayout");
+    }
+
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        Timber.d("----> draw");
     }
 
     @Override
