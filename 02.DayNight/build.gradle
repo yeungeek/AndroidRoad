@@ -30,6 +30,7 @@ dependencies {
     })
 
     compile supportDependencies.appcompat
+    compile supportDependencies.design
     compile commonDependencies.butterknife
     annotationProcessor commonDependencies.butterknifeCompiler
 
