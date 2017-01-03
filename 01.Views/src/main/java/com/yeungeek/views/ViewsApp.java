@@ -14,6 +14,7 @@ public class ViewsApp extends Application {
         initComponent();
 
         Timber.d("----> application create");
+
     }
 
     @DebugLog
