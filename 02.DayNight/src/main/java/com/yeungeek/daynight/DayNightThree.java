@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import hugo.weaving.DebugLog;
 
 public class DayNightThree extends AppCompatActivity {
     @BindView(R.id.id_table_layout)
@@ -37,6 +38,7 @@ public class DayNightThree extends AppCompatActivity {
         tableLayout.setupWithViewPager(viewPager);
     }
 
+    @DebugLog
     @OnClick(R.id.id_change)
     public void change() {
 
