@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="dnBackground" format="color"/>
+    <attr name="dnTextColor" format="color"/>
+
+    <declare-styleable name="dnMode">
+        <attr name="backgroundAttr" format="string|reference"/>
+        <attr name="textColorAttr" format="string|reference"/>
+        <attr name="backgroundDrawableAttr" format="string|reference"/>
+    </declare-styleable>
+</resources>

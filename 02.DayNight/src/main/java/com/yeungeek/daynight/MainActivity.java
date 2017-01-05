@@ -23,6 +23,6 @@ public class MainActivity extends AppCompatActivity {
     @DebugLog
     @OnClick(R.id.id_day_night_three)
     public void dayNightThree() {
-        startActivity(new Intent(this, DayNightThree.class));
+        startActivity(new Intent(this, DayNightThreeActivity.class));
     }
 }

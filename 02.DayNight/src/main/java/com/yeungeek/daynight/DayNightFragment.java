@@ -41,7 +41,7 @@ public class DayNightFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_day_night, container, false);
+        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_day_night, container, false);
         ButterKnife.bind(this, view);
         return view;
     }

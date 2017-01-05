@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:dn="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
@@ -10,20 +12,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Day Night Change"/>
+        android:text="Day Night Change"
+        android:textColor="?attr/dnTextColor"
+        dn:textColorAttr="?attr/dnTextColor"
+        tools:ignore="MissingPrefix"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/id_table_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
+        android:background="?attr/dnBackground"
         android:fillViewport="false"
         app:layout_scrollFlags="scroll"
         app:tabIndicatorColor="#057523"
         app:tabIndicatorHeight="2dp"
         app:tabMode="fixed"
         app:tabSelectedTextColor="#057523"
-        app:tabTextColor="#ced0d3"/>
+        app:tabTextColor="?attr/dnTextColor"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/id_view_pager"

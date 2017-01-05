@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hugo.weaving.DebugLog;
 
-public class DayNightThree extends AppCompatActivity {
+public class DayNightThreeActivity extends AppCompatActivity {
     @BindView(R.id.id_table_layout)
     TabLayout tableLayout;
     @BindView(R.id.id_view_pager)
@@ -25,7 +25,9 @@ public class DayNightThree extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ChangeModeController.getInstance().init(this, R.attr.class).setTheme(this, R.style.DayTheme, R.style.NightTheme);
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_day_night_three);
         ButterKnife.bind(this);
 
@@ -41,7 +43,17 @@ public class DayNightThree extends AppCompatActivity {
     @DebugLog
     @OnClick(R.id.id_change)
     public void change() {
+        if (ChangeModeHelper.getChangeMode(this) == ChangeModeHelper.MODE_DAY) {
+            ChangeModeController.changeNight(this, R.style.NightTheme);
+        } else {
+            ChangeModeController.changeDay(this, R.style.DayTheme);
+        }
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ChangeModeController.onDestory();
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
