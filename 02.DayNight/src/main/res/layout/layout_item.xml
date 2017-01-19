@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="80dp"
-              android:background="?attr/dnBackground"
               android:orientation="horizontal"
-              app:backgroundAttr="?attr/dnBackground"
               tools:ignore="MissingPrefix">
 
     <TextView
         android:id="@+id/id_position"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="?attr/dnTextColor"
-        app:textColorAttr="?attr/dnTextColor"/>
+        android:layout_height="wrap_content"/>
 </LinearLayout>

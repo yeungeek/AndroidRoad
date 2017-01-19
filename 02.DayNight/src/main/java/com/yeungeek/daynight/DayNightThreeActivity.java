@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.yeungeek.daynight.m1.Colorful;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -21,11 +23,12 @@ public class DayNightThreeActivity extends AppCompatActivity {
     @BindView(R.id.id_view_pager)
     ViewPager viewPager;
 
+    private Colorful mColorful;
+
     private MyPagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ChangeModeController.getInstance().init(this, R.attr.class).setTheme(this, R.style.DayTheme, R.style.NightTheme);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_day_night_three);
@@ -38,22 +41,29 @@ public class DayNightThreeActivity extends AppCompatActivity {
         pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tableLayout.setupWithViewPager(viewPager);
+
+        mColorful = new Colorful.Builder(this)
+//                .backgroundDrawable(R.id.root_view, R.attr.root_view_bg)
+                .backgroundColor(R.id.id_table_layout, R.attr.rootViewBg)
+                .textColor(R.id.id_change, R.attr.btnBg)
+                .create(); // 设置文本颜色
     }
 
     @DebugLog
     @OnClick(R.id.id_change)
     public void change() {
         if (ChangeModeHelper.getChangeMode(this) == ChangeModeHelper.MODE_DAY) {
-            ChangeModeController.changeNight(this, R.style.NightTheme);
+            ChangeModeHelper.setChangeMode(this, ChangeModeHelper.MODE_NIGHT);
+            mColorful.setTheme(R.style.NightTheme);
         } else {
-            ChangeModeController.changeDay(this, R.style.DayTheme);
+            ChangeModeHelper.setChangeMode(this, ChangeModeHelper.MODE_DAY);
+            mColorful.setTheme(R.style.DayTheme);
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ChangeModeController.onDestory();
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {

@@ -12,6 +12,7 @@ import android.os.Build;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.LayoutInflaterFactory;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,9 +95,9 @@ public class ChangeModeController {
                         }
                     }
                     if (view != null) {
-                        // Log.e("TAG", "name = " + name);
+                        Log.e("TAG", "----> mode name = " + name);
                         for (int i = 0; i < attrs.getAttributeCount(); i++) {
-//                            Log.e("TAG", attrs.getAttributeName(i) + " , " + attrs.getAttributeValue(i));
+                            Log.e("TAG", "----> mode " + attrs.getAttributeName(i) + " , " + attrs.getAttributeValue(i));
                             if (attrs.getAttributeName(i).equals(ATTR_BACKGROUND)) {
                                 mBackGroundViews.add(new AttrEntity<View>(view, getAttr(mClass, attrs.getAttributeValue(i))));
                             }
