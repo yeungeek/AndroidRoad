@@ -11,4 +11,6 @@
 # IntelliJ
 /out/
 .idea
+bin
+.project
 

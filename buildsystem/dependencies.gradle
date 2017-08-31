@@ -12,13 +12,13 @@ ext {
     minSdk = 14
     targetSdk = 23
     sdkVersion = 24
-    toolsVersion = "24.0.3"
+    toolsVersion = "25.0.0"
 
     javaSourceCompatibility = JavaVersion.VERSION_1_7
     javaTargetCompatibility = JavaVersion.VERSION_1_7
 
     // Libraries
-    final supportLibVersion = '24.1.0'
+    final supportLibVersion = '25.0.0'
     final latestVersion = 'latest.release'
 
     final butterknifeVersion = '8.4.0'
