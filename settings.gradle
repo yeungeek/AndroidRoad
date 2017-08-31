@@ -1,1 +1,1 @@
-include ':01.Views', ':02.DayNight', ':03.Dynamical'
+include ':01.Views', ':02.DayNight', ':03.Dynamical', ':03-1.Dyplugin'

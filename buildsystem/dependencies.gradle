@@ -1,6 +1,9 @@
 allprojects {
     repositories {
         jcenter()
+        maven {
+            url "https://maven.google.com"
+        }
     }
 }
 
@@ -18,7 +21,7 @@ ext {
     javaTargetCompatibility = JavaVersion.VERSION_1_7
 
     // Libraries
-    final supportLibVersion = '25.0.0'
+    final supportLibVersion = '25.4.0'
     final latestVersion = 'latest.release'
 
     final butterknifeVersion = '8.4.0'
