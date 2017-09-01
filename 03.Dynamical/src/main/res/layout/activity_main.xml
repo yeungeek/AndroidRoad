@@ -6,13 +6,19 @@
     android:layout_height="match_parent"
     tools:context="com.android.dynamical.MainActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/load_apk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Load APK" />
+
+    <Button
+        android:id="@+id/load_dex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load dex"
+        app:layout_constraintTop_toBottomOf="@+id/load_apk"
+        android:layout_marginTop="10dp" />
+
 
 </android.support.constraint.ConstraintLayout>
