@@ -4,7 +4,7 @@ android {
     compileSdkVersion build_versions.target_sdk
     buildToolsVersion build_versions.build_tools
     defaultConfig {
-        applicationId "com.yeungeek.basicdaggersample"
+        applicationId "com.yeungeek.dagger"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode 1
@@ -31,6 +31,15 @@ dependencies {
     implementation deps.support.app_compat
     implementation deps.constraint_layout
 
+    // Dagger2
+    implementation deps.dagger.runtime
+    implementation deps.dagger.android
+    implementation deps.dagger.android_support
+
+    annotationProcessor deps.dagger.android_support_compiler
+    annotationProcessor deps.dagger.compiler
+
+    implementation deps.timber
     // Dependencies for local unit tests
     testImplementation deps.junit
 

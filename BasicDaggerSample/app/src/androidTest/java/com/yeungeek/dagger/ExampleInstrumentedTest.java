@@ -1,4 +1,4 @@
-package com.yeungeek.basicdaggersample;
+package com.yeungeek.dagger;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
