@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.yeungeek.dagger.ui.InjectActivity;
 import com.yeungeek.dagger.ui.ProvidesActivity;
+import com.yeungeek.dagger.ui.QualifierActivity;
 
 /**
  * @author yangjian
@@ -18,6 +19,7 @@ import com.yeungeek.dagger.ui.ProvidesActivity;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button mBtnInject;
     private Button mBtnProvide;
+    private Button mBtnQualifier;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mBtnProvide = findViewById(R.id.btn_provide);
         mBtnProvide.setOnClickListener(this);
+
+        mBtnQualifier = findViewById(R.id.btn_qualifier);
+        mBtnQualifier.setOnClickListener(this);
     }
 
     @Override
@@ -39,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_provide:
                 startActivity(new Intent(MainActivity.this, ProvidesActivity.class));
+                break;
+            case R.id.btn_qualifier:
+                startActivity(new Intent(MainActivity.this, QualifierActivity.class));
                 break;
             default:
                 break;

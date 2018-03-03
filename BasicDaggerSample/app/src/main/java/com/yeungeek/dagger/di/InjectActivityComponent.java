@@ -11,5 +11,10 @@ import dagger.Component;
 
 @Component
 public interface InjectActivityComponent {
+    /**
+     * inject activity
+     *
+     * @param activity
+     */
     void inject(InjectActivity activity);
 }

@@ -19,5 +19,6 @@
 
         <activity android:name="com.yeungeek.dagger.ui.InjectActivity" />
         <activity android:name="com.yeungeek.dagger.ui.ProvidesActivity" />
+        <activity android:name="com.yeungeek.dagger.ui.QualifierActivity" />
     </application>
 </manifest>
