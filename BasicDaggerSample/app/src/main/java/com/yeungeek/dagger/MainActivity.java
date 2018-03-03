@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.yeungeek.dagger.ui.InjectActivity;
+import com.yeungeek.dagger.ui.ProvidesActivity;
 
 /**
  * @author yangjian
@@ -16,6 +17,7 @@ import com.yeungeek.dagger.ui.InjectActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button mBtnInject;
+    private Button mBtnProvide;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mBtnInject = findViewById(R.id.btn_inject);
         mBtnInject.setOnClickListener(this);
+
+        mBtnProvide = findViewById(R.id.btn_provide);
+        mBtnProvide.setOnClickListener(this);
     }
 
     @Override
@@ -31,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btn_inject:
                 startActivity(new Intent(MainActivity.this, InjectActivity.class));
+                break;
+            case R.id.btn_provide:
+                startActivity(new Intent(MainActivity.this, ProvidesActivity.class));
                 break;
             default:
                 break;

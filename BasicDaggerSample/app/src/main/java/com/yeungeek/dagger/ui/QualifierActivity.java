@@ -6,20 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.yeungeek.dagger.R;
-import com.yeungeek.dagger.di.DaggerInjectActivityComponent;
-import com.yeungeek.dagger.vo.IUser;
-
-import javax.inject.Inject;
 
 /**
  * @author yangjian
  * @date 2018/02/23
  */
 
-public class InjectActivity extends AppCompatActivity {
-    @Inject
-    IUser user;
-
+public class QualifierActivity extends AppCompatActivity {
     private TextView mTvDisplay;
 
     @Override
@@ -27,9 +20,7 @@ public class InjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inject);
 
-        DaggerInjectActivityComponent.create().inject(this);
-
         mTvDisplay = findViewById(R.id.tv_display);
-        mTvDisplay.setText(user.login);
+        
     }
 }
