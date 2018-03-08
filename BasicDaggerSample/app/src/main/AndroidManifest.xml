@@ -20,5 +20,7 @@
         <activity android:name="com.yeungeek.dagger.ui.InjectActivity" />
         <activity android:name="com.yeungeek.dagger.ui.ProvidesActivity" />
         <activity android:name="com.yeungeek.dagger.ui.QualifierActivity" />
+        <activity android:name="com.yeungeek.dagger.ui.ScopeActivity" />
+        <activity android:name="com.yeungeek.dagger.ui.SingletonActivity" />
     </application>
 </manifest>
