@@ -22,5 +22,6 @@
         <activity android:name="com.yeungeek.dagger.ui.QualifierActivity" />
         <activity android:name="com.yeungeek.dagger.ui.ScopeActivity" />
         <activity android:name="com.yeungeek.dagger.ui.SingletonActivity" />
+        <activity android:name="com.yeungeek.dagger.ui.LazyActivity" />
     </application>
 </manifest>

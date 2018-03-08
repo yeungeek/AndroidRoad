@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.yeungeek.dagger.ui.InjectActivity;
+import com.yeungeek.dagger.ui.LazyActivity;
 import com.yeungeek.dagger.ui.ProvidesActivity;
 import com.yeungeek.dagger.ui.QualifierActivity;
 import com.yeungeek.dagger.ui.ScopeActivity;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mBtnQualifier;
     private Button mBtnScope;
     private Button mBtnSingleton;
+    private Button mBtnLazy;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mBtnSingleton = findViewById(R.id.btn_singleton);
         mBtnSingleton.setOnClickListener(this);
+
+        mBtnLazy = findViewById(R.id.btn_lazy);
+        mBtnLazy.setOnClickListener(this);
     }
 
     @Override
@@ -64,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_singleton:
                 startActivity(new Intent(MainActivity.this, SingletonActivity.class));
+                break;
+            case R.id.btn_lazy:
+                startActivity(new Intent(MainActivity.this, LazyActivity.class));
                 break;
             default:
                 break;
