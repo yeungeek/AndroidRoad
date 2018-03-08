@@ -23,5 +23,7 @@
         <activity android:name="com.yeungeek.dagger.ui.ScopeActivity" />
         <activity android:name="com.yeungeek.dagger.ui.SingletonActivity" />
         <activity android:name="com.yeungeek.dagger.ui.LazyActivity" />
+        <activity android:name="com.yeungeek.dagger.ui.NormalSetActivity" />
+        <activity android:name="com.yeungeek.dagger.ui.MapActivity" />
     </application>
 </manifest>
