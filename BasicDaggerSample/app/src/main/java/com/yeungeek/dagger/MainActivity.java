@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.yeungeek.dagger.di.SubAppComponent;
 import com.yeungeek.dagger.ui.InjectActivity;
 import com.yeungeek.dagger.ui.LazyActivity;
 import com.yeungeek.dagger.ui.MapActivity;
@@ -15,6 +16,7 @@ import com.yeungeek.dagger.ui.ProvidesActivity;
 import com.yeungeek.dagger.ui.QualifierActivity;
 import com.yeungeek.dagger.ui.ScopeActivity;
 import com.yeungeek.dagger.ui.SingletonActivity;
+import com.yeungeek.dagger.ui.SubActivity;
 
 /**
  * @author yangjian
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mBtnLazy;
     private Button mBtnSet;
     private Button mBtnMap;
+    private Button mBtnSub;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mBtnMap = findViewById(R.id.btn_map);
         mBtnMap.setOnClickListener(this);
+
+        mBtnSub = findViewById(R.id.btn_sub);
+        mBtnSub.setOnClickListener(this);
     }
 
     @Override
@@ -88,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_map:
                 startActivity(new Intent(MainActivity.this, MapActivity.class));
+                break;
+            case R.id.btn_sub:
+                startActivity(new Intent(MainActivity.this, SubActivity.class));
                 break;
             default:
                 break;
