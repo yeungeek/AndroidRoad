@@ -26,5 +26,6 @@
         <activity android:name="com.yeungeek.dagger.ui.NormalSetActivity" />
         <activity android:name="com.yeungeek.dagger.ui.MapActivity" />
         <activity android:name="com.yeungeek.dagger.ui.SubActivity" />
+        <activity android:name="com.yeungeek.dagger.android.AppActivity" />
     </application>
 </manifest>
