@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/get"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get" />
+
+    <Button
+        android:id="@+id/get_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="GetPath"
+        app:layout_constraintTop_toBottomOf="@id/get" />
+
+    <Button
+        android:id="@+id/post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Post"
+        app:layout_constraintTop_toBottomOf="@id/get_path" />
+
+    <Button
+        android:id="@+id/post_form"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="PostForm"
+        app:layout_constraintTop_toBottomOf="@id/post" />
+
+    <Button
+        android:id="@+id/post_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="PostPath"
+        app:layout_constraintTop_toBottomOf="@id/post_form" />
+
+    <Button
+        android:id="@+id/put_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="PostPath"
+        app:layout_constraintTop_toBottomOf="@id/post_path" />
+
+    <Button
+        android:id="@+id/delete_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="DeletePath"
+        app:layout_constraintTop_toBottomOf="@id/put_path" />
+
+    <Button
+        android:id="@+id/patch_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="PatchPath"
+        app:layout_constraintTop_toBottomOf="@id/delete_path" />
+
+    <Button
+        android:id="@+id/post_http"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="PostHttp"
+        app:layout_constraintTop_toBottomOf="@id/patch_path" />
+</androidx.constraintlayout.widget.ConstraintLayout>
