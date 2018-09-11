@@ -26,6 +26,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
@@ -38,6 +41,7 @@ import androidx.collection.LruCache;
 
 public class LruFragment extends BaseFragment implements View.OnClickListener {
     private LruCache<String, Bitmap> imageCache;
+
     private Button addImage;
     private Button showImage;
     private Button downloadImage;
@@ -51,6 +55,8 @@ public class LruFragment extends BaseFragment implements View.OnClickListener {
     private DiskLruCache diskLruCache;
 
     private Handler handler = new Handler(Looper.getMainLooper());
+
+    //ImageCache
 
     @Nullable
     @Override
@@ -112,15 +118,24 @@ public class LruFragment extends BaseFragment implements View.OnClickListener {
             case R.id.add_image:
                 String key = "ic_" + new Random().nextLong();
                 imageCache.put(key, bitmap);
-                sb.append("size:").append(imageCache.size())
-                        .append(", ").append(imageCache.toString()).append("\n")
-                        .append("key:").append(key)
-                        .append("\n");
+                Map<String, Bitmap> snapshot = imageCache.snapshot();
+//                sb.append("size:").append(imageCache.size())
+//                        .append(", ").append(imageCache.toString()).append("\n")
+//                        .append("add key:").append(key)
+//                        .append("\n");
+                sb.append("\nsize:").append(imageCache.size()).append(",max size: ")
+                        .append(imageCache.maxSize()).append("\n");
+                sb.append("header: ").append(getEldest(snapshot).getKey()).append("\n");
+                sb.append("map:======\n");
+                sb.append(mapString(snapshot));
                 showText();
                 break;
             case R.id.show_image:
                 imageView.setImageBitmap(imageCache.get("ic_"));
+                sb.append("\nsize:").append(imageCache.size()).append("\n");
                 sb.append("get key ic_").append("\n");
+                sb.append("map:======\n");
+                sb.append(mapString(imageCache.snapshot()));
                 showText();
                 break;
             case R.id.download_image:
@@ -209,5 +224,29 @@ public class LruFragment extends BaseFragment implements View.OnClickListener {
                 }
             }
         }).start();
+    }
+
+    private Map.Entry<String, Bitmap> getEldest(Map<String, Bitmap> map) {
+        try {
+            Method method = map.getClass().getMethod("eldest");
+            Map.Entry<String, Bitmap> entry = (Map.Entry<String, Bitmap>) method.invoke(map);
+            return entry;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private String mapString(final Map<String, Bitmap> map) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Bitmap> entry : map.entrySet()) {
+            sb.append("key:").append(entry.getKey()).append("\n");
+        }
+        return sb.toString();
     }
 }
