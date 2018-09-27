@@ -1,0 +1,16 @@
+apply from: androidConifg
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.support.app_compat
+    implementation deps.constraint_layout
+    testImplementation deps.test.junit
+    androidTestImplementation deps.test.runner
+    androidTestImplementation deps.test.espresso_core
+
+    if (is_debug) {
+        implementation project(':resource')
+    } else {
+        implementation project(':moduleA')
+    }
+}

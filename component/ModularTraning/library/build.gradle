@@ -1,0 +1,16 @@
+apply from: androidConifg
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api deps.support.app_compat
+    api deps.support.recyclerview
+    api deps.constraint_layout
+    api deps.http.retrofit2
+    api deps.http.converter_gson
+    implementation deps.http.logging_interceptor
+
+    testImplementation deps.test.junit
+    androidTestImplementation deps.test.runner
+    androidTestImplementation deps.test.espresso_core
+}

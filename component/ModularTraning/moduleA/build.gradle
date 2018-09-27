@@ -1,0 +1,7 @@
+apply from: androidConifg
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api project(':resource')
+}

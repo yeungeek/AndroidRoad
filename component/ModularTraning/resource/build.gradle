@@ -1,0 +1,9 @@
+apply from: androidConifg
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //本module暴露依赖的module
+    //多模块依赖解决: https://www.aliyun.com/jiaocheng/2977.html
+    api project(':library')
+}
