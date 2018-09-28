@@ -1,6 +1,6 @@
 apply from: versions
 
-if (isApplication()) {
+if (isIndependent()) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -16,12 +16,18 @@ android {
         versionName build_versions.version_name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        if (isApplication()) {
+        if (isIndependent()) {
             applicationId "com.yeungeek.${this.name}"
         }
 
         resourcePrefix "${project.name}_"
         println("resourcePrefix ${project.name}_")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName(), AROUTER_GENERATE_DOC: "enable"]
+            }
+        }
 
         multiDexEnabled true
     }
@@ -45,17 +51,26 @@ android {
             }
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 //or use properties
-def isApplication() {
+def isIndependent() {
     if (this.name.startsWith("app")) {
         println("this module is application, this.name = ${this.name}")
         return true
     }
 
     if (!is_debug) {
-        println("debug is false")
+        println("debug is false,not independent")
         return false
     }
 
@@ -64,6 +79,6 @@ def isApplication() {
         return false
     }
 
-    println("this.module is real module, this.name = ${this.name}")
+    println("this.module is independent, this.name = ${this.name}")
     return true
 }

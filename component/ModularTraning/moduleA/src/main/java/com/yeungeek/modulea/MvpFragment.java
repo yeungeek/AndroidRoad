@@ -7,8 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.yeungeek.library.BaseFragment;
 import com.yeungeek.library.data.model.Repo;
+import com.yeungeek.library.router.Consts;
+import com.yeungeek.library.router.RouterUtils;
+import com.yeungeek.library.router.ToastService;
 import com.yeungeek.library.ui.LinearDivider;
 import com.yeungeek.modulea.adapter.RepoAdapter;
 import com.yeungeek.modulea.mvp.RepoPresenter;
@@ -21,7 +25,7 @@ import java.util.List;
  * @author yangjian
  * @date 2018/09/27
  */
-
+@Route(path = Consts.MODULEA_MVP_FRAGMENT)
 public class MvpFragment extends BaseFragment implements RepoView {
     private RecyclerView recyclerView;
     private RepoAdapter adapter;
@@ -43,6 +47,21 @@ public class MvpFragment extends BaseFragment implements RepoView {
             @Override
             public void onClick(View v) {
                 presenter.getRepo("yeungeek");
+            }
+        });
+
+        view.findViewById(R.id.module_pay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RouterUtils.navigation(Consts.MODULE_PAY_MAIN);
+            }
+        });
+
+        view.findViewById(R.id.service_pay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastService toastService = (ToastService) RouterUtils.navigation(Consts.PAY_SERVCIE);
+                toastService.toast("service pay");
             }
         });
     }

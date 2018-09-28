@@ -12,6 +12,22 @@
         android:text="Get Repo"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/module_pay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="to pay"
+        app:layout_constraintLeft_toRightOf="@id/get_repo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/service_pay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pay service"
+        app:layout_constraintLeft_toRightOf="@id/module_pay"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_view"
         android:layout_width="match_parent"

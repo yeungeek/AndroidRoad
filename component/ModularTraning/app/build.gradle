@@ -4,6 +4,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.support.app_compat
     implementation deps.constraint_layout
+
+    annotationProcessor deps.router.arouter_compiler
+
     testImplementation deps.test.junit
     androidTestImplementation deps.test.runner
     androidTestImplementation deps.test.espresso_core
@@ -12,5 +15,6 @@ dependencies {
         implementation project(':resource')
     } else {
         implementation project(':moduleA')
+        implementation project(':modulepay')
     }
 }

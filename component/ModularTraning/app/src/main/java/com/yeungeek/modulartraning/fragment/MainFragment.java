@@ -8,11 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-
 import com.yeungeek.library.BaseFragment;
+import com.yeungeek.library.router.Consts;
+import com.yeungeek.library.router.RouterUtils;
 import com.yeungeek.library.ui.LinearDivider;
 import com.yeungeek.modulartraning.R;
-import com.yeungeek.modulea.MvpFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ public class MainFragment extends BaseFragment {
 
     private void initData() {
         fragments = new ArrayList<>();
-        fragments.add(new FragmentInfo().setTitle("MVP").setFragment(MvpFragment.class));
+        fragments.add(new FragmentInfo().setTitle("MVP").setFragment(RouterUtils.getFragment(Consts.MODULEA_MVP_FRAGMENT)));
 
         adapter = new FragmentAdapter(getActivity().getSupportFragmentManager(), R.id.content_fragment, fragments);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

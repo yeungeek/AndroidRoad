@@ -8,6 +8,10 @@ dependencies {
     api deps.constraint_layout
     api deps.http.retrofit2
     api deps.http.converter_gson
+    api deps.router.arouter_api
+
+    //annotationProcessor deps.router.arouter_compiler
+
     implementation deps.http.logging_interceptor
 
     testImplementation deps.test.junit
