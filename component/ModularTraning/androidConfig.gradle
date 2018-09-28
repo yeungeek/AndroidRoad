@@ -43,11 +43,11 @@ android {
         main {
             if (!is_debug && this.name.startsWith("module")) {
                 manifest.srcFile 'src/main/release/AndroidManifest.xml'
+                java {
+                    exclude '**/debug/**'
+                }
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
-                java {
-                    exclude 'debug/**'
-                }
             }
         }
     }

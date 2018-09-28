@@ -1,4 +1,4 @@
-package com.yeungeek.modulepay.debug;
+package com.yeungeek.modulepay;
 
 import android.content.Context;
 import android.widget.Toast;
