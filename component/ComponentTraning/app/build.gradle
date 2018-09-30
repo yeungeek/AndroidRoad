@@ -1,0 +1,18 @@
+apply from: app
+
+dependencies {
+    if (!isSignle) {
+        //运行时可见
+        runtimeOnly project(':module:home')
+    }
+
+    implementation project(':common:ui')
+    implementation project(':common:sdk')
+
+    implementation deps.support.app_compat
+    implementation deps.constraint_layout
+
+    testImplementation deps.test.junit
+    androidTestImplementation deps.test.runner
+    androidTestImplementation deps.test.espresso_core
+}

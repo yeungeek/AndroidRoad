@@ -1,0 +1,7 @@
+apply from: component
+
+dependencies {
+    testImplementation deps.test.junit
+    androidTestImplementation deps.test.runner
+    androidTestImplementation deps.test.espresso_core
+}

@@ -1,0 +1,8 @@
+apply plugin: 'com.android.application'
+apply from: common
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    annotationProcessor deps.router.arouter_compiler
+}

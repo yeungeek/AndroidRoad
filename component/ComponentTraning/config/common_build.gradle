@@ -1,0 +1,53 @@
+android {
+    compileSdkVersion build_versions.target_sdk
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode build_versions.version_code
+        versionName build_versions.version_name
+        testInstrumentationRunner deps.test.android_junit_runner
+
+        if (isSignle) {
+            applicationId "com.yeungeek.${this.name}"
+        }
+
+        resourcePrefix "${project.name}_"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName(), AROUTER_GENERATE_DOC: "enable"]
+            }
+        }
+
+        buildTypes {
+            debug {
+                buildConfigField "boolean", "IS_SIGNLE", "${isSignle}"
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+
+            release {
+                buildConfigField "boolean", "IS_SIGNLE", "${isSignle}"
+                minifyEnabled true
+                if (isSignle) {
+                    shrinkResources true
+                }
+                zipAlignEnabled true
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
+
+        compileOptions {
+            targetCompatibility JavaVersion.VERSION_1_8
+            sourceCompatibility JavaVersion.VERSION_1_8
+        }
+
+        lintOptions {
+            disable 'InvalidPackage'
+            disable "ResourceType"
+            abortOnError false
+        }
+
+        multiDexEnabled true
+    }
+}
