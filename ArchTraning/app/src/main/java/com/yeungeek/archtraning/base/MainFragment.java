@@ -6,6 +6,9 @@ import android.view.View;
 
 import com.yeungeek.archtraning.R;
 import com.yeungeek.archtraning.mvc.MvcFragment;
+import com.yeungeek.archtraning.mvp.MvpFragment;
+import com.yeungeek.archtraning.mvvm.MvvmFragment;
+import com.yeungeek.archtraning.paging.PagingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +47,9 @@ public class MainFragment extends BaseFragment {
     private void initData() {
         fragments = new ArrayList<>();
         fragments.add(new FragmentInfo().setTitle("MVC").setFragment(MvcFragment.class));
-        fragments.add(new FragmentInfo().setTitle("MVP").setFragment(MvcFragment.class));
+        fragments.add(new FragmentInfo().setTitle("MVP").setFragment(MvpFragment.class));
+        fragments.add(new FragmentInfo().setTitle("MVVM").setFragment(MvvmFragment.class));
+        fragments.add(new FragmentInfo().setTitle("Paging").setFragment(PagingFragment.class));
 
         adapter = new FragmentAdapter(getActivity().getSupportFragmentManager(), R.id.content_fragment, fragments);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

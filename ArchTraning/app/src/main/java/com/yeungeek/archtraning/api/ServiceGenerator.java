@@ -4,6 +4,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.moshi.MoshiConverterFactory;
 
 /**
  * @author yangjian
@@ -12,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
     private static final String BASE_URL = "https://api.github.com/";
+    public static final String GANK_URL = "https://gank.io/api/";
 
     private final static HttpLoggingInterceptor logging =
             new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC);
@@ -26,6 +28,7 @@ public class ServiceGenerator {
                     .baseUrl(BASE_URL)
                     .client(httpClient)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(MoshiConverterFactory.create())
                     .build();
 
     public final static <S> S createService(Class<S> clazz) {
