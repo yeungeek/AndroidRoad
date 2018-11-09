@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.yeungeek.basictraning.R;
 import com.yeungeek.basictraning.model.FragmentAdapter;
 import com.yeungeek.basictraning.model.FragmentInfo;
+import com.yeungeek.basictraning.module.handler.HandlerFragment;
 import com.yeungeek.basictraning.module.lru.LruFragment;
 
 import java.util.ArrayList;
@@ -86,6 +87,7 @@ public class MainFragment extends BaseFragment {
         fragments = new ArrayList<>();
         fragments.add(new FragmentInfo().setTitle("LRU Sample").setFragment(LruFragment.class));
         fragments.add(new FragmentInfo().setTitle("Thread Sample").setFragment(LruFragment.class));
+        fragments.add(new FragmentInfo().setTitle("Handler Sample").setFragment(HandlerFragment.class));
 
         adapter = new FragmentAdapter(getActivity().getSupportFragmentManager(), R.id.content_fragment, fragments);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
