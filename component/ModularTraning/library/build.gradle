@@ -10,7 +10,9 @@ dependencies {
     api deps.http.converter_gson
     api deps.router.arouter_api
 
-    //annotationProcessor deps.router.arouter_compiler
+    api 'com.jakewharton:butterknife:9.0.0-rc1'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
+//    annotationProcessor deps.router.arouter_compiler
 
     implementation deps.http.logging_interceptor
 

@@ -5,6 +5,7 @@ if (isIndependent()) {
 } else {
     apply plugin: 'com.android.library'
 }
+apply plugin: 'com.jakewharton.butterknife'
 
 
 android {

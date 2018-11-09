@@ -5,4 +5,5 @@ dependencies {
 
     api project(':resource')
     annotationProcessor deps.router.arouter_compiler
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
 }

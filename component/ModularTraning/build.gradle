@@ -14,6 +14,7 @@ buildscript {
     dependencies {
         classpath deps.android_gradle_plugin
 
+        classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0-rc1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
