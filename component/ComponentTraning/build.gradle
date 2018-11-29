@@ -1,10 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        common = "${rootDir}/config/common_build.gradle"
-        component = "${rootDir}/config/common_component.gradle"
-        app = "${rootDir}/config/common_app.gradle"
         versions = "${rootDir}/config/versions.gradle"
+        common = "${rootDir}/config/common_build.gradle"
+
+        app = "${rootDir}/config/common_app.gradle"
+        component = "${rootDir}/config/common_component.gradle"
 
         isSignle = isSignle.toBoolean()
     }

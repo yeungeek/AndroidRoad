@@ -5,11 +5,9 @@ package com.yeungeek.viewsample.widget.retrofitrefresh;
  * @date 2018/10/15
  */
 
-public interface DataSourceAdapter<T> {
-
-    T adapt();
-
-    abstract class Factory {
+public interface DataSourceAdapter {
+    abstract class Factory<T> {
+        public abstract DataSource<T> get();
 
     }
 }

@@ -15,6 +15,26 @@ public class BasePresenter implements IPresenter {
     }
 
     @Override
+    public void onStart(LifecycleOwner owner) {
+        Log.d("DEBUG", "-----> BasePresenter onStart");
+    }
+
+    @Override
+    public void onStop(LifecycleOwner owner) {
+        Log.d("DEBUG", "-----> BasePresenter onStop");
+    }
+
+    @Override
+    public void onPause(LifecycleOwner owner) {
+        Log.d("DEBUG", "-----> BasePresenter onPause");
+    }
+
+    @Override
+    public void onResume(LifecycleOwner owner) {
+        Log.d("DEBUG", "-----> BasePresenter onResume");
+    }
+
+    @Override
     public void onDestroy(LifecycleOwner owner) {
         Log.d("DEBUG", "-----> BasePresenter onDestroy");
 

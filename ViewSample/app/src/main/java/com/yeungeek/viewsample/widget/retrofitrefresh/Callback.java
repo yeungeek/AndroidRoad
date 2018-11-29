@@ -6,5 +6,7 @@ package com.yeungeek.viewsample.widget.retrofitrefresh;
  */
 
 public interface Callback<T> {
-    
+    void onSuccess(T data);
+
+    void onFailure(Throwable e);
 }

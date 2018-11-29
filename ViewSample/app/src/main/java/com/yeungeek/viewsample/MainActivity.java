@@ -11,15 +11,27 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
+import com.yeungeek.viewsample.adapter.RepoAdapter;
+import com.yeungeek.viewsample.api.GithubApi;
+import com.yeungeek.viewsample.api.Repo;
+import com.yeungeek.viewsample.api.ServiceGenerator;
 import com.yeungeek.viewsample.mvp.PresenterActivity;
 import com.yeungeek.viewsample.widget.LabelsView;
+import com.yeungeek.viewsample.widget.retrofitrefresh.LayoutAdapter;
+import com.yeungeek.viewsample.widget.retrofitrefresh.RefreshAdapter;
+import com.yeungeek.viewsample.widget.retrofitrefresh.RetrofitRefresh;
+import com.yeungeek.viewsample.widget.retrofitrefresh.factory.RxJava2DataSourceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
+
 public class MainActivity extends AppCompatActivity {
     private LabelsView mLabels;
+    private FrameLayout mRecycleList;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -28,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mLabels = findViewById(R.id.labels);
 
-        List<String> arr = new ArrayList<>();
+        final List<String> arr = new ArrayList<>();
         arr.add("1.测试第一条");
         arr.add("2.测试第二条");
         arr.add("3.测试第三条");
@@ -44,6 +56,29 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, PresenterActivity.class));
             }
         });
+
+        mRecycleList = findViewById(R.id.recycle);
+
+        final GithubApi api = ServiceGenerator.createService(GithubApi.class);
+
+        final RetrofitRefresh recycleView = new RetrofitRefresh.Builder(getApplicationContext())
+                .setLayoutFactory(new LayoutAdapter.Factory() {
+                    @Override
+                    public RefreshAdapter getAdapter() {
+                        return new RepoAdapter();
+                    }
+                }).setDataSourceFactory(new RxJava2DataSourceFactory<List<Repo>>() {
+                    @Override
+                    public Observable<List<Repo>> getData() {
+                        return api.obsRespo("yeungeek");
+                    }
+                }).build();
+
+
+        mRecycleList.addView(recycleView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT));
+
+        recycleView.load();
     }
 
     @Override
