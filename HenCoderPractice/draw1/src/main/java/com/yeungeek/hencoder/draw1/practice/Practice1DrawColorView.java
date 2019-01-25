@@ -31,6 +31,9 @@ public class Practice1DrawColorView extends View {
 
         //练习内容：使用 canvas.drawColor() 方法把 View 涂成黄色
         //黄色： Color.YELLOW
-        canvas.drawColor(Color.YELLOW);
+//        canvas.drawColor(Color.YELLOW);
+
+//        canvas.drawRGB(100, 200, 100);
+        canvas.drawARGB(66,100, 200, 100);
     }
 }

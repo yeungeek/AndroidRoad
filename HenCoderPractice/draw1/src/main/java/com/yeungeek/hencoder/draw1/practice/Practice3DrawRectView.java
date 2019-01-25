@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Pair;
@@ -38,6 +40,7 @@ public class Practice3DrawRectView extends View {
         halfHeight = screenSize.second / 5;
         mPaint = new Paint();
         mPaint.setColor(Color.BLACK);
+        mPaint.setAntiAlias(true);
     }
 
     @Override
@@ -47,5 +50,14 @@ public class Practice3DrawRectView extends View {
         //练习内容：使用 canvas.drawRect() 方法画矩形
         canvas.drawRect(halfWidth - 200, halfHeight - 200,
                 halfWidth + 200, halfHeight + 200, mPaint);
+
+
+//        Rect rect = new Rect(halfWidth - 200, halfHeight - 200,
+//                halfWidth + 200, halfHeight + 200);
+//        canvas.drawRect(rect, mPaint);
+
+//        RectF rectF = new RectF(halfWidth - 200, halfHeight - 200,
+//                halfWidth + 200, halfHeight + 200);
+//        canvas.drawRect(rectF, mPaint);
     }
 }
