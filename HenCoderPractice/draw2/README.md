@@ -1,95 +1,154 @@
  # HenCoder Android 开发进阶: 自定义 View 1-2 Paint 详解 
 这期是 HenCoder 自定义绘制的第二期： `Paint`。如果你没看过第一期，可以先去看一下第一期： [HenCoder
-Android 开发进阶：自定义 View 1-1 绘制基础](http://hencoder.com/ui-1-1) ## 简介 上一期我已经简单说过，
-`Canvas` 的 `drawXXX()` 方法配合 `Paint` 的几个常用方法可以实现最常见的绘制需求；而如果你只会基本的绘制， `Paint`
+Android 开发进阶：自定义 View 1-1 绘制基础](http://hencoder.com/ui-1-1) 
+## 简介 
+上一期我已经简单说过，`Canvas` 的 `drawXXX()` 方法配合 `Paint` 的几个常用方法可以实现最常见的绘制需求；而如果你只会基本的绘制， `Paint`
 的完全功能的掌握，能让你更进一步，做出一些更加细致、炫酷的效果。把 `Paint` 掌握之后，你几乎不再会遇到「iOS
 组可以实现，但你却实现不了」的绘制效果。
+
 ![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6d7kcppj207807t0tv.jpg)
+
 由于依然是讲绘制的，所以这期就没有介绍视频了。绘制的内容一共需要讲大概 5~6 期才能讲完，也就是说你要看 5~6
 期才能成为自定义绘制的高手。相对于上期的内容，这期的内容更为专项、深度更深。对于没有深入研究过 `Paint` 的人，这期是一个对 `Paint`
 的诠释；而对于尝试过研究 `Paint` 但仍然对其中一些 API 有疑惑的人，这期也可以帮你解惑。
 另外，也正由于这期的内容是更为专项的，所以建议你在看的时候，不必像上期那样把所有东西都完全记住，而是只要把内容理解了就好。这期的内容，只要做到「知道有这么个东西」，在需要用到的时候能想起来这个功能能不能做、大致用什么做就好，至于具体的实现，到时候拐回来再翻一次就行了。
-好，下面进入正题。 `Paint` 的 API 大致可以分为 4 类： * 颜色 * 效果 * drawText() 相关 * 初始化 下面我就对这 4
-类分别进行介绍： ## 1 颜色 `Canvas` 绘制的内容，有三层对颜色的处理：
-![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6dcywn2j20j909yabu.jpg) >
-这图大概看看就行，不用钻研明白再往下看，因为等这章讲完你就懂了。 ### 1.1 基本颜色 像素的基本颜色，根据绘制内容的不同而有不同的控制方式：
+好，下面进入正题。 `Paint` 的 API 大致可以分为 4 类： 
+* 颜色 
+* 效果 
+* drawText() 相关 
+* 初始化 
+下面我就对这 4类分别进行介绍： 
+## 1 颜色 
+`Canvas` 绘制的内容，有三层对颜色的处理：
+![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6dcywn2j20j909yabu.jpg) 
+> 这图大概看看就行，不用钻研明白再往下看，因为等这章讲完你就懂了。
+
+ ### 1.1 基本颜色 
+ 像素的基本颜色，根据绘制内容的不同而有不同的控制方式：
 `Canvas` 的颜色填充类方法 `drawColor/RGB/ARGB()` 的颜色，是直接写在方法的参数里，通过参数来设置的（上期讲过了）；
 `drawBitmap()` 的颜色，是直接由 `Bitmap` 对象来提供的（上期也讲过了）；除此之外，是图形和文字的绘制，它们的颜色就需要使用
 `paint` 参数来额外设置了（下面要讲的）。
-![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6gxcusnj20iw04xmzr.jpg) `Paint`
-设置颜色的方法有两种：一种是直接用 `Paint.setColor/ARGB()` 来设置颜色，另一种是使用 `Shader` 来指定着色方案。 ####
-1.1.1 直接设置颜色 ##### 1.1.1.1 setColor(int color)
+![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6gxcusnj20iw04xmzr.jpg) 
+`Paint`
+设置颜色的方法有两种：一种是直接用 `Paint.setColor/ARGB()` 来设置颜色，另一种是使用 `Shader` 来指定着色方案。 
+#### 1.1.1 直接设置颜色 
+##### 1.1.1.1 setColor(int color)
 方法名和使用方法都非常简单直接，而且这个方法在上期已经介绍过了，不再多说。
+```
 paint.setColor(Color.parseColor("#009688")); canvas.drawRect(30, 30, 230, 180,
 paint); paint.setColor(Color.parseColor("#FF9800")); canvas.drawLine(300, 30,
 450, 180, paint); paint.setColor(Color.parseColor("#E91E63"));
 canvas.drawText("HenCoder", 500, 130, paint);
-![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6di0nzij20js05pab1.jpg) >
-`setColor()` 对应的 get 方法是 `getColor()` ##### 1.1.1.2 setARGB(int a, int r, int
-g, int b) 其实和 `setColor(color)`
+```
+![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6di0nzij20js05pab1.jpg) 
+> `setColor()` 对应的 get 方法是 `getColor()` 
+##### 1.1.1.2 setARGB(int a, int r, int g, int b) 
+其实和 `setColor(color)`
 都是一样一样儿的，只是它的参数用的是更直接的三原色与透明度的值。实际运用中，`setColor()` 和 `setARGB()` 哪个方便和顺手用哪个吧。
+```
 paint.setARGB(100, 255, 0, 0); canvas.drawRect(0, 0, 200, 200, paint);
-paint.setARGB(100, 0, 0, 0); canvas.drawLine(0, 0, 200, 200, paint); ####
-1.1.2 setShader(Shader shader) 设置 Shader 除了直接设置颜色， `Paint` 还可以使用 `Shader` 。
+paint.setARGB(100, 0, 0, 0); canvas.drawLine(0, 0, 200, 200, paint); 
+```
+#### 1.1.2 setShader(Shader shader) 设置 Shader 
+除了直接设置颜色， `Paint` 还可以使用 `Shader` 。
 Shader 这个英文单词很多人没有见过，它的中文叫做「着色器」，也是用于设置绘制颜色的。「着色器」不是 Android
 独有的，它是图形领域里一个通用的概念，它和直接设置颜色的区别是，着色器设置的是一个颜色方案，或者说是一套着色规则。当设置了 `Shader`
 之后，`Paint` 在绘制图形和文字时就不使用 `setColor/ARGB()` 设置的颜色了，而是使用 `Shader` 的方案中的颜色。 在
 Android 的绘制里使用 `Shader` ，并不直接用 `Shader` 这个类，而是用它的几个子类。具体来讲有 `LinearGradient`
-`RadialGradient` `SweepGradient` `BitmapShader` `ComposeShader` 这么几个： #####
-1.1.2.1 LinearGradient 线性渐变 设置两个点和两种颜色，以这两个点作为端点，使用两种颜色的渐变来绘制颜色。就像这样： Shader
-shader = new LinearGradient(100, 100, 500, 500, Color.parseColor("#E91E63"),
+`RadialGradient` `SweepGradient` `BitmapShader` `ComposeShader` 这么几个： 
+##### 1.1.2.1 LinearGradient 线性渐变 
+设置两个点和两种颜色，以这两个点作为端点，使用两种颜色的渐变来绘制颜色。就像这样： 
+```
+Shader shader = new LinearGradient(100, 100, 500, 500, Color.parseColor("#E91E63"),
 Color.parseColor("#2196F3"), Shader.TileMode.CLAMP); paint.setShader(shader);
 ... canvas.drawCircle(300, 300, 200, paint);
-![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6dq7wudj206l06875e.jpg) > 设置了
-`Shader` 之后，绘制出了渐变颜色的圆。（其他形状以及文字都可以这样设置颜色，我只是没给出图。） > > 注意：在设置了 `Shader` 的情况下，
-`Paint.setColor/ARGB()` 所设置的颜色就不再起作用。 构造方法： `LinearGradient(float x0, float
-y0, float x1, float y1, int color0, int color1, Shader.TileMode tile)` 。 参数：
-`x0` `y0` `x1` `y1`：渐变的两个端点的位置 `color0` `color1` 是端点的颜色 `tile`：端点范围之外的着色规则，类型是
+```
+![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6dq7wudj206l06875e.jpg) 
+> 设置了 `Shader` 之后，绘制出了渐变颜色的圆。（其他形状以及文字都可以这样设置颜色，我只是没给出图。） > > 注意：在设置了 `Shader` 的情况下，
+`Paint.setColor/ARGB()` 所设置的颜色就不再起作用。
+
+构造方法： `LinearGradient(float x0, float
+y0, float x1, float y1, int color0, int color1, Shader.TileMode tile)` 。 
+
+参数：
+`x0` `y0` `x1` `y1`：渐变的两个端点的位置  
+`color0` `color1` 是端点的颜色  
+`tile`：端点范围之外的着色规则，类型是
 `TileMode`。`TileMode` 一共有 3 个值可选： `CLAMP`, `MIRROR` 和 `REPEAT`。`CLAMP`
 （夹子模式？？？算了这个词我不会翻）会在端点之外延续端点处的颜色；`MIRROR` 是镜像模式；`REPEAT` 是重复模式。具体的看一下例子就明白。
+
 `CLAMP`:
 ![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6e7vbemj20cj090goh.jpg)
 `MIRROR`:
 ![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6egtxw5j20ck08xjv6.jpg)
 `REPEAT`:
-![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6em2wabj20ck08xjvo.jpg) #####
-1.1.2.2 RadialGradient 辐射渐变 辐射渐变很好理解，就是从中心向周围辐射状的渐变。大概像这样： Shader shader = new
-RadialGradient(300, 300, 200, Color.parseColor("#E91E63"),
+![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6em2wabj20ck08xjvo.jpg) 
+##### 1.1.2.2 RadialGradient 辐射渐变 
+辐射渐变很好理解，就是从中心向周围辐射状的渐变。大概像这样： 
+``` 
+Shader shader = new RadialGradient(300, 300, 200, Color.parseColor("#E91E63"),
 Color.parseColor("#2196F3"), Shader.TileMode.CLAMP); paint.setShader(shader);
 ... canvas.drawCircle(300, 300, 200, paint);
-![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6ewf1o5j206d066q4a.jpg) 构造方法：
+```
+![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6ewf1o5j206d066q4a.jpg) 
+
+构造方法：
 `RadialGradient(float centerX, float centerY, float radius, int centerColor,
-int edgeColor, TileMode tileMode)`。 参数： `centerX` `centerY`：辐射中心的坐标
-`radius`：辐射半径 `centerColor`：辐射中心的颜色 `edgeColor`：辐射边缘的颜色
-`tileMode`：辐射范围之外的着色模式。 `CLAMP`:
+int edgeColor, TileMode tileMode)`。 
+参数： 
+`centerX` `centerY`：辐射中心的坐标  
+`radius`：辐射半径     
+`centerColor`：辐射中心的颜色   
+`edgeColor`：辐射边缘的颜色
+`tileMode`：辐射范围之外的着色模式。   
+`CLAMP`:
 ![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6f2jz23j20ck08yach.jpg)
 `MIRROR`:
 ![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6fad0cpj20cm09142x.jpg)
 `REPEAT`:
-![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6fflc56j20cl090tdr.jpg) #####
-1.1.2.3 SweepGradient 扫描渐变 又是一个渐变。「扫描渐变」这个翻译我也不知道精确不精确。大概是这样： Shader shader =
-new SweepGradient(300, 300, Color.parseColor("#E91E63"),
+![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6fflc56j20cl090tdr.jpg) 
+
+##### 1.1.2.3 SweepGradient 扫描渐变 
+又是一个渐变。「扫描渐变」这个翻译我也不知道精确不精确。大概是这样： 
+```
+Shader shader = new SweepGradient(300, 300, Color.parseColor("#E91E63"),
 Color.parseColor("#2196F3")); paint.setShader(shader); ...
 canvas.drawCircle(300, 300, 200, paint);
-![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6fmbemdj206u061my4.jpg) 构造方法：
-`SweepGradient(float cx, float cy, int color0, int color1)` 参数： `cx` `cy`
-：扫描的中心 `color0`：扫描的起始颜色 `color1`：扫描的终止颜色 ##### 1.1.2.4 BitmapShader 用 `Bitmap`
-来着色（终于不是渐变了）。其实也就是用 `Bitmap` 的像素来作为图形或文字的填充。大概像这样： Bitmap bitmap =
-BitmapFactory.decodeResource(getResources(), R.drawable.batman); Shader shader
+```
+![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6fmbemdj206u061my4.jpg) 
+构造方法：
+`SweepGradient(float cx, float cy, int color0, int color1)` 
+参数： 
+`cx` `cy`：扫描的中心   
+`color0`：扫描的起始颜色   
+`color1`：扫描的终止颜色  
+##### 1.1.2.4 BitmapShader 
+用 `Bitmap`来着色（终于不是渐变了）。其实也就是用 `Bitmap` 的像素来作为图形或文字的填充。大概像这样：
+```
+Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.batman); Shader shader
 = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 paint.setShader(shader); ... canvas.drawCircle(300, 300, 200, paint);
-![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6fragq2j20lc089djv.jpg) > 嗯，看着跟
-`Canvas.drawBitmap()` 好像啊？事实上也是一样的效果。如果你想绘制圆形的 `Bitmap`，就别用 `drawBitmap()`
-了，改用 `drawCircle()` \\+ `BitmapShader` 就可以了（其他形状同理）。 构造方法：
+``` 
+![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6fragq2j20lc089djv.jpg) 
+> 嗯，看着跟`Canvas.drawBitmap()` 好像啊？事实上也是一样的效果。如果你想绘制圆形的 `Bitmap`，就别用 `drawBitmap()`
+了，改用 `drawCircle()` \\+ `BitmapShader` 就可以了（其他形状同理）。 
+构造方法：
 `BitmapShader(Bitmap bitmap, Shader.TileMode tileX, Shader.TileMode tileY)`
-参数： `bitmap`：用来做模板的 `Bitmap` 对象 `tileX`：横向的 `TileMode` `tileY`：纵向的 `TileMode`。
+参数： 
+`bitmap`：用来做模板的 `Bitmap` 对象   
+`tileX`：横向的 `TileMode`   
+`tileY`：纵向的 `TileMode`。  
+
 `CLAMP`:
 ![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6g2l2z3j20ks0chq4w.jpg)
 `MIRROR`:
 ![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6g8moalj20kw0cjduk.jpg)
 `REPEAT`:
-![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6gcxlrfj20kv0ciduo.jpg) #####
-1.1.2.5 ComposeShader 混合着色器 所谓混合，就是把两个 `Shader` 一起使用。 // 第一个 Shader：头像的 Bitmap
+![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6gcxlrfj20kv0ciduo.jpg) 
+##### 1.1.2.5 ComposeShader 混合着色器 
+所谓混合，就是把两个 `Shader` 一起使用。 
+```
+// 第一个 Shader：头像的 Bitmap
 Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(),
 R.drawable.batman); Shader shader1 = new BitmapShader(bitmap1,
 Shader.TileMode.CLAMP, Shader.TileMode.CLAMP); // 第二个 Shader：从上到下的线性渐变（由透明到黑色）
@@ -97,14 +156,18 @@ Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(),
 R.drawable.batman_logo); Shader shader2 = new BitmapShader(bitmap2,
 Shader.TileMode.CLAMP, Shader.TileMode.CLAMP); // ComposeShader：结合两个 Shader
 Shader shader = new ComposeShader(shader1, shader2, PorterDuff.Mode.SRC_OVER);
-paint.setShader(shader); ... canvas.drawCircle(300, 300, 300, paint); >
-注意：上面这段代码中我使用了两个 `BitmapShader` 来作为 `ComposeShader()` 的参数，而 `ComposeShader()`
+paint.setShader(shader); ... canvas.drawCircle(300, 300, 300, paint);
+```
+> 注意：上面这段代码中我使用了两个 `BitmapShader` 来作为 `ComposeShader()` 的参数，而 `ComposeShader()`
 在硬件加速下是不支持两个相同类型的 `Shader` 的，所以这里也需要关闭硬件加速才能看到效果。
+
 ![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6hbeg7gj20qy08cafn.jpg)
-构造方法：`ComposeShader(Shader shaderA, Shader shaderB, PorterDuff.Mode mode)` 参数：
-`shaderA`, `shaderB`：两个相继使用的 `Shader` `mode`: 两个 `Shader` 的叠加模式，即 `shaderA` 和
-`shaderB` 应该怎样共同绘制。它的类型是 `PorterDuff.Mode` 。 > PorterDuff.Mode > >
-`PorterDuff.Mode` 是用来指定两个图像共同绘制时的颜色策略的。它是一个 enum，不同的 `Mode`
+构造方法：`ComposeShader(Shader shaderA, Shader shaderB, PorterDuff.Mode mode)` 
+参数：  
+`shaderA`, `shaderB`：两个相继使用的 `Shader`    
+`mode`: 两个 `Shader` 的叠加模式，即 `shaderA` 和 `shaderB` 应该怎样共同绘制。它的类型是 `PorterDuff.Mode` 。
+> PorterDuff.Mode 
+>> `PorterDuff.Mode` 是用来指定两个图像共同绘制时的颜色策略的。它是一个 enum，不同的 `Mode`
 可以指定不同的策略。「颜色策略」的意思，就是说把源图像绘制到目标图像处时应该怎样确定二者结合后的颜色，而对于 `ComposeShader(shaderA,
 shaderB, mode)` 这个具体的方法，就是指应该怎样把 `shaderB` 绘制在 `shaderA` 上来得到一个结合后的 `Shader`。
 > > 没有听说过 `PorterDuff.Mode`
@@ -138,7 +201,8 @@ Alpha 合成： > >
 合成类的操作，掌握他们，并在实际开发中灵活运用；而对于混合类的，你只要把它们的名字记住就好了，这样当某一天设计师告诉你「我要做这种混合效果」的时候，你可以马上知道自己能不能做，怎么做。**
 > > 另外：`PorterDuff.Mode` 建议你动手用一下试试，对加深理解有帮助。 好了，这些就是几个 `Shader` 的具体介绍。 除了使用
 `setColor/ARGB()` 和 `setShader()` 来设置基本颜色， `Paint` 还可以来设置
-`ColorFilter`，来对颜色进行第二层处理。 ### 1.2 setColorFilter(ColorFilter colorFilter)
+`ColorFilter`，来对颜色进行第二层处理。 
+### 1.2 setColorFilter(ColorFilter colorFilter)
 `ColorFilter` 这个类，它的名字已经足够解释它的作用：为绘制设置颜色过滤。颜色过滤的意思，就是为绘制的内容设置一个统一的过滤策略，然后
 `Canvas.drawXXX()` 方法会对每个像素都进行过滤后再绘制出来。举几个现实中比较常见的颜色过滤的例子： * 有色光照射：
 ![w400](https://ws3.sinaimg.cn/large/52eb2279ly1fig6j51ronj20rs0kv1kx.jpg) *
@@ -168,7 +232,8 @@ paint.setColorFilter(lightingColorFilter);
 lightingColorFilter = new LightingColorFilter(0xffffff, 0x003000);
 paint.setColorFilter(lightingColorFilter);
 ![](https://ws3.sinaimg.cn/large/52eb2279ly1fig6k91tiyj209f04dmy3.jpg) >
-这样的表情才阳光 至于怎么修改参数来模拟你想要的某种具体光照效果，你就别问我了，还是跟你司设计师讨论吧，这个我不专业…… #### 1.2.2
+这样的表情才阳光 至于怎么修改参数来模拟你想要的某种具体光照效果，你就别问我了，还是跟你司设计师讨论吧，这个我不专业…… 
+#### 1.2.2
 PorterDuffColorFilter 这个 `PorterDuffColorFilter` 的作用是使用一个指定的颜色和一种指定的
 `PorterDuff.Mode` 来与绘制对象进行合成。它的构造方法是 `PorterDuffColorFilter(int color,
 PorterDuff.Mode mode)` 其中的 `color` 参数是指定的颜色， `mode` 参数是指定的 `Mode`。同样也是
@@ -185,7 +250,8 @@ n*A + o; A’ = p*R + q*G + r*B + s*A + t; `ColorMatrix` 有一些自带的方�
 ![](https://ws1.sinaimg.cn/large/006tNc79ly1fig6vhi48zg309c0fzqv7.gif) 以上，就是
 `Paint` 对颜色的第二层处理：通过 `setColorFilter(colorFilter)` 来加工颜色。 除了基本颜色的设置（
 `setColor/ARGB()`, `setShader()` ）以及基于原始颜色的过滤（ `setColorFilter()` ）之外，`Paint`
-最后一层处理颜色的方法是 `setXfermode(Xfermode xfermode)` ，它处理的是「当颜色遇上 View」的问题。 ### 1.3
+最后一层处理颜色的方法是 `setXfermode(Xfermode xfermode)` ，它处理的是「当颜色遇上 View」的问题。 
+### 1.3
 setXfermode(Xfermode xfermode) "Xfermode" 其实就是 "Transfer mode"，用 "X" 来代替
 "Trans" 是一些美国人喜欢用的简写方式。严谨地讲， `Xfermode` 指的是你要绘制的内容和 `Canvas`
 的目标位置的内容应该怎样结合计算出最终的颜色。但通俗地说，其实就是要你以绘制的内容作为源图像，以 View 中已有的内容作为目标图像，选取一个
@@ -203,7 +269,8 @@ canvas.drawBitmap(circleBitmap, 0, 0, paint); // 画圆 paint.setXfermode(null);
 `PorterDuffXfermode` 吧。 > 「只有一个子类？？？什么设计？」 > >
 ![](https://ws2.sinaimg.cn/large/006tNc79ly1fig71bvcguj305t05wq35.jpg) > >
 其实在更早的 Android 版本中，`Xfermode` 还有别的子类，但别的子类现在已经 `deprecated` 了，如今只剩下了
-`PorterDuffXfermode`。所以目前它的使用看起来好像有点啰嗦，但其实是由于历史遗留问题。 #### Xfermode 注意事项
+`PorterDuffXfermode`。所以目前它的使用看起来好像有点啰嗦，但其实是由于历史遗留问题。 
+#### Xfermode 注意事项
 `Xfermode` 使用很简单，不过有两点需要注意： ##### 1\\. 使用离屏缓冲（Off-screen Buffer）
 实质上，上面这段例子代码，如果直接执行的话是不会绘制出图中效果的，程序的绘制也不会像上面的动画那样执行，而是会像这样：
 ![](https://ws2.sinaimg.cn/large/006tNc79ly1fig71o7qskj30nl0pl0tx.jpg) >
@@ -227,19 +294,23 @@ paint.setXfermode(null); // 用完及时清除 Xfermode canvas.restoreToCount(sa
 `Canvas.saveLayer()` 和 `View.setLayerType()` ，这里就不细讲它们的意义和原理了，后面也许我会专门用一期来讲它们。
 如果没有特殊需求，可以选用第一种方法 `Canvas.saveLayer()`
 来设置离屏缓冲，以此来获得更高的性能。更多关于离屏缓冲的信息，可以看[官方文档](https://developer.android.com/guide/topics/graphics
-/hardware-accel.html)中对于硬件加速的介绍。 ##### 2\\. 控制好透明区域 使用 Xfermode
+/hardware-accel.html)中对于硬件加速的介绍。 
+##### 2 控制好透明区域 使用 Xfermode
 来绘制的内容，除了注意使用离屏缓冲，还应该注意控制它的透明区域不要太小，要让它足够覆盖到要和它结合绘制的内容，否则得到的结果很可能不是你想要的。我用图片来具体说明一下：
 ![](https://ws1.sinaimg.cn/large/006tNc79ly1fig73037soj30sj0x3myt.jpg) >
 如图所示，由于透明区域过小而覆盖不到的地方，将不会受到 Xfermode 的影响。 好，到此为止，前面讲的就是 `Paint` 的第一类
 API——关于颜色的三层设置：直接设置颜色的 API 用来给图形和文字设置颜色； `setColorFilter()` 用来基于颜色进行过滤处理；
 `setXfermode()` 用来处理源图像和 `View` 已有内容的关系。 再贴一次本章开始处的图作为回顾：
-![](https://ws2.sinaimg.cn/large/006tNc79ly1fig738su5oj30j909ymy2.jpg) ## 2 效果
-效果类的 API ，指的就是抗锯齿、填充/轮廓、线条宽度等等这些。 ### 2.1 setAntiAlias (boolean aa) 设置抗锯齿
+![](https://ws2.sinaimg.cn/large/006tNc79ly1fig738su5oj30j909ymy2.jpg) 
+## 2 效果
+效果类的 API ，指的就是抗锯齿、填充/轮廓、线条宽度等等这些。 
+### 2.1 setAntiAlias (boolean aa) 设置抗锯齿
 抗锯齿在上一节已经讲过了，话不多说，直接上图：
 ![](https://ws1.sinaimg.cn/large/006tNc79ly1fig73fpp5aj30ks0bqt9f.jpg)
 抗锯齿默认是关闭的，如果需要抗锯齿，需要显式地打开。另外，除了 `setAntiAlias(aa)` 方法，打开抗锯齿还有一个更方便的方式：构造方法。创建
 `Paint` 对象的时候，构造方法的参数里加一个 `ANTI_ALIAS_FLAG` 的 flag，就可以在初始化的时候就开启抗锯齿。 Paint
-paint = new Paint(Paint.ANTI_ALIAS_FLAG); ### 2.2 setStyle(Paint.Style style)
+paint = new Paint(Paint.ANTI_ALIAS_FLAG); 
+### 2.2 setStyle(Paint.Style style)
 `setStyle(style)` 也在上一节讲过了，用来设置图形是线条风格还是填充风格的（也可以二者并用）：
 paint.setStyle(Paint.Style.FILL); // FILL 模式，填充 canvas.drawCircle(300, 300,
 200, paint);
@@ -252,8 +323,9 @@ canvas.drawCircle(300, 300, 200, paint);
 ![](https://ws3.sinaimg.cn/large/006tNc79ly1fig7litstsj303w03s0sm.jpg) `FILL`
 模式是默认模式，所以如果之前没有设置过其他的 `Style`，可以不用 `setStyle(Paint.Style.FILL)` 这句。 ### 2.3
 线条形状 设置线条形状的一共有 4 个方法：`setStrokeWidth(float width)`, `setStrokeCap(Paint.Cap
-cap)`, `setStrokeJoin(Paint.Join join)`, `setStrokeMiter(float miter)` 。 ####
-2.3.1 setStrokeWidth(float width) 设置线条宽度。单位为像素，默认值是 0。
+cap)`, `setStrokeJoin(Paint.Join join)`, `setStrokeMiter(float miter)` 。 
+#### 2.3.1 setStrokeWidth(float width) 设置线条宽度。
+单位为像素，默认值是 0。
 paint.setStyle(Paint.Style.STROKE); paint.setStrokeWidth(1);
 canvas.drawCircle(150, 125, 100, paint); paint.setStrokeWidth(5);
 canvas.drawCircle(400, 125, 100, paint); paint.setStrokeWidth(40);
@@ -269,15 +341,17 @@ canvas.drawCircle(650, 125, 100, paint);
 放出「平头」「圆头」「方头」这种翻译我始终有点纠结：既觉得自己翻译得简洁清晰尽显机智，同时又担心用词会不会有点太过通俗，让人觉得我不够高贵冷艳？
 当线条的宽度是 1 像素时，这三种线头的表现是完全一致的，全是 1 个像素的点；而当线条变粗的时候，它们就会表现出不同的样子：
 ![](https://ws4.sinaimg.cn/large/006tNc79ly1fig74qv8rij30ct05rglp.jpg)
-虚线是额外加的，虚线左边是线的实际长度，虚线右边是线头。有了虚线作为辅助，可以清楚地看出 `BUTT` 和 `SQUARE` 的区别。 #### 2.3.3
-setStrokeJoin(Paint.Join join) 设置拐角的形状。有三个值可以选择：`MITER` 尖角、 `BEVEL` 平角和
+虚线是额外加的，虚线左边是线的实际长度，虚线右边是线头。有了虚线作为辅助，可以清楚地看出 `BUTT` 和 `SQUARE` 的区别。 
+#### 2.3.3 setStrokeJoin(Paint.Join join) 设置拐角的形状。
+有三个值可以选择：`MITER` 尖角、 `BEVEL` 平角和
 `ROUND` 圆角。默认为 `MITER`。
 ![](https://ws1.sinaimg.cn/large/006tNc79ly1fig75e27w6j30cp05ewem.jpg) > 辅助理解：
 > > MITER 在现实中其实就是这玩意： > >
 ![](https://ws2.sinaimg.cn/large/006tNc79ly1fig75ne2avj30jw0avt9n.jpg) > > 而
 BEVEL 是这玩意： > >
-![](https://ws2.sinaimg.cn/large/006tNc79ly1fig762ptvdj307u05l74d.jpg) ####
-2.3.4 setStrokeMiter(float miter) 这个方法是对于 `setStrokeJoin()` 的一个补充，它用于设置
+![](https://ws2.sinaimg.cn/large/006tNc79ly1fig762ptvdj307u05l74d.jpg) 
+#### 2.3.4 setStrokeMiter(float miter) 
+这个方法是对于 `setStrokeJoin()` 的一个补充，它用于设置
 `MITER` 型拐角的延长线的最大值。所谓「延长线的最大值」，是这么一回事： 当线条拐角为 `MITER` 时，拐角处的外缘需要使用延长线来补偿：
 ![](https://ws1.sinaimg.cn/large/006tNc79ly1fig7ak3kqgj30cs0cq74j.jpg)
 而这种补偿方案会有一个问题：如果拐角的角度太小，就有可能由于出现连接点过长的情况。比如这样：
@@ -455,39 +529,9 @@ paint.setAntiAlias(true); paint.setDither(true); `setFlags(flags)` 对应的 `ge
 ![](https://ws4.sinaimg.cn/large/006tNc79ly1fig7icra08j30do077js1.jpg)
 ![](https://ws2.sinaimg.cn/large/006tNc79ly1fig7ifhctmj30cx09dt9o.jpg)
 ![](https://ws2.sinaimg.cn/large/006tNc79ly1fig7iipafvj30l807675k.jpg)
-![](https://ws2.sinaimg.cn/large/006tNc79ly1fig7inhstij30ff0alt9l.jpg) ## 感谢
+![](https://ws2.sinaimg.cn/large/006tNc79ly1fig7inhstij30ff0alt9l.jpg) 
+## 感谢
 感谢参与这期预发布内测的读者：
 [小迈](https://github.com/CodeXiaoMai)、[MadisonRong](https://github.com/MadisonRong)、小于、恋上你的眸、[rubicAndroid](http://blog.csdn.net/my_truelove)、[miaoyongjun](https://github.com/miaoyongjun)、[ArchyWang](https://github.com/ArchyWang)、孙志帅、[czwathou](https://github.com/CzwAthou)、[Tim
 Aimee](https://github.com/timaimee)、[code小生](http://weibo.com/u/5551674121)
-另外，公开招募内测读者，愿意帮助内测的扫下面的码加群吧！（已经加过一群的就别加这个了，给别人留个名额，两个群待遇一样的。）
-![](https://ws1.sinaimg.cn/large/006tNc79ly1fig7ja7it1j30hs0s1wgl.jpg) ## 赞赏
-老规矩，但你的钱换不来任何增值服务，所以真的觉得赞再给钱哟。
-![](https://ws4.sinaimg.cn/large/006tNc79ly1fig7ji8850j30km0d1mzp.jpg) * * *
-## 订阅 HenCoder 微信公众号：HenCoder    微博：[扔物线](https://weibo.com/rengwuxian)
-知乎专栏：[HenCoder](https://zhuanlan.zhihu.com/hencoder)
-稀土掘金：[扔物线](https://juejin.im/user/552f20a7e4b060d72a89d87f)
-![](https://ww1.sinaimg.cn/large/671477efly1fu4gsk3zs7j203l03l74d.jpg)
-[](http://www.jiathis.com/share?uid=2139777) 为正常使用来必力评论功能请激活JavaScript [
-NextHenCoder Android 开发进阶：自定义 View 1-3 drawText() 文字的绘制July 24, 2017
-](/ui-1-3/) [ PreviousHenCoder Android 开发进阶: 自定义 View 1-1 绘制基础July 10, 2017
-](/ui-1-1/) ## 浏览网站 * [首页](http://hencoder.com/) *
-[面世宣言](http://hencoder.com/tag/about/) * [HenCoder
-Plus](https://plus.hencoder.com/) * [码上开学](http://kaixue.io/) * [自定义 View -绘制](http://hencoder.com/tag/hui-zhi/) * [自定义 View -布局](http://hencoder.com/tag/bu-ju/) * [自定义 View -触摸反馈](http://hencoder.com/tag/chu-mo-fan-kui/) * [实践](http://hencoder.com/tag
-/shi-jian/) * [HTTPS](http://hencoder.com/tag/https/) * [Git
-教程](https://juejin.im/book/5a124b29f265da431d3c472e) ## 关于 HenCoder 这是一个个人的
-Android 技术分享站。我对它充满期待，我认为它可以帮助到整个中国的 Android 界，但我还不确定。拭目以待。 ## 关于我
-我是扔物线，[Android GDE](https://developers.google.com/experts/people/kai-zhu)（
-Google 认证 Android 开发专家），前 Flipboard Android 工程师。 GitHub 全球 Java 排名第 124 位，在
-[GitHub](https://github.com/rengwuxian) 上有 6.1k followers 和 9.2k stars ，个人的
-Android 开源库
-[MaterialEditText](https://github.com/rengwuxian/MaterialEditText/)
-被全世界多个项目引用，其中包括在全球拥有 5 亿用户的新闻阅读软件 Flipboard 。曾多次在 Google Developer Group
-Beijing 线下分享会中担任 Android 部分的讲师。个人技术文章《[给 Android 开发者的 RxJava
-详解](https://gank.io/post/560e15be2dca930e00da1083)》发布后，在国内多个公司和团队内部被转发分享和作为团队技术会议的主要资料来源，以及逆向传播到了美国一些如
-Google 、 Uber 等公司的部分华人团队。 * rengwuxian@gmail.com 关闭侧栏
-[__微博](https://github.com/rengwuxian)
-[__GitHub](https://github.com/rengwuxian)
-[__GitHub](https://github.com/rengwuxian) __Back to the top
-[HenCoder](http://hencoder.com) © 2019 Curious theme by
-[JustGoodThemes](https://justgoodthemes.com/)
 
