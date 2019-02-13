@@ -27,6 +27,7 @@ public class Practice06SetStrikeThruTextView extends View {
         paint.setTextSize(60);
 
         // 使用 Paint.setStrikeThruText() 来设置删除线
+        paint.setStrikeThruText(true);
     }
 
     @Override

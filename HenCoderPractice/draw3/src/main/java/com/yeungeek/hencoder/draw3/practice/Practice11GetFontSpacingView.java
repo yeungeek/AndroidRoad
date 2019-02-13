@@ -36,8 +36,10 @@ public class Practice11GetFontSpacingView extends View {
 
         canvas.drawText(text, 50, 100, paint);
 
+        spacing = paint.getFontSpacing();
         canvas.drawText(text, 50, 100 + spacing, paint);
 
+        spacing = paint.getFontSpacing();
         canvas.drawText(text, 50, 100 + spacing * 2, paint);
     }
 }
