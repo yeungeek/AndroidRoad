@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.hencoder.hencoderpracticedraw6.R;
+import com.yeungeek.hencoder.draw6.R;
 
 public class Practice06Duration extends LinearLayout {
     SeekBar durationSb;

@@ -24,7 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import com.hencoder.hencoderpracticedraw6.R;
+import com.yeungeek.hencoder.draw6.R;
 import com.yeungeek.hencoder.draw6.Utils;
 
 public class Sample07Interpolator extends LinearLayout {

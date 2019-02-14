@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.hencoder.hencoderpracticedraw6.R;
+import com.yeungeek.hencoder.draw6.R;
+
+//import com.yeungeek.hencoder.draw6.R;
 
 public class Sample02Rotation extends RelativeLayout {
     Button animateBt;
@@ -33,6 +35,7 @@ public class Sample02Rotation extends RelativeLayout {
         super.onAttachedToWindow();
 
         animateBt = (Button) findViewById(R.id.animateBt);
+
         imageView = (ImageView) findViewById(R.id.imageView);
 
         animateBt.setOnClickListener(new OnClickListener() {

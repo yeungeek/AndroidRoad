@@ -10,9 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 
-import com.hencoder.hencoderpracticedraw6.R;
-import com.yeungeek.hencoder.draw6.PageFragment;
-
 import java.util.ArrayList;
 import java.util.List;
 

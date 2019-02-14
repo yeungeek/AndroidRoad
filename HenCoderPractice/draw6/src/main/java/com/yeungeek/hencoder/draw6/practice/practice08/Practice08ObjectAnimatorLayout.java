@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.hencoder.hencoderpracticedraw6.R;
+import com.yeungeek.hencoder.draw6.R;
 
 public class Practice08ObjectAnimatorLayout extends RelativeLayout {
     Practice08ObjectAnimatorView view;

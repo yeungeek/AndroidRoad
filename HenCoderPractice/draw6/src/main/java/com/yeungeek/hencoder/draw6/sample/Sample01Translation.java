@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.hencoder.hencoderpracticedraw6.R;
+import com.yeungeek.hencoder.draw6.R;
 import com.yeungeek.hencoder.draw6.Utils;
 
 import static android.os.Build.VERSION.SDK_INT;
