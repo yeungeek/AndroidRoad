@@ -8,4 +8,6 @@
     <string name="adjust_frame">外框调节</string>
     <string name="text_message">不得违背核心价值观</string>
     <string name="eidt_text_with_message">在此输入用户名</string>
+
+    <string name="title_custom_view">CustomView</string>
 </resources>
