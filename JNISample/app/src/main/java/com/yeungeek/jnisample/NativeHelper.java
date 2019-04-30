@@ -6,4 +6,5 @@ package com.yeungeek.jnisample;
  */
 
 public class NativeHelper {
+    public static native String stringFromJNI();
 }
