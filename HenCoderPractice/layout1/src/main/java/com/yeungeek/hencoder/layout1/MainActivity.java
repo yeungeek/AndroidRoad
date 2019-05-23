@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 
+import com.yeungeek.hencoder.layout1.practice.Practice04EventParentView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(pager);
+
+        //set sub view can receive touchEvent
+        
+        Practice04EventParentView view = new Practice04EventParentView(this);
+        view.requestDisallowInterceptTouchEvent(false);
     }
 
     @Override
@@ -58,9 +65,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class PageModel {
-        @LayoutRes int sampleLayoutRes;
-        @StringRes int titleRes;
-        @LayoutRes int practiceLayoutRes;
+        @LayoutRes
+        int sampleLayoutRes;
+        @StringRes
+        int titleRes;
+        @LayoutRes
+        int practiceLayoutRes;
 
         PageModel(@LayoutRes int sampleLayoutRes, @StringRes int titleRes, @LayoutRes int practiceLayoutRes) {
             this.sampleLayoutRes = sampleLayoutRes;

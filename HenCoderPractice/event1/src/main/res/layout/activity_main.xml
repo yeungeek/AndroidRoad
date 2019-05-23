@@ -6,13 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <com.yeungeek.hencoder.event1.view.CustomParentView
+        android:id="@+id/parent_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <com.yeungeek.hencoder.event1.view.CustomSubView
+            android:id="@+id/sub_view"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:background="@color/colorPrimary" />
+    </com.yeungeek.hencoder.event1.view.CustomParentView>
+
+    <Button
+        android:id="@+id/disallow_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disallow"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -19,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
         // Example of a call to a native method
         TextView tv = findViewById(R.id.sample_text);
         tv.setText(NativeHelper.stringFromJNI());
+
+        NativeHelper.callStaticMethod(10);
+        new NativeHelper().callMethod(1);
     }
 
     /**

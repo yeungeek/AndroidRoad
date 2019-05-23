@@ -1,1 +1,1 @@
-include ':draw1', ':draw2', ':draw3', ':draw4', ':draw5', ':draw6', ':layout1'
+include ':draw1', ':draw2', ':draw3', ':draw4', ':draw5', ':draw6', ':layout1', ':event1'

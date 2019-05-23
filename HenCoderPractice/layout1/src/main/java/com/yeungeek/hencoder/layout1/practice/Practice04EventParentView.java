@@ -9,16 +9,16 @@ import android.view.ViewGroup;
  * @date 2019-04-30
  */
 
-public class Practice04EventView extends ViewGroup {
-    public Practice04EventView(Context context) {
+public class Practice04EventParentView extends ViewGroup {
+    public Practice04EventParentView(Context context) {
         super(context);
     }
 
-    public Practice04EventView(Context context, AttributeSet attrs) {
+    public Practice04EventParentView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public Practice04EventView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public Practice04EventParentView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -27,9 +27,19 @@ public class Practice04EventView extends ViewGroup {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
     }
-    
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        switch (ev.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN: //necessary
+                return true;
+
+        }
         return super.onInterceptTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 }
