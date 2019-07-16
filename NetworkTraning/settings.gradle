@@ -1,1 +1,1 @@
-include ':app', ':retrofit', ':okhttp'
+include ':app', ':retrofit', ':okhttp', ':socket'
