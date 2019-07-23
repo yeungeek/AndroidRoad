@@ -84,7 +84,7 @@ public class ExampleUnitTest {
                             System.out.println("cookies: " + cookie.toString());
                         }
 
-                        mCookieStore.put(url.host(),cookies);
+                        mCookieStore.put(url.host(), cookies);
                     }
 
                     @Override
@@ -109,7 +109,7 @@ public class ExampleUnitTest {
     public void testGetList() throws IOException {
         Request request = new Request.Builder()
                 .url(ENDPOINT + "/lg/collect/list/0/json")
-                .addHeader("Cookie","JSESSIONID=md5; path=/; secure; httponly;loginUserName=yeungeek; expires=Sun, 23 Jun 2019 07:52:20 GMT; path=/;" +
+                .addHeader("Cookie", "JSESSIONID=md5; path=/; secure; httponly;loginUserName=yeungeek; expires=Sun, 23 Jun 2019 07:52:20 GMT; path=/;" +
                         "token_pass=md5; expires=Sun, 23 Jun 2019 07:52:20 GMT; path=/")
                 .build();
 
@@ -120,6 +120,24 @@ public class ExampleUnitTest {
         System.out.println(response.body().string());
     }
 
+    @Test
+    public void testAsync() {
+        Request request = new Request.Builder()
+                .url(ENDPOINT + "/banner/json/")
+                .get().build();
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                System.out.println("async method: " + response.body().string());
+            }
+        });
+    }
 
 
     @After
