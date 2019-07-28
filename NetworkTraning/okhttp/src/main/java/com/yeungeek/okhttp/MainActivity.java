@@ -6,7 +6,13 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -27,6 +33,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mClient = new OkHttpClient();
         findViewById(R.id.sync_btn).setOnClickListener(this);
         findViewById(R.id.async_btn).setOnClickListener(this);
+    }
+
+    private void urlConnection() {
+        try {
+            URL url = new URL(ENDPOINT + "/banner/json/");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+
+            int code = connection.getResponseCode();
+            Log.d("DEBUG", "##### response code: " + code);
+            if (code == HttpURLConnection.HTTP_OK) {
+                InputStream is = connection.getInputStream();
+
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] buffer = new byte[2048];
+                int length;
+                while ((length = is.read(buffer)) != -1) {
+                    bos.write(buffer, 0, length);
+                }
+
+                String result = bos.toString(StandardCharsets.UTF_8.name());
+                bos.close();
+                is.close();
+
+                Log.d("DEBUG", "##### response result: " + result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void syncMethod() {
@@ -69,7 +105,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.sync_btn:
                 Log.d("DEBUG", "##### click sync");
                 new Thread(() -> {
-                    syncMethod();
+//                    syncMethod();
+                    urlConnection();
                 }).start();
                 break;
             case R.id.async_btn:
