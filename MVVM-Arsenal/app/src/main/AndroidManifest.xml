@@ -21,6 +21,7 @@
         </activity>
 
         <activity android:name=".ui.GithubActivity" />
+        <activity android:name=".mvvm.glass.GlassActivity"/>
     </application>
 
 </manifest>

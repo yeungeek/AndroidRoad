@@ -29,6 +29,9 @@ public abstract class BaseVMActivity<VM extends BaseViewModel> extends BaseActiv
     }
 
     private <VM extends BaseViewModel> VM createViewModel(AppCompatActivity activity, Class<VM> clazz) {
+        if (null == clazz) {
+            return null;
+        }
         return ViewModelProviders.of(activity).get(clazz);
     }
 
