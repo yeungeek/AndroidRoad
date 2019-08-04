@@ -1,4 +1,5 @@
 package com.yeungeek.basicjava.reflect;
 
-public class BaseRepo {
+public abstract class BaseRepo {
+    public abstract void repoMethod();
 }
