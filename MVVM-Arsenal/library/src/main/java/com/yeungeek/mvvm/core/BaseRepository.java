@@ -7,5 +7,6 @@ package com.yeungeek.mvvm.core;
  */
 
 public abstract class BaseRepository {
-    public abstract void onDestroy();
+    public void onDestroy() {
+    }
 }
