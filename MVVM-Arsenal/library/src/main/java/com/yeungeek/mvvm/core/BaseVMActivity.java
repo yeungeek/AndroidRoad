@@ -25,7 +25,7 @@ public abstract class BaseVMActivity<VM extends BaseViewModel> extends BaseActiv
     }
 
     private void initViewModel() {
-        viewModel = createViewModel(this, VMUtils.<VM>instance(this));
+        viewModel = createViewModel(this, VMUtils.instance(this));
     }
 
     private <VM extends BaseViewModel> VM createViewModel(AppCompatActivity activity, Class<VM> clazz) {

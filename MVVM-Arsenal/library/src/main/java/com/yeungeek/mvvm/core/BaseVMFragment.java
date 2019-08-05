@@ -25,7 +25,7 @@ public abstract class BaseVMFragment<VM extends BaseViewModel> extends BaseFragm
     }
 
     private void initViewModel() {
-        viewModel = createViewModel(getActivity(), VMUtils.<VM>instance(this));
+        viewModel = createViewModel(getActivity(), VMUtils.instance(this));
     }
 
     /**
