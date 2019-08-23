@@ -3,6 +3,7 @@ package com.yeungeek.retrofit.api;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -22,10 +23,12 @@ public class ServiceGenerator {
                     .build();
 
     private final static Retrofit retrofit =
-            new Retrofit.Builder()
+            new Retrofit
+                    .Builder()
                     .client(httpClient)
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
 
 

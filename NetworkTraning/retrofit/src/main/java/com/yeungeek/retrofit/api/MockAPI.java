@@ -3,6 +3,7 @@ package com.yeungeek.retrofit.api;
 import com.yeungeek.retrofit.model.SingleRepo;
 import com.yeungeek.retrofit.model.WrapRepo;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -25,7 +26,7 @@ public interface MockAPI {
     Call<WrapRepo> query(@Query("name") String name);
 
     @GET("users/{user}/repos")
-    Call<WrapRepo> queryPath(@Path("user") String user);
+    Observable<WrapRepo> queryPath(@Path("user") String user);
 
     @POST("user")
     Call<SingleRepo> postQuery(@Query("id") String id);

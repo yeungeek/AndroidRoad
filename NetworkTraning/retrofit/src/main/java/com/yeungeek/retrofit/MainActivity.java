@@ -7,10 +7,22 @@ import android.widget.Button;
 
 import com.yeungeek.retrofit.api.MockAPI;
 import com.yeungeek.retrofit.api.ServiceGenerator;
+import com.yeungeek.retrofit.model.Repo;
 import com.yeungeek.retrofit.model.SingleRepo;
 import com.yeungeek.retrofit.model.WrapRepo;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.reactivestreams.Subscriber;
+
+import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -105,11 +117,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void get() {
         final Call<WrapRepo> call = api.query("squareup");
         call.enqueue(callback);
+//        api.query("squareup").subscribeOn(Schedulers.io())
+//                .observeOn().subscribe();
     }
 
     private void getPath() {
-        final Call<WrapRepo> call = api.queryPath("yeungeek");
-        call.enqueue(callback);
+//        final Call<WrapRepo> call = api.queryPath("yeungeek");
+//        call.enqueue(callback);
+        api.queryPath("yeungeek").subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<WrapRepo>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(WrapRepo wrapRepo) {
+                        Log.d("DEBUG", "##### " + wrapRepo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     private void post() {

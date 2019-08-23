@@ -10,7 +10,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
@@ -30,7 +29,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
 
-        mClient = new OkHttpClient();
+        mClient = new OkHttpClient
+                .Builder()
+//                .addInterceptor(new NetworkInterceptor())
+                .addNetworkInterceptor(new NetworkInterceptor())
+                .build();
         findViewById(R.id.sync_btn).setOnClickListener(this);
         findViewById(R.id.async_btn).setOnClickListener(this);
     }
@@ -79,9 +82,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void asyncMethod() {
+//        Request request = new Request.Builder()
+//                .get()
+//                .url(ENDPOINT + "/wxarticle/chapters/json")
+//                .build();
+
         Request request = new Request.Builder()
-                .get()
-                .url(ENDPOINT + "/wxarticle/chapters/json")
+                .url("http://www.publicobject.com/helloworld.txt")
                 .build();
 
         mClient.newCall(request).enqueue(new Callback() {
@@ -93,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                Log.d("DEBUG", "##### response thread: " + Thread.currentThread().getId());
                 Log.d("DEBUG", "##### response: " + response.body().string());
 
             }
