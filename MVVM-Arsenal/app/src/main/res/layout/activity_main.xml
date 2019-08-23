@@ -25,4 +25,10 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/github_btn" />
 
+    <Chronometer
+        android:id="@+id/glass_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/glass_btn" />
 </android.support.constraint.ConstraintLayout>
