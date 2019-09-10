@@ -1,6 +1,12 @@
 #include <jni.h>
 #include <string>
 #include <android/log.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 //extern "C" JNIEXPORT jstring JNICALL
 //Java_com_yeungeek_jnisample_NativeHelper_stringFromJNI(JNIEnv *env, jclass type) {
@@ -112,6 +118,45 @@ Java_com_yeungeek_jnisample_NativeHelper_callMethod__I(JNIEnv *env, jobject jobj
     env->DeleteLocalRef(newValue);
     env->DeleteLocalRef(newInstance);
     env->DeleteLocalRef(helperClass);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_yeungeek_jnisample_SocketHelper_startClient(JNIEnv *env, jobject instance,
+                                                     jstring serverIp_, jint serverPort) {
+    const char *server_ip = env->GetStringUTFChars(serverIp_, 0);
+
+    int client_socket_fd;
+
+    struct sockaddr_in server_addr;
+
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = inet_addr(server_ip);
+
+    server_addr.sin_port = htons(serverPort);
+    client_socket_fd = socket(PF_INET, SOCK_STREAM, 0);
+
+    if (client_socket_fd < 0) {
+        LOGD("create error: ");
+        return;
+    }
+
+    int con_result = connect(client_socket_fd, (struct sockaddr *) &server_addr,
+                             sizeof(server_addr));
+
+    if (con_result < 0) {
+        LOGD("connect error");
+        return;
+    }
+
+    char buffer[BUFSIZ] = "Hello Socket Server!";
+    send(client_socket_fd, buffer, strlen(buffer), 0);
+
+    shutdown(client_socket_fd, SHUT_RDWR);
+    LOGD("client close");
+    env->ReleaseStringUTFChars(serverIp_, server_ip);
+    return;
 }
 
 //JNICALL

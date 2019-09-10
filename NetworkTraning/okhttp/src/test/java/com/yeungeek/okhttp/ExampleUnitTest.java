@@ -65,6 +65,19 @@ public class ExampleUnitTest {
     }
 
     @Test
+    public void testGetGank() throws IOException {
+        Request request = new Request.Builder()
+                .url("http://gank.io/api/today")
+                .build();
+
+        Response response = okHttpClient.newCall(request).execute();
+        assertTrue(response.isSuccessful());
+
+        System.out.println("Header: " + response.headers());
+        System.out.println(response.body().string());
+    }
+
+    @Test
     public void testPost() throws IOException {
         RequestBody body = new FormBody.Builder()
                 .add("username", "yeungeek")

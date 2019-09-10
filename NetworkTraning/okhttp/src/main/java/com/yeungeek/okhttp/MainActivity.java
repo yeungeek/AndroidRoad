@@ -1,10 +1,13 @@
 package com.yeungeek.okhttp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.yeungeek.okhttp.socket.SocketActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
         findViewById(R.id.sync_btn).setOnClickListener(this);
         findViewById(R.id.async_btn).setOnClickListener(this);
+        findViewById(R.id.socket_btn).setOnClickListener(this);
     }
 
     private void urlConnection() {
@@ -119,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.async_btn:
                 asyncMethod();
+                break;
+            case R.id.socket_btn:
+                startActivity(new Intent(MainActivity.this, SocketActivity.class));
                 break;
         }
     }

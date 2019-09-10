@@ -2,6 +2,7 @@ package com.yeungeek.jnisample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,9 +20,17 @@ public class MainActivity extends AppCompatActivity {
         // Example of a call to a native method
         TextView tv = findViewById(R.id.sample_text);
         tv.setText(NativeHelper.stringFromJNI());
+        final SocketHelper socketHelper = new SocketHelper();
 
-        NativeHelper.callStaticMethod(10);
-        new NativeHelper().callMethod(1);
+        findViewById(R.id.sent_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                socketHelper.startClient("10.88.12.48", 8888);
+            }
+        });
+
+//        NativeHelper.callStaticMethod(10);
+//        new NativeHelper().callMethod(1);
     }
 
     /**
