@@ -1,4 +1,4 @@
-package com.juphoon.camerasample;
+package com.yeungeek.camerasample;
 
 import org.junit.Test;
 

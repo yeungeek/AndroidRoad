@@ -1,4 +1,4 @@
-package com.juphoon.camerasample;
+package com.yeungeek.camerasample;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.juphoon.camerasample", appContext.getPackageName());
+        assertEquals("com.yeungeek.camerasample", appContext.getPackageName());
     }
 }
