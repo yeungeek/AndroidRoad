@@ -31,12 +31,14 @@ import java.util.Date;
 public class CameraSystemActivity extends AppCompatActivity implements View.OnClickListener {
     private Button mTakePhotoBtn;
     private Button mTakeFullPhotoBtn;
+    private Button mRecordVideoBtn;
 
     private ImageView mDisplayImageIv;
     private String mCurrentPhotoPath;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 2;
+    static final int REQUEST_VIDEO_CAPTURE = 3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,8 +50,10 @@ public class CameraSystemActivity extends AppCompatActivity implements View.OnCl
     private void initViews() {
         mTakePhotoBtn = findViewById(R.id.take_photo_btn);
         mTakeFullPhotoBtn = findViewById(R.id.take_full_photo_btn);
+        mRecordVideoBtn = findViewById(R.id.record_video_btn);
         mTakePhotoBtn.setOnClickListener(this);
         mTakeFullPhotoBtn.setOnClickListener(this);
+        mRecordVideoBtn.setOnClickListener(this);
 
         mDisplayImageIv = findViewById(R.id.display_image);
     }
@@ -62,6 +66,9 @@ public class CameraSystemActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.take_full_photo_btn:
                 takeFullPhoto();
+                break;
+            case R.id.record_video_btn:
+                recordVideo();
                 break;
         }
     }
@@ -93,6 +100,13 @@ public class CameraSystemActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    private void recordVideo() {
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_VIDEO_CAPTURE);
+        }
+    }
+
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
@@ -121,6 +135,8 @@ public class CameraSystemActivity extends AppCompatActivity implements View.OnCl
 //            broadcastScan();
             connectionScan();
             setScaleBitmap(mDisplayImageIv);
+        } else if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
+            Log.d("DEBUG", "##### request video capture: " + data.getData());
         }
     }
 
