@@ -9,12 +9,18 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.LruCache;
 
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.yeungeek.basictraning.R;
@@ -30,10 +36,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Random;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.collection.LruCache;
 
 /**
  * @date 2018/09/09
@@ -57,6 +59,9 @@ public class LruFragment extends BaseFragment implements View.OnClickListener {
     private Handler handler = new Handler(Looper.getMainLooper());
 
     //ImageCache
+    private Chronometer mTimer;
+    private Button mStartTimerBtn;
+    private boolean isStart;
 
     @Nullable
     @Override
@@ -75,6 +80,19 @@ public class LruFragment extends BaseFragment implements View.OnClickListener {
         showImage.setOnClickListener(this);
         downloadImage.setOnClickListener(this);
         showDownloadImage.setOnClickListener(this);
+
+        mTimer = view.findViewById(R.id.timer);
+        mStartTimerBtn = view.findViewById(R.id.start_time);
+        mStartTimerBtn.setOnClickListener(this);
+
+//        mTimer.setText(DateUtils.formatElapsedTime(14000L));
+        mTimer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                Log.d("DEBUG", "##### onChronometerTick: " + chronometer.getText() + ",format: "
+                        + chronometer.getFormat());
+            }
+        });
         return view;
     }
 
@@ -143,6 +161,20 @@ public class LruFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.show_download_image:
                 getFile(handler, "ic_001");
+                break;
+            case R.id.start_time:
+                mTimer.setBase(1470925223L);
+                if (!isStart) {
+                    isStart = true;
+                    int hour = (int) ((SystemClock.elapsedRealtime() - mTimer.getBase()) / 1000 / 60);
+                    Log.d("DEBUG", "##### start time: " + SystemClock.elapsedRealtime() + ", base: " + mTimer.getBase()
+                            + ", hour: " + hour);
+
+                    mTimer.setFormat("0" + hour + ":%s");
+                    mTimer.start();
+                } else {
+                    mTimer.stop();
+                }
                 break;
         }
     }
