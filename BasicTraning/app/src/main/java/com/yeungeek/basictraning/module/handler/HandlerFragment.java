@@ -11,21 +11,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.yeungeek.basictraning.R;
-import com.yeungeek.basictraning.fragments.BaseFragment;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.yeungeek.basictraning.R;
+import com.yeungeek.basictraning.fragments.BaseFragment;
 
 /**
  * @author yangjian
  * @date 2018/11/06
  */
 
-public class HandlerFragment extends BaseFragment {
+public class HandlerFragment extends BaseFragment implements View.OnClickListener {
     private Button createHandler;
     private Button sendMessage;
+    private Button sendDelayMessage;
+    private Button removeMessage;
     private TestHandlerThread testHandlerThread;
+
+
+    private final static int MSG_DELAY = 0x01;
+
+    private static Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.d("DEBUG", "##### handleMessage: " + msg);
+        }
+    };
 
     @Nullable
     @Override
@@ -33,6 +45,9 @@ public class HandlerFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_handler, container, false);
         createHandler = view.findViewById(R.id.create_handler);
         sendMessage = view.findViewById(R.id.send_message);
+        sendDelayMessage = view.findViewById(R.id.send_delay_message);
+        removeMessage = view.findViewById(R.id.remove_message);
+
 
         return view;
     }
@@ -42,6 +57,8 @@ public class HandlerFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         testHandlerThread = new TestHandlerThread();
 
+        sendDelayMessage.setOnClickListener(this);
+        removeMessage.setOnClickListener(this);
         createHandler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +77,22 @@ public class HandlerFragment extends BaseFragment {
         });
     }
 
-    public class Test_HandlerThread extends HandlerThread{
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.send_delay_message:
+                Log.d("DEBUG", "##### send message");
+                mHandler.sendEmptyMessageDelayed(MSG_DELAY, 2000);
+                mHandler.sendEmptyMessageDelayed(MSG_DELAY, 5000);
+                break;
+            case R.id.remove_message:
+                Log.d("DEBUG", "##### remove message");
+                mHandler.removeMessages(MSG_DELAY);
+                break;
+        }
+    }
+
+    public class Test_HandlerThread extends HandlerThread {
         public Test_HandlerThread(String name) {
             super(name);
         }

@@ -26,9 +26,13 @@
             android:name=".camera2.Camera2Activity"
             android:theme="@style/FullScreen" />
 
+        <activity
+            android:name=".camerax.CameraXActivity"
+            android:theme="@style/FullScreen" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.yeungeek.camerasample.fileprovider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

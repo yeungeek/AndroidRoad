@@ -17,4 +17,20 @@
         android:layout_height="wrap_content"
         android:text="sendMessage"
         app:layout_constraintTop_toBottomOf="@id/create_handler" />
+
+    <Button
+        android:id="@+id/send_delay_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Delay Message"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/send_message" />
+
+    <Button
+        android:id="@+id/remove_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remove Message"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/send_delay_message" />
 </androidx.constraintlayout.widget.ConstraintLayout>

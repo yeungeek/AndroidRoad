@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.yeungeek.camerasample.camera1.Camera1Activity;
 import com.yeungeek.camerasample.camera2.Camera2Activity;
 import com.yeungeek.camerasample.camerasystem.CameraSystemActivity;
+import com.yeungeek.camerasample.camerax.CameraXActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button mCameraSysBtn;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCamera1Btn.setOnClickListener(this);
 
         findViewById(R.id.main_camera2_photo_btn).setOnClickListener(this);
+        findViewById(R.id.main_camerax_photo_btn).setOnClickListener(this);
     }
 
     @Override
@@ -44,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.main_camera2_photo_btn:
                 startActivity(new Intent(MainActivity.this, Camera2Activity.class));
+                break;
+            case R.id.main_camerax_photo_btn:
+                startActivity(new Intent(MainActivity.this, CameraXActivity.class));
                 break;
         }
     }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <external-path
-        name="my_images"
-        path="Camera" />
+    <external-media-path name="media" android:path="@{string/app_name}/" />
+    <files-path name="files" path="."/>
 </paths>
 <!--
  path="Camera"
