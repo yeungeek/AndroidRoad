@@ -52,8 +52,8 @@ public class CameraXActivity extends AppCompatActivity {
     private void startCamera() {
         //1. preview
         PreviewConfig config = new PreviewConfig.Builder()
-//                .setLensFacing(CameraX.LensFacing.BACK)
-//                .setTargetRotation(mTextureView.getDisplay().getRotation())
+                .setLensFacing(CameraX.LensFacing.BACK)
+                .setTargetRotation(mTextureView.getDisplay().getRotation())
                 .setTargetResolution(new Size(640, 480))
                 .build();
 
@@ -76,6 +76,7 @@ public class CameraXActivity extends AppCompatActivity {
         ImageCaptureConfig captureConfig = new ImageCaptureConfig.Builder()
 //                .setTargetAspectRatio(AspectRatio.RATIO_16_9)
                 .setCaptureMode(ImageCapture.CaptureMode.MIN_LATENCY)
+                .setTargetRotation(getWindowManager().getDefaultDisplay().getRotation())
                 .build();
 
         ImageCapture imageCapture = new ImageCapture(captureConfig);
@@ -103,6 +104,7 @@ public class CameraXActivity extends AppCompatActivity {
         ImageAnalysis imageAnalysis = new ImageAnalysis(analysisConfig);
         imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(getApplicationContext()),
                 new LuminosityAnalyzer());
+
         CameraX.bindToLifecycle(this, preview, imageCapture, imageAnalysis);
     }
 

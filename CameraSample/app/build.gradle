@@ -34,6 +34,14 @@ dependencies {
     implementation "androidx.camera:camera-core:${camerax_version}"
     implementation "androidx.camera:camera-camera2:${camerax_version}"
 
+    def camerax_view_version = "1.0.0-alpha03"
+    def camerax_ext_version = "1.0.0-alpha03"
+    //other
+    // If you to use the Camera View class
+    implementation "androidx.camera:camera-view:$camerax_view_version"
+    // If you to use Camera Extensions
+    implementation "androidx.camera:camera-extensions:$camerax_ext_version"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'

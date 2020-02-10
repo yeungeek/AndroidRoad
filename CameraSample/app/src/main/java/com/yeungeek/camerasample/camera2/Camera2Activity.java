@@ -70,7 +70,7 @@ public class Camera2Activity extends AppCompatActivity implements View.OnClickLi
 
     private HandlerThread mBackgroundThread;
     private Handler mBackgroundHandler;
-    private String mCameraId;
+    private String mCameraId; //Camera
 
     private ImageReader mImageReader;
     private File mFile;
@@ -270,7 +270,7 @@ public class Camera2Activity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
 
-                mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.JPEG, 2);
+                mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.NV21, 2);
                 mImageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
                     @Override
                     public void onImageAvailable(ImageReader reader) {
@@ -468,6 +468,11 @@ public class Camera2Activity extends AppCompatActivity implements View.OnClickLi
             mCameraOpenCloseLock.release();
             camera.close();
             mCameraDevice = null;
+        }
+
+        @Override
+        public void onClosed(@NonNull CameraDevice camera) {
+            super.onClosed(camera);
         }
     };
 

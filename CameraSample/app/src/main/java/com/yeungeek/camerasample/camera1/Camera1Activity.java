@@ -238,6 +238,8 @@ public class Camera1Activity extends AppCompatActivity implements Camera.Preview
     private void initParameters(final Camera camera) {
         mParameters = camera.getParameters();
         mParameters.setPreviewFormat(ImageFormat.NV21); //default
+        mParameters.getSupportedPreviewFormats();
+        mParameters.getSupportedPictureFormats();
 
         if (isSupportFocus(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
             mParameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
@@ -283,8 +285,7 @@ public class Camera1Activity extends AppCompatActivity implements Camera.Preview
         if (null != supportSizes) {
             for (int i = 0; i < supportSizes.size(); i++) {
                 Camera.Size size = supportSizes.get(i);
-                Log.d("DEBUG", "##### support size width: " + size.width + ", height: " + size.height);
-
+                Log.d("DEBUG", "###### SupportedPreviewSizes: width=" + size.width + ", height=" + size.height);
                 if (biggestSize == null ||
                         (size.width >= biggestSize.width && size.height >= biggestSize.height)) {
                     biggestSize = size;
@@ -341,7 +342,8 @@ public class Camera1Activity extends AppCompatActivity implements Camera.Preview
 
         for (int i = 0; i < mPictureSizes.size(); i++) {
             Camera.Size picture = mPictureSizes.get(i);
-            Log.d("DEBUG", "##### picture size width: " + picture.width + ", height: " + picture.height);
+            Log.d("DEBUG", "###### SupportedPictureSizes: width=" + picture.width + ", height="
+                    + picture.height);
             if (null == biggestSize) {
                 biggestSize = picture;
             } else if (picture.width > biggestSize.width && picture.height > biggestSize.height) {
