@@ -1,2 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Java template
 .idea
-out
+.gradle
+build
+bin
+.DS_Store
