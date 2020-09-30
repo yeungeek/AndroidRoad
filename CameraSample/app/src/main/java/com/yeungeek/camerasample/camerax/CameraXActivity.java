@@ -53,7 +53,7 @@ public class CameraXActivity extends AppCompatActivity {
         //1. preview
         PreviewConfig config = new PreviewConfig.Builder()
                 .setLensFacing(CameraX.LensFacing.BACK)
-                .setTargetRotation(mTextureView.getDisplay().getRotation())
+//                .setTargetRotation(mTextureView.getDisplay().getRotation())
                 .setTargetResolution(new Size(640, 480))
                 .build();
 
@@ -61,6 +61,7 @@ public class CameraXActivity extends AppCompatActivity {
         preview.setOnPreviewOutputUpdateListener(new Preview.OnPreviewOutputUpdateListener() {
             @Override
             public void onUpdated(@NonNull Preview.PreviewOutput output) {
+                Log.d("DEBUG","##### " + output);
                 if (mTextureView.getParent() instanceof ViewGroup) {
                     ViewGroup viewGroup = (ViewGroup) mTextureView.getParent();
                     viewGroup.removeView(mTextureView);
@@ -105,7 +106,7 @@ public class CameraXActivity extends AppCompatActivity {
         imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(getApplicationContext()),
                 new LuminosityAnalyzer());
 
-        CameraX.bindToLifecycle(this, preview, imageCapture, imageAnalysis);
+        CameraX.bindToLifecycle(this, /*preview,*/imageCapture, imageAnalysis);
     }
 
     private void updateTransform() {

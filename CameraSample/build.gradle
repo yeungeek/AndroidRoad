@@ -16,6 +16,7 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url '/Users/jian.yang/sources/android/aosp/androidx-master-dev/out/androidx/build/support_repo/' }
         google()
         jcenter()
         

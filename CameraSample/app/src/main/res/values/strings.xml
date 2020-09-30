@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Camerasample</string>
+    <string name="app_name">知识库</string>
 
     <string name="request_permission">This sample needs camera permission.</string>
 </resources>
