@@ -1,12 +1,13 @@
 package com.yeungeek.videosample.opengl.shape.triangle
 
 import android.opengl.GLES20
+import android.util.Log
 import com.yeungeek.videosample.opengl.base.BaseGLSL
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
-class Triangle : BaseGLSL() {
+open class Triangle : BaseGLSL() {
     // 简单的顶点着色器
     open val vertexShaderCode =
         "attribute vec4 vPosition;\n" +
@@ -24,21 +25,22 @@ class Triangle : BaseGLSL() {
 
     // 定义三角形的坐标
     var triangleCoords = floatArrayOf(
-        0.5f, 0.5f, 0.0f,  // top
+        0.0f, 0.5f, 0.0f,  // top
         -0.5f, -0.5f, 0.0f,  // bottom left
         0.5f, -0.5f, 0.0f // bottom right
     )
 
     // 定义三角形的颜色——白色
-    var color = floatArrayOf(1.0f, 1.0f, 1.0f, 1.0f)
+    var color = floatArrayOf(0.5f, 0.5f, 1.0f, 1.0f)
 
     // 顶点个数
     val vertexCount: Int = triangleCoords.size / COORDS_PER_VERTEX
 
     var vertexBuffer: FloatBuffer
-    private var mProgram = 0
+    var mProgram = 0
 
     init {
+        Log.d("DEBUG","##### Triangle init method")
         GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f)
         val buffer = ByteBuffer.allocateDirect(triangleCoords.size * 4)
         buffer.order(ByteOrder.nativeOrder())
@@ -51,7 +53,7 @@ class Triangle : BaseGLSL() {
         mProgram = createOpenGLProgram(vertexShaderCode, fragmentShaderCode)
     }
 
-    fun draw() {
+    open fun draw() {
         //将程序加入到OpenGLES2.0环境
         GLES20.glUseProgram(mProgram)
         //获取顶点着色器的vPosition成员句柄
