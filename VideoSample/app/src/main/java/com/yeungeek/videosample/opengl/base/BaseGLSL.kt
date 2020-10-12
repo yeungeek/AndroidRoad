@@ -7,7 +7,7 @@ import android.util.Log
 abstract class BaseGLSL {
     private val TAG = "BaseGLSL"
 
-    val COORDS_PER_VERTEX = 3 // 每个顶点的坐标数
+    open val COORDS_PER_VERTEX = 3 // 每个顶点的坐标数
 
     val vertexStride = COORDS_PER_VERTEX * 4 // 每个顶点四个字节
 

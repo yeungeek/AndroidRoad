@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.yeungeek.videosample.opengl.RotateGLActivity
 import com.yeungeek.videosample.opengl.ShapeActivity
 import com.yeungeek.videosample.opengl.SimpleRenderActivity
 import com.yeungeek.videosample.recycler.DividerItemDecoration
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         datas = arrayListOf()
         datas.add(Pair("OpenGL ES Simple", SimpleRenderActivity::class.java))
         datas.add(Pair("OpenGL ES Triangle", ShapeActivity::class.java))
+        datas.add(Pair("Rotate GL SurfaceView", RotateGLActivity::class.java))
 
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(DividerItemDecoration(this, 20))
