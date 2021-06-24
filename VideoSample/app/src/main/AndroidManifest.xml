@@ -4,6 +4,12 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <!-- Tell the system this app requires OpenGL ES 2.0. -->
     <uses-feature
@@ -28,6 +34,8 @@
         <activity android:name=".opengl.SimpleRenderActivity" />
         <activity android:name=".opengl.ShapeActivity" />
         <activity android:name=".opengl.RotateGLActivity" />
+
+        <activity android:name=".av.VideoRecorderActivity" />
     </application>
 
 </manifest>

@@ -1,0 +1,91 @@
+<resources>
+
+    <!-- Width of UI elements -->
+    <dimen name="width_contacts_alpha_bar">30dp</dimen>
+    <dimen name="width_call_notification_status">250dp</dimen>
+    <dimen name="width_line_select">320dp</dimen>
+    <dimen name="width_selfie">200dp</dimen>
+    <dimen name="width_main_left_side">260dp</dimen>
+
+    <!-- Height of UI elements -->
+    <dimen name="height_call_notification">110dp</dimen>
+    <dimen name="height_actionbar_divider">1dp</dimen>
+    <dimen name="height_bottom_actionbar">30dp</dimen>
+    <dimen name="height_top_actionbar">70dp</dimen>
+    <dimen name="height_top_actionbar_notification_img">20dp</dimen>
+    <dimen name="height_selfie">120dp</dimen>
+
+    <!-- Margin size of UI elements -->
+    <dimen name="margin_call_notification">5dp</dimen>
+    <dimen name="margin_call_notification_contact_info">12dp</dimen>
+    <dimen name="margin_main_content_title">40dp</dimen>
+    <dimen name="margin_main_content_home">30dp</dimen>
+    <dimen name="margin_bottom_actionbar">5dp</dimen>
+    <dimen name="margin_bottom_actionbar_controls">1dp</dimen>
+    <dimen name="margin_bottom_actionbar_tabs">12dp</dimen>
+    <dimen name="margin_actionbar_divider">10dp</dimen>
+    <dimen name="margin_top_actionbar">5dp</dimen>
+    <dimen name="margin_top_actionbar_calendar">10dp</dimen>
+    <dimen name="margin_top_actionbar_time">2dp</dimen>
+    <dimen name="margin_top_actionbar_controls">15dp</dimen>
+    <dimen name="margin_top_actionbar_dial_backspace">10dp</dimen>
+    <dimen name="margin_top_actionbar_notification">10dp</dimen>
+    <dimen name="margin_selfie">10dp</dimen>
+    <dimen name="margin_selfie_mic">5dp</dimen>
+    <dimen name="margin_line_select">5dp</dimen>
+    <dimen name="settings_margin_title">20dp</dimen>
+
+    <!-- Padding size of UI elements -->
+    <dimen name="padding_call_notification">15dp</dimen>
+    <dimen name="padding_bottom_actionbar_volume">20dp</dimen>
+    <dimen name="padding_top_actionbar">5dp</dimen>
+    <dimen name="padding_top_actionbar_calendar">5dp</dimen>
+    <dimen name="padding_top_actionbar_dialbox">60dp</dimen>
+
+    <!-- Font sizes of UI text elements -->
+    <dimen name="font_size_call_notification_status">24dp</dimen>
+    <dimen name="font_size_call_notification_name">30dp</dimen>
+    <dimen name="font_size_call_notification_address">16dp</dimen>
+    <dimen name="font_size_bottom_actionbar_tab">18dp</dimen>
+    <dimen name="font_size_top_actionbar_time">40dp</dimen>
+    <dimen name="font_size_top_actionbar_calendar">20dp</dimen>
+    <dimen name="font_size_top_actionbar_dialbox">18dp</dimen>
+    <dimen name="font_size_top_actionbar_address">16dp</dimen>
+    <dimen name="font_size_top_actionbar_notification">12dp</dimen>
+    <dimen name="font_size_main_content_title">36dp</dimen>
+    <dimen name="font_size_settings">10dp</dimen>
+    <dimen name="font_size_line_select">14dp</dimen>
+    <dimen name="settings_font_size_title">20sp</dimen>
+
+
+    <!-- TODO - cleanup dimensions below this line -->
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="d5p">5dp</dimen>
+    <dimen name="d25p">25dp</dimen>
+    <dimen name="settings_row_height">20dp</dimen>
+    <dimen name="settings_rows_divider_margin">5dp</dimen>
+    <dimen name="settings_layout_padding">5dp</dimen>
+    <dimen name="call_stats_row_height">40dp</dimen>
+    <dimen name="call_stats_row_right_margin">20dp</dimen>
+    <dimen name="call_stats_start_margin">160dp</dimen>
+    <dimen name="d10p">10dp</dimen>
+    <dimen name="d14p">14dp</dimen>
+    <dimen name="d15p">15dp</dimen>
+    <dimen name="d20p">20dp</dimen>
+    <dimen name="d50p">50dp</dimen>
+    <dimen name="d100p">100dp</dimen>
+    <dimen name="d2p">2dp</dimen>
+    <dimen name="d95p">95dp</dimen>
+    <dimen name="d75p">75dp</dimen>
+    <dimen name="d65p">65dp</dimen>
+    <dimen name="d40p">40dp</dimen>
+    <dimen name="standart">600dp</dimen>
+    <dimen name="d90p">90dp</dimen>
+    <dimen name="fragments_width">600dp</dimen>
+    <dimen name="call_onhold_left_side_width">312dp</dimen>
+    <dimen name="call_onhold_right_side_width">0dp</dimen>
+    <dimen name="call_onhold_center_side_width">600dp</dimen>
+
+</resources>

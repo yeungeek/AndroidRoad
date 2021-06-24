@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settings_tl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/settings_row_background"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:stretchColumns="0,3">
+
+    <TextView
+        android:id="@+id/settings_title_tv"
+        android:layout_marginBottom="@dimen/settings_margin_title"
+        android:gravity="center"
+        android:text="@string/settings_title"
+        android:textSize="@dimen/settings_font_size_title"/>
+
+
+    <TableRow>
+
+        <TextView/>
+
+        <TextView
+            android:id="@+id/settings_encoder_type_tv"
+            android:text="@string/settings_encoder_type"/>
+
+        <Spinner
+            android:id="@+id/settings_encoder_type_spinner"
+            android:entries="@array/settings_encoder_type"/>
+
+        <TextView/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView/>
+
+        <TextView
+            android:id="@+id/settings_encoder_rate_tv"
+            android:text="@string/settings_encoder_rate"/>
+        <Spinner
+            android:id="@+id/settings_encoder_rate_spinner"
+            android:entries="@array/settingBitRate"/>
+        <!--EditText
+            android:id="@+id/settings_encoder_rate_et"
+            android:enabled="true"
+            android:hint="@string/settings_encoder_rate_hint"
+            android:inputType="number"/-->
+
+        <TextView/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView/>
+
+        <TextView
+            android:id="@+id/settings_resolution_tv"
+            android:text="@string/settings_resolution"/>
+
+        <Spinner
+            android:id="@+id/settings_resolution_spinner"
+            android:entries="@array/settings_resolution"/>
+
+        <TextView/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView/>
+
+        <TextView
+            android:id="@+id/settings_frame_rate_tv"
+            android:text="@string/settings_frame_rate"/>
+
+        <Spinner
+            android:id="@+id/settings_frame_rate_spinner"
+            android:entries="@array/settings_frame_rate"/>
+
+        <TextView/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView/>
+
+        <TextView
+            android:id="@+id/settings_i_frame_interval_tv"
+            android:text="@string/settings_i_frame_interval"/>
+
+
+        <EditText
+            android:id="@+id/settings_i_frame_interval_et"
+            android:enabled="true"
+            android:hint="@string/settings_i_frame_interval_hint"
+            android:inputType="number">
+
+        </EditText>
+
+        <TextView/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView/>
+
+        <TextView
+            android:id="@+id/settings_record_length_tv"
+            android:text="@string/settings_record_length"/>
+
+        <Spinner
+            android:id="@+id/settings_record_length_spinner"
+            android:entries="@array/settings_record_length"/>
+
+        <TextView/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView/>
+
+        <Button
+            android:id="@+id/settings_start_btn"
+            android:layout_gravity="center"
+            android:layout_span="2"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:text="@string/settings_start"/>
+
+        <TextView/>
+    </TableRow>
+
+
+</TableLayout>
+
+
+
+
+

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AmlChat</string>
+    <string name="app_version">version1.1</string>
+    <string name="checkbox_sw_decode">SW Decode</string>
+
+    <string name="enable_background_audio">Play in background</string>
+
+    <string name="video">Video</string>
+
+    <string name="Request_idr">idr</string>
+
+    <string name="audio">Audio</string>
+
+    <string name="text">Text</string>
+
+    <string name="logging">Logging</string>
+
+    <string name="logging_normal">Normal</string>
+
+    <string name="logging_verbose">Verbose</string>
+
+    <string name="retry">Retry</string>
+
+    <string name="off">[off]</string>
+
+    <string name="on">[on]</string>
+
+    <string name="Set_Now">保存</string>
+
+    <string name="Enable">Enable</string>
+
+    <string name="EB">编码码率</string>
+    <string name="EL">采集时长</string>
+    <string name="EF">编码帧率</string>
+
+    <string name="Codec_Type">Codec_Type</string>
+
+    <string name="amlver">1.1</string>
+
+    <string name="UseSoftEnc">UseSoftEnc</string>
+
+    <string name="Settings">设置</string>
+
+    <string name="Encoder">Encoder</string>
+
+    <string name="Overlap">Overlap</string>
+
+    <string name="Refresh">Refresh</string>
+
+    <string name="Save">设置</string>
+    <string name="I_frame_Interval"> I帧间隔</string>
+    <string name="sure">确定</string>
+
+    <string name="IDR_FRAME">SPS_PPS_on_IDR_Frame</string>
+
+    <string name="Infinite_IFrame">Infinite_IFrame</string>
+
+    <string name="Macroblock_Slice_Size">Macroblock_Slice_Size</string>
+
+    <string name="Intrarefresh_MB">Intrarefresh_MB</string>
+
+    <string name="drm_error_not_supported">Protected content not supported on API levels below 18</string>
+
+    <string name="drm_error_unsupported_scheme">This device does not support the required DRM scheme</string>
+
+    <string name="drm_error_unknown">An unknown DRM error occurred</string>
+
+    <string name="failed">Playback failed</string>
+    <string name="avc">avc</string>
+    <string name="hevc">hevc</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="RevIPStr">接收端IP:</string>
+    <string name="AECTVStr">AECTV</string>
+    <string name="FECStr">FEC</string>
+    <string name="NACKStr">NACK</string>
+    <string name="PauseStr">Pause</string>
+    <string name="MuteStr">Mute</string>
+    <string name="HPStr">HP</string>
+    <string name="VBRStr">VBR</string>
+    <string name="CameraStr">Camera</string>
+    <string name="NSStr">NS</string>
+    <string name="AudioStr">Audio</string>
+    <string name="InbandDTMFStr">InbandDTMF</string>
+    <string name="CallSelfStr">自呼</string>
+    <string name="ConstantBpsStr">固定码率</string>
+    <string name="ExTransStr">外部收发</string>
+    <string name="SyncStr">同步</string>
+    <string name="SourceFilterStr">端口IP过滤</string>
+    <string name="naluNumStr">naluNum:</string>
+    <string name="MaxBitRateStr">最大码率(Kb):</string>
+    <string name="InitLevelStr">初始档位:</string>
+    <string name="VideoCodecLevelStr">档位:</string>
+    <string name="qvgaStr">qvga:10/150–15/200–15/280</string>
+    <string name="vgaStr">vga:15/350–15/500–20/600</string>
+    <string name="_720pStr">720p:10/900–15/1200–20/1500</string>
+    <string name="DeleteTextStr">deleteTextImage</string>
+    <string name="switchDeleteTextStr">清空/还原</string>
+    <string name="UpdateLevelStr">刷新档位</string>
+    <string name="buttonOKStr">确认</string>
+    <string name="Dtmf0Value">0</string>
+    <string name="Dtmf0Text">0</string>
+    <string name="Dtmf1Value">1</string>
+    <string name="Dtmf1Text">1</string>
+    <string name="Dtmf2Value">2</string>
+    <string name="Dtmf2Text">2</string>
+    <string name="Dtmf3Value">3</string>
+    <string name="Dtmf3Text">3</string>
+    <string name="Dtmf4Value">4</string>
+    <string name="Dtmf4Text">4</string>
+    <string name="Dtmf5Value">5</string>
+    <string name="Dtmf5Text">5</string>
+    <string name="Dtmf6Value">6</string>
+    <string name="Dtmf6Text">6</string>
+    <string name="Dtmf7Value">7</string>
+    <string name="Dtmf7Text">7</string>
+    <string name="Dtmf8Value">8</string>
+    <string name="Dtmf8Text">8</string>
+    <string name="Dtmf9Value">9</string>
+    <string name="Dtmf9Text">9</string>
+    <string name="DtmfXingValue">10</string>
+    <string name="DtmfXingText">*</string>
+    <string name="DtmfJingValue">11</string>
+    <string name="DtmfJingText">\#</string>
+    <string name="DtmfAValue">12</string>
+    <string name="DtmfAText">A</string>
+    <string name="DtmfBValue">13</string>
+    <string name="DtmfBText">B</string>
+    <string name="DtmfCValue">14</string>
+    <string name="DtmfCText">C</string>
+    <string name="DtmfDValue">15</string>
+    <string name="DtmfDText">D</string>
+    <string name="btnAVStartStr">AVStart</string>
+    <string name="btnStopStr">Stop</string>
+    <string name="btnConfStr">Setting</string>
+    <string name="btnExitStr">Exit</string>
+    <string name="btnSendDTMFStr">SendDTMF</string>
+    <string name="btnStartSendStr">StartSend</string>
+    <string name="btnStartRecvStr">StartRecv</string>
+    <string name="btnSendIFrameStr">SendIFrame</string>
+    <string name="btnAStartStr">AStart</string>
+    <string name="btnSwitchStr">Switch</string>
+    <string name="textViewDownQoSStr">DownQoS</string>
+
+
+    <string name="settings_title">设置</string>
+    <string name="settings_encoder_type">编码格式（Encoder Type）</string>
+    <string name="settings_encoder_rate">编码码率（Send Bit Rate (Kbps)）</string>
+    <string name="settings_encoder_rate_hint">默认2048</string>
+    <string name="settings_resolution">摄像头采集分辨率（Resolution）</string>
+    <string name="settings_frame_rate">帧率（Encoder Output Frame Rate）</string>
+    <string name="settings_i_frame_interval"> I帧间隔（I Frame Interval）</string>
+    <string name="settings_record_length">录制时长（Record Length (mins)）</string>
+    <string name="settings_start">开始/START</string>
+    <string name="settings_i_frame_interval_hint">默认900，可随意输入数值</string>
+</resources>
+

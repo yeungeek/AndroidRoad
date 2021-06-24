@@ -3,477 +3,436 @@ package com.yeungeek.camerasample.camera2;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.ImageFormat;
-import android.graphics.Rect;
+import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
-import android.util.SparseIntArray;
+import android.util.Range;
+import android.util.Size;
+import android.view.Surface;
 
-import androidx.annotation.NonNull;
-
-import com.yeungeek.camerasample.utils.YUVTools;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Camera2 Manager
+ * Author: Zack
+ * Date:   2020.06.20 16:20
  */
 public class Camera2Manager {
-    static int FACING_BACK = 0;
-    static int FACING_FRONT = 1;
 
-    private static final SparseIntArray INTERNAL_FACINGS = new SparseIntArray();
+    private static final String TAG = Camera2Manager.class.getSimpleName();
 
-    static {
-        INTERNAL_FACINGS.put(FACING_BACK, CameraCharacteristics.LENS_FACING_BACK);
-        INTERNAL_FACINGS.put(FACING_FRONT, CameraCharacteristics.LENS_FACING_FRONT);
-    }
+
+    private Context mContext;
 
     private CameraManager mCameraManager;
-    private int mFacing;
+
     private String mCameraId;
-    private CameraCharacteristics mCameraCharacteristics;
-    CameraDevice mCamera;
-    CameraCaptureSession mCaptureSession;
-    CaptureRequest.Builder mPreviewRequestBuilder;
+
+    private HandlerThread mCameraThread;
+    private Handler mCameraHandler;
+
+    private HandlerThread mImageThread;
+    private Handler mImageHandler;
 
     private ImageReader mImageReader;
-    final int imageW = 720;
-    final int imageH = 1280;
-    final float cameraLength = imageW * imageH * 1.5f;
-    private byte[] mCameraData;
-    private Handler backgroundHandler, mainHandler, imageHandler;
 
-    private boolean isAutoFocus;
+    private CameraDevice mCameraDevice;
 
-    private float mMaximumZoomLevel;
-    private float mZoomLevel = 1f;
-    private float mDelta = 0.05f;
-    private Rect mZoom;
-
-    private Camera2Manager() {
-
-    }
-
-    private static final class Holder {
-        private static final Camera2Manager INSTANCE = new Camera2Manager();
-    }
-
-    public static Camera2Manager getInstance() {
-        return Holder.INSTANCE;
-    }
-
-    public void init(final Context context) {
-        mCameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-        //TODO
-        if (!chooseCameraIdByFacing()) {
-            return;
-        }
-        HandlerThread handlerThread = new HandlerThread("camera2");
-        handlerThread.start();
-        HandlerThread imageThread = new HandlerThread("image reader");
-        imageThread.start();
-        imageHandler = new Handler(imageThread.getLooper());
-        backgroundHandler = new Handler(handlerThread.getLooper());
-        mainHandler = new Handler(Looper.getMainLooper());
-
-        prepareImageReader();
-        startOpeningCamera();
-
-        mFile = new File(context.getExternalFilesDir(null), "test.yuv");
-        Log.d("DEBUG", "##### file path: " + mFile.getAbsolutePath());
-    }
-
-    public void destroy() {
-        isAutoFocus = false;
-
-        if (mCaptureSession != null) {
-            mCaptureSession.close();
-            mCaptureSession = null;
-        }
-        if (mCamera != null) {
-            mCamera.close();
-            mCamera = null;
-        }
-        if (mImageReader != null) {
-            mImageReader.close();
-            mImageReader = null;
-        }
-
-        imageHandler = null;
-        backgroundHandler = null;
-        mainHandler = null;
-        mCameraData = null;
-    }
-
-    public void autoFocus() {
-        if (!isAutoFocus) {
-            autoOnMode();
-        } else {
-            autoOffMode();
-        }
-    }
-
-    public boolean isAutoFocus() {
-        return isAutoFocus;
-    }
-
-    private void autoOnMode() {
-        if (null == mCaptureSession || null == mPreviewRequestBuilder) {
-            return;
-        }
-        isAutoFocus = true;
-        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-        setRepeatingRequest();
-    }
-
-    public void autoOffMode() {
-        if (null == mCaptureSession || null == mPreviewRequestBuilder) {
-            return;
-        }
-        isAutoFocus = false;
-        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF);
-        setRepeatingRequest();
-    }
-
-    public void resetZoom() {
-        if (null == mCaptureSession || null == mCameraCharacteristics) {
-            return;
-        }
-
-        zoom(1.0f);
-    }
+    private CameraCharacteristics mCameraCharacteristics;
 
     /**
-     * zooming
+     * Max preview width that is guaranteed by Camera2 API
      */
-    public void zoomIn() {
-        if (null == mCaptureSession || null == mCameraCharacteristics) {
-            return;
+    private static final int MAX_PREVIEW_WIDTH = 1920;
+
+    /**
+     * Max preview height that is guaranteed by Camera2 API
+     */
+    private static final int MAX_PREVIEW_HEIGHT = 1080;
+
+    /**
+     * A {@link Semaphore} to prevent the app from exiting before closing the camera.
+     */
+    private Semaphore mCameraOpenCloseLock = new Semaphore(1);
+
+    private Size mPreviewSize = new Size(1920, 1080);
+
+//    private byte[] mBuffer;
+
+    private CaptureRequest.Builder mPreviewRequestBuilder;
+
+    private CameraCaptureSession mCaptureSession;
+
+    private int mFacing = CameraCharacteristics.LENS_FACING_BACK;
+
+    private FrameCallback mFrameCallback;
+
+    private SurfaceTexture mSurfaceTexture;
+    private SurfaceTexture mSurfaceTexture1;
+
+    private ImageReader.OnImageAvailableListener mImageAvailableListener = new ImageReader.OnImageAvailableListener() {
+        @Override
+        public void onImageAvailable(ImageReader reader) {
+            Image image = reader.acquireNextImage();
+//            mBuffer = convertYUV420888ToNv21(image);
+//            if (mFrameCallback != null) {
+            Log.d(TAG, "##### onFrame: " + image.getPlanes());
+//                mFrameCallback.onFrame(image);
+//            }
+            image.close();
+        }
+    };
+
+    private CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
+        @Override
+        public void onOpened(CameraDevice camera) {
+            mCameraOpenCloseLock.release();
+            mCameraDevice = camera;
+            startCaptureSession();
         }
 
-        final float zoomLevel = mZoomLevel - mDelta;
-        if (zoomLevel > mMaximumZoomLevel || zoomLevel < 0f) {
-            return;
+        @Override
+        public void onDisconnected(CameraDevice camera) {
+            mCameraOpenCloseLock.release();
+            camera.close();
+            mCameraDevice = null;
         }
 
-        zoom(zoomLevel);
+        @Override
+        public void onError(CameraDevice camera, int error) {
+            Log.e("DEBUG", "onError: " + error);
+            mCameraOpenCloseLock.release();
+            camera.close();
+            mCameraDevice = null;
+            //多路不出数据，这里重启相机
+            Log.e("DEBUG", "onError:  restart camera");
+            stopPreview();
+            startPreview();
+        }
+    };
+
+
+//    public Camera2Manager(Context context) {
+//       this(context);
+//    }
+
+    public Camera2Manager(Context context) {
+        mContext = context;
+        mCameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
     }
 
-    public void zoomOut() {
-        if (null == mCaptureSession || null == mCameraCharacteristics) {
+    public void startPreview() {
+        if (!chooseCameraIdByFacing()) {
+            Log.e(TAG, "Choose camera failed.");
             return;
         }
 
-        final float zoomLevel = mZoomLevel + mDelta;
-        if (zoomLevel > mMaximumZoomLevel || zoomLevel < 0f) {
-            return;
+        mCameraThread = new HandlerThread("CameraThread");
+        mCameraThread.start();
+        mCameraHandler = new Handler(mCameraThread.getLooper());
+
+        mImageThread = new HandlerThread("ImageThread");
+        mImageThread.start();
+        mImageHandler = new Handler(mImageThread.getLooper());
+
+        prepareImageReader();
+        openCamera();
+    }
+
+    public void stopPreview() {
+        closeCamera();
+        if (mCameraThread != null) {
+            mCameraThread.quitSafely();
+            mCameraThread = null;
+        }
+        mCameraHandler = null;
+
+        if (mImageThread != null) {
+            mImageThread.quitSafely();
+            mImageThread = null;
+        }
+        mImageHandler = null;
+
+//        mBuffer = null;
+    }
+
+    private void prepareImageReader() {
+
+        if (mImageReader != null) {
+            mImageReader.close();
+        }
+        mImageReader = ImageReader.newInstance(mPreviewSize.getWidth(), mPreviewSize.getHeight(), ImageFormat.YUV_420_888, 1);
+        mImageReader.setOnImageAvailableListener(mImageAvailableListener, mImageHandler);
+    }
+
+    private static Size chooseOptimalSize(Size[] choices, int textureWidth, int textureHeight,
+                                          int maxWidth, int maxHeight, Size aspectRatio) {
+
+        List<Size> bigEnough = new ArrayList<>();
+
+        List<Size> notBigEnough = new ArrayList<>();
+
+        int w = aspectRatio.getWidth();
+        int h = aspectRatio.getHeight();
+
+        for (Size option : choices) {
+            if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight &&
+                    option.getWidth() == option.getHeight() * w / h) {
+                if (option.getWidth() >= textureWidth && option.getHeight() >= textureHeight) {
+                    bigEnough.add(option);
+                } else {
+                    notBigEnough.add(option);
+                }
+            }
         }
 
-        zoom(zoomLevel);
+        if (bigEnough.size() > 0) {
+            return Collections.min(bigEnough, new CompareSizesByArea());
+        } else if (notBigEnough.size() > 0) {
+            return Collections.max(notBigEnough, new CompareSizesByArea());
+        }
+        return choices[0];
     }
 
-    private void zoom(final float zoomLevel) {
-        Log.d("DEBUG", "##### zoom level: " + zoomLevel);
-        Rect rect = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        mZoomLevel = zoomLevel;
-        float ratio = 1f / mZoomLevel;
+    static class CompareSizesByArea implements Comparator<Size> {
 
-        int croppedWidth = rect.width() - Math.round((float) rect.width() * ratio);
-        int croppedHeight = rect.height() - Math.round((float) rect.height() * ratio);
-
-        mZoom = new Rect(croppedWidth / 2, croppedHeight / 2,
-                rect.width() - croppedWidth / 2, rect.height() - croppedHeight / 2);
-        mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, mZoom);
-        setRepeatingRequest();
-    }
-
-    private void setRepeatingRequest() {
-        try {
-            mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
-                    null, backgroundHandler);
-        } catch (CameraAccessException e) {
-            Log.e("DEBUG", "Failed to start camera preview because it couldn't access camera", e);
-        } catch (IllegalStateException e) {
-            Log.e("DEBUG", "Failed to start camera preview.", e);
+        @Override
+        public int compare(Size o1, Size o2) {
+            return Long.signum(o1.getWidth() * o1.getHeight() - o2.getWidth() * o2.getHeight());
         }
     }
 
     private boolean chooseCameraIdByFacing() {
         try {
-            int internalFacing = INTERNAL_FACINGS.get(mFacing);
-            final String[] ids = mCameraManager.getCameraIdList();
-            if (ids.length == 0) { // No camera
-                throw new RuntimeException("No camera available.");
+            String ids[] = mCameraManager.getCameraIdList();
+            if (ids.length == 0) {
+                Log.e(TAG, "No available camera.");
+                return false;
             }
-            for (String id : ids) {
-                CameraCharacteristics characteristics = mCameraManager.getCameraCharacteristics(id);
-                //TODO: remove get HARDWARE_LEVEL
-//                Integer level = characteristics.get(
-//                        CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
-//                Logger.d("##### HARDWARE_LEVEL: %s", level);
-//                if (level == null ||
-//                        level == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
-//                    continue;
-//                }
+
+            for (String cameraId : mCameraManager.getCameraIdList()) {
+                CameraCharacteristics characteristics = mCameraManager.getCameraCharacteristics(cameraId);
+
+                StreamConfigurationMap map = characteristics.get(
+                        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+                if (map == null) {
+                    continue;
+                }
+
+                Integer level = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+                if (level == null || level == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
+                    continue;
+                }
+
                 Integer internal = characteristics.get(CameraCharacteristics.LENS_FACING);
                 if (internal == null) {
-                    throw new NullPointerException("Unexpected state: LENS_FACING null");
+                    continue;
                 }
-                if (internal == internalFacing) {
-                    mCameraId = id;
+                if (internal == mFacing) {
+                    mCameraId = cameraId;
                     mCameraCharacteristics = characteristics;
-
-                    //TODO
-                    mMaximumZoomLevel = (characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM));
                     return true;
                 }
             }
-            // Not found
-            mCameraId = ids[0];
+            mCameraId = ids[1];
             mCameraCharacteristics = mCameraManager.getCameraCharacteristics(mCameraId);
-
-            //TODO
-            mMaximumZoomLevel = (mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM));
-
-//            Integer level = mCameraCharacteristics.get(
-//                    CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
-//            if (level == null ||
-//                    level == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
-//                return false;
-//            }
+            Integer level = mCameraCharacteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+            if (level == null || level == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
+                return false;
+            }
 
             Integer internal = mCameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
             if (internal == null) {
-                throw new NullPointerException("Unexpected state: LENS_FACING null");
+                return false;
             }
-            for (int i = 0, count = INTERNAL_FACINGS.size(); i < count; i++) {
-                if (INTERNAL_FACINGS.valueAt(i) == internal) {
-                    mFacing = INTERNAL_FACINGS.keyAt(i);
-                    return true;
-                }
-            }
-            // The operation can reach here when the only camera device is an external one.
-            // We treat it as facing back.
-            mFacing = FACING_BACK;
-            return true;
+            mFacing = CameraCharacteristics.LENS_FACING_BACK;
         } catch (CameraAccessException e) {
-            throw new RuntimeException("Failed to get a list of camera devices", e);
+            e.printStackTrace();
         }
+        return true;
     }
 
-    private void prepareImageReader() {
-        if (mImageReader != null) {
-            mImageReader.close();
-        }
-        mImageReader = ImageReader.newInstance(imageW, imageH, ImageFormat.YUV_420_888, 2);
-        mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, imageHandler);
-    }
 
     @SuppressLint("MissingPermission")
-    private void startOpeningCamera() {
-        try {
-            mCameraManager.openCamera(mCameraId, mCameraDeviceCallback, mainHandler);
-        } catch (CameraAccessException e) {
-            //TODO
-            throw new RuntimeException("Failed to open camera: " + mCameraId, e);
-        }
-    }
-
-    void startCaptureSession() {
-        if (!isCameraOpened() || mImageReader == null) {
+    public void openCamera() {
+//        configureTransform(previewSize);
+        if (TextUtils.isEmpty(mCameraId)) {
+            Log.e(TAG, "Open camera failed. No camera available");
             return;
         }
 
         try {
-            mPreviewRequestBuilder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            mPreviewRequestBuilder.addTarget(mImageReader.getSurface());
-            mCamera.createCaptureSession(Arrays.asList(mImageReader.getSurface()),
-                    mSessionCallback, backgroundHandler);
-        } catch (CameraAccessException e) {
-            throw new RuntimeException("Failed to start camera session");
-        }
-    }
-
-    boolean isCameraOpened() {
-        return mCamera != null;
-    }
-
-    private File mFile;
-    FileOutputStream output = null;
-    ByteBuffer buffer;
-    byte[] bytes;
-    boolean success = false;
-
-    //Listener
-    private final ImageReader.OnImageAvailableListener mOnImageAvailableListener = reader -> {
-        Image image = reader.acquireNextImage();
-        try {
-
-//                output = new FileOutputStream(mFile);
-//                for (int i = 0; i < 3; i++) {
-//                    buffer = image.getPlanes()[i].getBuffer();
-//                    bytes = new byte[buffer.remaining()]; // makes byte array large enough to hold image
-//                    buffer.get(bytes); // copies image from buffer to byte array
-//                    output.write(bytes);    // write the byte array to file
-//                }
-//                success = true;
-//            }
-            if (!success) {
-                mCameraData = getDateFromImage(image);
-                dumpFile(mFile, mCameraData);
-                success = true;
-//                if (mCameraData.length <= cameraLength) {
-//                    //data
-//                    image.close();
-//                    Log.d("DEBUG", "##### mCameraData");
-//                } else {
-//                    Log.d("DEBUG", "##### buffer length error");
-//                }
+            if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
+                throw new RuntimeException("Time out waiting to lock camera opening.");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            image.close();
-        }
-    };
-
-    private void dumpFile(File file, byte[] data) {
-        FileOutputStream outStream;
-        try {
-            outStream = new FileOutputStream(file);
-        } catch (IOException ioe) {
-            throw new RuntimeException("Unable to create output file " + file.getName(), ioe);
-        }
-        try {
-            outStream.write(data);
-            outStream.close();
-        } catch (IOException ioe) {
-            throw new RuntimeException("failed writing data to file " + file.getName(), ioe);
+            mCameraManager.openCamera(mCameraId, mStateCallback, mCameraHandler);
+        } catch (InterruptedException | CameraAccessException e) {
+            Log.e(TAG, e.getMessage());
         }
     }
 
-    private final CameraDevice.StateCallback mCameraDeviceCallback
-            = new CameraDevice.StateCallback() {
-        @Override
-        public void onOpened(@NonNull CameraDevice camera) {
-            mCamera = camera;
-//            mCallback.onCameraOpened();
-            startCaptureSession();
-        }
-
-        @Override
-        public void onClosed(@NonNull CameraDevice camera) {
-//            mCallback.onCameraClosed();
-        }
-
-        @Override
-        public void onDisconnected(@NonNull CameraDevice camera) {
-            mCamera = null;
-        }
-
-        @Override
-        public void onError(@NonNull CameraDevice camera, int error) {
-            Log.e("DEBUG", "onError: " + camera.getId() + " (" + error + ")");
+    private void closeCamera() {
+        try {
+            mCameraOpenCloseLock.acquire();
             if (mCaptureSession != null) {
-                try {
-                    mCaptureSession.stopRepeating();
-                } catch (CameraAccessException e) {
-                    e.printStackTrace();
-                }
                 mCaptureSession.close();
                 mCaptureSession = null;
             }
-            if (mCamera != null) {
-                mCamera.close();
-                mCamera = null;
+            if (mCameraDevice != null) {
+                mCameraDevice.close();
+                mCameraDevice = null;
             }
-        }
-    };
-
-    private final CameraCaptureSession.StateCallback mSessionCallback
-            = new CameraCaptureSession.StateCallback() {
-        @Override
-        public void onConfigured(@NonNull CameraCaptureSession session) {
-            if (mCamera == null) {
-                return;
+            if (mImageReader != null) {
+                mImageReader.close();
+                mImageReader = null;
             }
-            mCaptureSession = session;
-            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-
-            try {
-                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
-                        null, backgroundHandler);
-            } catch (CameraAccessException e) {
-                Log.e("DEBUG", "Failed to start camera preview because it couldn't access camera", e);
-            } catch (IllegalStateException e) {
-                Log.e("DEBUG", "Failed to start camera preview.", e);
-            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
+        } finally {
+            mCameraOpenCloseLock.release();
         }
-
-        @Override
-        public void onConfigureFailed(@NonNull CameraCaptureSession session) {
-            Log.e("DEBUG", "Failed to configure capture session.");
-        }
-
-        @Override
-        public void onClosed(@NonNull CameraCaptureSession session) {
-            if (mCaptureSession != null && mCaptureSession.equals(session)) {
-                mCaptureSession = null;
-            }
-        }
-    };
-
-    private byte[] getCameraData(final Image image) {
-        Image.Plane[] planes = image.getPlanes();
-        int byteLen = 0;
-        for (Image.Plane plane : planes) {
-            byteLen += plane.getBuffer().remaining();
-        }
-
-        byte[] bytes = new byte[byteLen];
-        int offset = 0;
-        for (Image.Plane plane : planes) {
-            ByteBuffer buffer = plane.getBuffer();
-            int remain = buffer.remaining();
-            buffer.get(bytes, offset, remain);
-            offset += remain;
-        }
-
-        return bytes;
     }
 
-    private byte[] getDateFromImage(final Image image) {
-        if (image != null) {
-            Image.Plane[] planes = image.getPlanes();
-            if (planes.length > 0) {
-                ByteBuffer buffer = planes[0].getBuffer();
-                int size = image.getWidth() * image.getHeight();
-                int bufferSize = (size * 3) >> 1;
-                if (mCameraData == null || mCameraData.length != bufferSize) {
-                    mCameraData = new byte[bufferSize];
+    private void configureTransform(int width, int height) {
+
+    }
+
+    private void startCaptureSession() {
+        if (mCameraDevice == null) {
+            return;
+        }
+
+        if ((mImageReader != null || mSurfaceTexture != null)) {
+            try {
+                mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+                mPreviewRequestBuilder.addTarget(mImageReader.getSurface());
+//                Zoom zoom = new Zoom(mCameraCharacteristics);
+//                zoom.setZoom(mPreviewRequestBuilder, zoom.maxZoom  / 10);
+                List<Surface> surfaceList = Arrays.asList(mImageReader.getSurface());
+                if (mSurfaceTexture != null) {
+                    // We configure the size of default buffer to be the size of camera preview we want.
+                    mSurfaceTexture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+                    mSurfaceTexture1.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+
+                    Surface surface = new Surface(mSurfaceTexture);
+                    Surface surface1 = new Surface(mSurfaceTexture1);
+                    mPreviewRequestBuilder.addTarget(mImageReader.getSurface());
+                    mPreviewRequestBuilder.addTarget(surface);
+                    mPreviewRequestBuilder.addTarget(surface1);
+                    surfaceList = Arrays.asList(surface, surface1, mImageReader.getSurface());
+                } else {
+//                    mPreviewRequestBuilder.addTarget(mImageReader.getSurface());
                 }
 
-                buffer.get(mCameraData, 0, size);
-                ByteBuffer buffer2 = planes[1].getBuffer();
-                buffer2.get(mCameraData, size, buffer2.remaining());
-                return mCameraData;
+                Range<Integer>[] fpsRanges = mCameraCharacteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES);
+                Log.d("DEBUG", "##### fpsRange: " + Arrays.toString(fpsRanges));
+
+//                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fpsRanges[3]);
+
+                mCameraDevice.createCaptureSession(surfaceList, new CameraCaptureSession.StateCallback() {
+                    @Override
+                    public void onConfigured(CameraCaptureSession session) {
+                        if (mCameraDevice == null) return;
+
+                        //二代关闭自动对焦  : CaptureRequest.CONTROL_AF_MODE_OFF
+                        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF);
+
+                        mCaptureSession = session;
+                        try {
+                            if (mCaptureSession != null)
+                                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), null, null);
+                        } catch (CameraAccessException | IllegalArgumentException | IllegalStateException | NullPointerException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onConfigureFailed(CameraCaptureSession session) {
+                        Log.e(TAG, "Failed to configure capture session");
+                    }
+
+                    @Override
+                    public void onClosed(CameraCaptureSession session) {
+                        if (mCaptureSession != null && mCaptureSession.equals(session)) {
+                            mCaptureSession = null;
+                        }
+                    }
+                }, mCameraHandler);
+            } catch (CameraAccessException e) {
+//            e.printStackTrace();
+                Log.e(TAG, e.getMessage());
+            } catch (IllegalStateException e) {
+                stopPreview();
+                startPreview();
+            } catch (UnsupportedOperationException e) {
+//            e.printStackTrace();
+                Log.e(TAG, e.getMessage());
             }
-            return mCameraData;
         }
-        return null;
+
+    }
+
+
+//    private byte[] convertYUV420888ToNv21(final Image image) {
+//        if(image == null) return null;
+//
+//        Image.Plane[] planes = image.getPlanes();
+//        if(planes.length == 0) return mBuffer;
+//
+//        ByteBuffer bufY = planes[0].getBuffer();
+//        int size = image.getWidth() * image.getHeight();
+//        int len = size * 3 / 2;
+//        if(mBuffer == null || mBuffer.length != len) {
+//            mBuffer = new byte[len];
+//        }
+//        bufY.get(mBuffer, 0, size);
+//        ByteBuffer bufVU = planes[2].getBuffer();
+//        bufVU.get(mBuffer, size, bufVU.remaining());
+//        return mBuffer;
+//    }
+
+    public interface FrameCallback {
+        void onFrame(Image data);
+    }
+
+    public Size getPreviewSize() {
+        return mPreviewSize;
+    }
+
+    public void setPreviewSize(Size previewSize) {
+        mPreviewSize = previewSize;
+    }
+
+    public FrameCallback getFrameCallback() {
+        return mFrameCallback;
+    }
+
+    public void setFrameCallback(FrameCallback frameCallback) {
+        mFrameCallback = frameCallback;
+    }
+
+    public void setSurfaceTexture(SurfaceTexture surfaceTexture) {
+        mSurfaceTexture = surfaceTexture;
+    }
+
+    public void setSurfaceTexture1(SurfaceTexture surfaceTexture) {
+        mSurfaceTexture1 = surfaceTexture;
     }
 }

@@ -4,13 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.yeungeek.camerasample.widget.AutoFitTextureView
-        android:id="@+id/camera_texture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,4 +21,19 @@
             android:layout_height="60dp"
             android:background="@drawable/ic_camera" />
     </LinearLayout>
+
+    <TextureView
+        android:id="@+id/texture_view"
+        android:layout_width="320dp"
+        android:layout_height="180dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextureView
+        android:id="@+id/texture_view1"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/texture_view" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
