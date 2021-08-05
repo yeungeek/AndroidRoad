@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AVSample</string>
+    
+    <string name="permission_storage">获取存储权限</string>
 </resources>

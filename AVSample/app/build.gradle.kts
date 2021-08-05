@@ -32,6 +32,10 @@ android {
         targetCompatibility(JavaVersion.VERSION_1_8)
     }
 
+    buildFeatures{
+        viewBinding = true
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -43,6 +47,8 @@ dependencies {
     implementation(Libs.appcompat)
     implementation(Libs.material)
     implementation(Libs.constraintlayout)
+    implementation(Libs.easy_permissions)
+
     testImplementation(Libs.junit)
     androidTestImplementation(Libs.ext_junit)
     androidTestImplementation(Libs.espresso_core)

@@ -23,6 +23,7 @@ object Versions {
     const val junitVersion = "4.+"
     const val extJunitVersion = "1.1.2"
     const val espressoCoreVersion = "3.3.0"
+    const val easyPermission = "3.0.0"
 }
 
 object Libs {
@@ -30,8 +31,13 @@ object Libs {
     const val core_ktx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
     const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompatVersion}"
     const val material = "com.google.android.material:material:${Versions.materialVersion}"
+
+
+
     const val constraintlayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintlayoutVersion}"
     const val junit = "junit:junit:${Versions.junitVersion}"
     const val ext_junit = "androidx.test.ext:junit:${Versions.extJunitVersion}"
     const val espresso_core = "androidx.test.espresso:espresso-core:${Versions.espressoCoreVersion}"
+
+    const val easy_permissions = "pub.devrel:easypermissions:${Versions.easyPermission}"
 }
