@@ -1,4 +1,4 @@
-package com.yeungeek.avsample.activities
+package com.yeungeek.avsample.activities.media
 
 import android.media.MediaExtractor
 import android.os.Bundle

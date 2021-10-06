@@ -48,6 +48,12 @@ dependencies {
     implementation(Libs.material)
     implementation(Libs.constraintlayout)
     implementation(Libs.easy_permissions)
+    implementation(Libs.timber)
+    implementation(Libs.camerax)
+    implementation(Libs.camerax_lifecycle)
+    implementation(Libs.camerax_view)
+    implementation(Libs.coroutines_android)
+    implementation(Libs.lifecycleKtx)
 
     testImplementation(Libs.junit)
     androidTestImplementation(Libs.ext_junit)

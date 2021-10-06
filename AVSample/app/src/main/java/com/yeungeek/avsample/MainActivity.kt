@@ -11,8 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.yeungeek.avsample.activities.MediaPlayerActivity
-import com.yeungeek.avsample.activities.PlayActivity
+import com.yeungeek.avsample.activities.media.AudioRecordActivity
+import com.yeungeek.avsample.activities.media.MediaPlayerActivity
+import com.yeungeek.avsample.activities.media.MediaRecorderActivity
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -39,6 +40,8 @@ class MainActivity : AppCompatActivity() {
     private fun initDatas() {
         mDatas = arrayListOf()
         mDatas.add(Pair("play video with MediaPlayer", MediaPlayerActivity::class.java))
+        mDatas.add(Pair("media recorder", MediaRecorderActivity::class.java))
+        mDatas.add(Pair("audio record", AudioRecordActivity::class.java))
 
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
@@ -55,7 +58,9 @@ class MainActivity : AppCompatActivity() {
         val perms = arrayOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WAKE_LOCK
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA
         )
         if (EasyPermissions.hasPermissions(this, *perms)) {
             //
