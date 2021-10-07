@@ -29,6 +29,7 @@
         <activity android:name=".activities.media.MediaPlayerActivity" />
         <activity android:name=".activities.media.MediaRecorderActivity" />
         <activity android:name=".activities.media.AudioRecordActivity" />
+        <activity android:name=".activities.media.MediaMuxerActivity" />
         <activity android:name=".activities.media.PlayActivity" />
     </application>
 

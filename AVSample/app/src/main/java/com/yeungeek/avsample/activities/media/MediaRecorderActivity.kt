@@ -55,9 +55,13 @@ class MediaRecorderActivity : AppCompatActivity(), View.OnClickListener {
 
     init {
         val filePath =
-            File("${Environment.getExternalStorageDirectory().absolutePath}" + File.separator + "media")
+            File(
+                "${Environment.getExternalStorageDirectory().absolutePath}" + File.separator + "media"
+                        + File.separator + "record"
+            )
         filePath.mkdirs()
-        mVideoRecorderFilePath = "$filePath" + File.separator + "media_recorder.mp4"
+        mVideoRecorderFilePath =
+            "$filePath" + File.separator + "media_recorder" + System.currentTimeMillis() + ".mp4"
         Timber.d("##### recorder file path $mVideoRecorderFilePath")
     }
 

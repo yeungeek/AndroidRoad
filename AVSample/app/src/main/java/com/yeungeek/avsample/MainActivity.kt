@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yeungeek.avsample.activities.media.AudioRecordActivity
+import com.yeungeek.avsample.activities.media.MediaMuxerActivity
 import com.yeungeek.avsample.activities.media.MediaPlayerActivity
 import com.yeungeek.avsample.activities.media.MediaRecorderActivity
 import pub.devrel.easypermissions.AfterPermissionGranted
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         mDatas.add(Pair("play video with MediaPlayer", MediaPlayerActivity::class.java))
         mDatas.add(Pair("media recorder", MediaRecorderActivity::class.java))
         mDatas.add(Pair("audio record", AudioRecordActivity::class.java))
+        mDatas.add(Pair("media muxer", MediaMuxerActivity::class.java))
 
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
