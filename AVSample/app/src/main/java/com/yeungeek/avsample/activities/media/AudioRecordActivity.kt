@@ -31,8 +31,8 @@ class AudioRecordActivity : AppCompatActivity(), View.OnClickListener {
     init {
         val filePath =
             File("${Environment.getExternalStorageDirectory().absolutePath}" + File.separator + "media")
-        filePath.mkdirs()
         audioRecordFilePath = "$filePath" + File.separator + "audio_recorder.pcm"
+        filePath.mkdirs()
         Timber.d("##### audio recorder file path $audioRecordFilePath")
     }
 
@@ -41,6 +41,7 @@ class AudioRecordActivity : AppCompatActivity(), View.OnClickListener {
         AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_IN_CONFIG, ENCODE)
     }
 
+    //MediaRecorder.AudioSource.MIC,
     private val audioRecord: AudioRecord by lazy {
         AudioRecord(
             MediaRecorder.AudioSource.MIC,
