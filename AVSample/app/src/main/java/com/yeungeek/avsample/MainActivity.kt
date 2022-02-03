@@ -15,6 +15,8 @@ import com.yeungeek.avsample.activities.media.AudioRecordActivity
 import com.yeungeek.avsample.activities.media.MediaMuxerActivity
 import com.yeungeek.avsample.activities.media.MediaPlayerActivity
 import com.yeungeek.avsample.activities.media.MediaRecorderActivity
+import com.yeungeek.avsample.activities.opengl.first.FirstOpenGLActivity
+import com.yeungeek.avsample.activities.opengl.renderer.FirstOpenGLRenderer
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -44,6 +46,9 @@ class MainActivity : AppCompatActivity() {
         mDatas.add(Pair("media recorder", MediaRecorderActivity::class.java))
         mDatas.add(Pair("audio record", AudioRecordActivity::class.java))
         mDatas.add(Pair("media muxer", MediaMuxerActivity::class.java))
+
+        //opengl
+        mDatas.add(Pair("first opengl renderer", FirstOpenGLActivity::class.java))
 
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))

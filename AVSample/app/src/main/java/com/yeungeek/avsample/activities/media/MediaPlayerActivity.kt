@@ -33,7 +33,7 @@ class MediaPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback, View.On
 
         mediaPlayer = MediaPlayer()
 
-        mediaPlayer.setDataSource("http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8")
+        mediaPlayer.setDataSource("https://c1.monidai.com/20220119/IY2u9Sy7/index.m3u8")
         mediaPlayer.setOnPreparedListener {
             Log.d("DEBUG", "##### prepared ")
             mediaPlayer.start()
