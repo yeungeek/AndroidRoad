@@ -37,6 +37,7 @@
         <activity android:name=".activities.media.MediaMuxerActivity" />
         <activity android:name=".activities.media.PlayActivity" />
         <activity android:name=".activities.opengl.first.FirstOpenGLActivity" />
+        <activity android:name=".activities.opengl.airhockey.AirHockeyActivity" />
     </application>
 
 </manifest>
