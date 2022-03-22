@@ -13,7 +13,7 @@ class AirHockeyActivity : AppCompatActivity() {
         glSurfaceView = GLSurfaceView(this)
         //config
         glSurfaceView.setEGLContextClientVersion(2)
-        glSurfaceView.setRenderer(AirHockeyRenderer())
+        glSurfaceView.setRenderer(AirHockeyRenderer(applicationContext))
 
         setContentView(glSurfaceView)
     }
