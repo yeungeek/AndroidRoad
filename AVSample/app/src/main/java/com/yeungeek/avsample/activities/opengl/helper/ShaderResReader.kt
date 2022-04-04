@@ -3,6 +3,9 @@ package com.yeungeek.avsample.activities.opengl.helper
 import android.content.res.Resources
 
 object ShaderResReader {
+    /**
+     * load from asset file
+     */
     fun loadFromAssetsFile(fileName: String, res: Resources): String {
         val result = StringBuilder()
         try {
