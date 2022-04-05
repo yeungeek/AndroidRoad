@@ -5,6 +5,7 @@ import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import com.yeungeek.avsample.activities.opengl.helper.ShaderHelper
 import com.yeungeek.avsample.activities.opengl.helper.ShaderResReader
+import timber.log.Timber
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
@@ -16,36 +17,58 @@ class AirHockeyRenderer constructor(context: Context) : GLSurfaceView.Renderer {
     private var mContext: Context = context
 
     private val A_POSITION = "a_Position"
-    private val U_COLOR = "u_Color"
+
+    //    private val U_COLOR = "u_Color"
+    private val A_COLOR = "a_Color"
     private val POSITION_COMPONENT_COUNT = 2
+    private val COLOR_COMPONENT_COUNT = 3
     private val BYTES_PER_FLOAT = 4
+    private val STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTES_PER_FLOAT
 
     private var program = 0
     private var aPositionLocation = 0
-    private var uColorLocation = 0
+
+    //private var uColorLocation = 0
+    private var aColorLocation = 0
 
     private var vertexData: FloatBuffer? = null
 
 
     init {
         var tableVerticesWithTriangles = floatArrayOf(
-            //Triangle 1
-            -0.5f, -0.5f,
-            0.5f, 0.5f,
-            -0.5f, 0.5f,
+            //Triangle Fan  X,Y,R,G,B
+            0f, 0f, 1.0f, 1.0f, 1.0f,
+            -0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
+            0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
+            0.5f, 0.5f, 0.7f, 0.7f, 0.7f,
+            -0.5f, 0.5f, 0.7f, 0.7f, 0.7f,
+            -0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
 
-            //Triangle 2
-            -0.5f, -0.5f,
-            0.5f, -0.5f,
-            0.5f, 0.5f,
-
-            //Line
-            -0.5f, 0f,
-            0.5f, 0f,
+            // Line
+            -0.5f, 0f, 1.0f, 0f, 0f,
+            0.5f, 0f, 1.0f, 0f, 0f,
 
             //Mallets
-            0f, -0.25f,
-            0f, 0.25f
+            0f, -0.25f, 0f, 0f, 1f,
+            0f, 0.25f, 1f, 0f, 0f
+
+//            //Triangle 1,
+//            -0.5f, -0.5f,
+//            0.5f, 0.5f,
+//            -0.5f, 0.5f,
+//
+//            //Triangle 2
+//            -0.5f, -0.5f,
+//            0.5f, -0.5f,
+//            0.5f, 0.5f,
+//
+//            //Line
+//            -0.5f, 0f,
+//            0.5f, 0f,
+//
+//            //Mallets
+//            0f, -0.25f,
+//            0f, 0.25f
         )
 
         vertexData = ByteBuffer
@@ -83,17 +106,36 @@ class AirHockeyRenderer constructor(context: Context) : GLSurfaceView.Renderer {
         GLES20.glUseProgram(program)
 
         aPositionLocation = GLES20.glGetAttribLocation(program, A_POSITION)
-        uColorLocation = GLES20.glGetUniformLocation(program, U_COLOR)
+        aColorLocation = GLES20.glGetAttribLocation(program, A_COLOR)
+
+        Timber.d("##### aColorLocation: %d", aColorLocation)
 
         //5. Bind our data
         vertexData!!.position(0)
-
         GLES20.glVertexAttribPointer(
             aPositionLocation, POSITION_COMPONENT_COUNT, GLES20.GL_FLOAT,
-            false, 0, vertexData
+            false, STRIDE, vertexData
         )
 
+//        GLES20.glVertexAttribPointer(
+//            aPositionLocation, POSITION_COMPONENT_COUNT, GLES20.GL_FLOAT,
+//            false, 0, vertexData
+//        )
+
         GLES20.glEnableVertexAttribArray(aPositionLocation)
+
+        //2. add color location
+        vertexData!!.position(POSITION_COMPONENT_COUNT)
+        GLES20.glVertexAttribPointer(
+            aColorLocation,
+            COLOR_COMPONENT_COUNT,
+            GLES20.GL_FLOAT,
+            false,
+            STRIDE,
+            vertexData
+        )
+
+        GLES20.glEnableVertexAttribArray(aColorLocation)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -103,20 +145,34 @@ class AirHockeyRenderer constructor(context: Context) : GLSurfaceView.Renderer {
     override fun onDrawFrame(gl: GL10?) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
 
-        // Draw the table.
-        GLES20.glUniform4f(uColorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
+        // Draw the table
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, 6)
 
         // Draw the center dividing line.
-        GLES20.glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
-        GLES20.glDrawArrays(GLES20.GL_LINES, 6, 2);
+        GLES20.glDrawArrays(GLES20.GL_LINES, 6, 2)
+
 
         // Draw the first mallet blue.
-        GLES20.glUniform4f(uColorLocation, 0.0f, 0.0f, 1.0f, 1.0f);
         GLES20.glDrawArrays(GLES20.GL_POINTS, 8, 1);
 
         // Draw the second mallet red.
-        GLES20.glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
         GLES20.glDrawArrays(GLES20.GL_POINTS, 9, 1);
+
+
+//        // Draw the table.
+//        GLES20.glUniform4f(uColorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
+//        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
+//
+//        // Draw the center dividing line.
+//        GLES20.glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
+//        GLES20.glDrawArrays(GLES20.GL_LINES, 6, 2);
+//
+//        // Draw the first mallet blue.
+//        GLES20.glUniform4f(uColorLocation, 0.0f, 0.0f, 1.0f, 1.0f);
+//        GLES20.glDrawArrays(GLES20.GL_POINTS, 8, 1);
+//
+//        // Draw the second mallet red.
+//        GLES20.glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
+//        GLES20.glDrawArrays(GLES20.GL_POINTS, 9, 1);
     }
 }
