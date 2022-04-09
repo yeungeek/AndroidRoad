@@ -3,6 +3,7 @@ package com.yeungeek.avsample.activities.opengl.renderer
 import android.content.Context
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
+import android.opengl.Matrix
 import com.yeungeek.avsample.activities.opengl.helper.ShaderHelper
 import com.yeungeek.avsample.activities.opengl.helper.ShaderResReader
 import timber.log.Timber
@@ -17,6 +18,7 @@ class AirHockeyRenderer constructor(context: Context) : GLSurfaceView.Renderer {
     private var mContext: Context = context
 
     private val A_POSITION = "a_Position"
+    private val U_MATRIX = "u_Matrix"
 
     //    private val U_COLOR = "u_Color"
     private val A_COLOR = "a_Color"
@@ -24,15 +26,16 @@ class AirHockeyRenderer constructor(context: Context) : GLSurfaceView.Renderer {
     private val COLOR_COMPONENT_COUNT = 3
     private val BYTES_PER_FLOAT = 4
     private val STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTES_PER_FLOAT
+    private val projectionMatrix = FloatArray(16)
 
     private var program = 0
     private var aPositionLocation = 0
 
     //private var uColorLocation = 0
     private var aColorLocation = 0
+    private var uMatrixLocation = 0
 
     private var vertexData: FloatBuffer? = null
-
 
     init {
         var tableVerticesWithTriangles = floatArrayOf(
@@ -105,6 +108,7 @@ class AirHockeyRenderer constructor(context: Context) : GLSurfaceView.Renderer {
         ShaderHelper.validateProgram(program)
         GLES20.glUseProgram(program)
 
+        uMatrixLocation = GLES20.glGetUniformLocation(program, U_MATRIX)
         aPositionLocation = GLES20.glGetAttribLocation(program, A_POSITION)
         aColorLocation = GLES20.glGetAttribLocation(program, A_COLOR)
 
@@ -140,11 +144,24 @@ class AirHockeyRenderer constructor(context: Context) : GLSurfaceView.Renderer {
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
         GLES20.glViewport(0, 0, width, height)
+
+        val aspectRatio = when (width > height) {
+            true -> width.toFloat() / height.toFloat()
+            false -> height.toFloat() / width.toFloat()
+        }
+
+        // ortho
+        if (width > height) {
+            Matrix.orthoM(projectionMatrix, 0, -aspectRatio, aspectRatio, -1f, 1f, -1f, 1f)
+        } else {
+            Matrix.orthoM(projectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, -1f, 1f)
+        }
     }
 
     override fun onDrawFrame(gl: GL10?) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
 
+        GLES20.glUniformMatrix4fv(uMatrixLocation, 1, false, projectionMatrix, 0)
         // Draw the table
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, 6)
 
