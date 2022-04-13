@@ -4,6 +4,7 @@ import android.content.Context
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
+import com.yeungeek.avsample.activities.opengl.helper.MatrixHelper
 import com.yeungeek.avsample.activities.opengl.helper.ShaderHelper
 import com.yeungeek.avsample.activities.opengl.helper.ShaderResReader
 import timber.log.Timber
@@ -23,10 +24,13 @@ class AirHockeyRenderer constructor(context: Context) : GLSurfaceView.Renderer {
     //    private val U_COLOR = "u_Color"
     private val A_COLOR = "a_Color"
     private val POSITION_COMPONENT_COUNT = 2
-    private val COLOR_COMPONENT_COUNT = 3
+
+        private val COLOR_COMPONENT_COUNT = 3
+//    private val COLOR_COMPONENT_COUNT = 4
     private val BYTES_PER_FLOAT = 4
     private val STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTES_PER_FLOAT
     private val projectionMatrix = FloatArray(16)
+    private val modelMatrix = FloatArray(16)
 
     private var program = 0
     private var aPositionLocation = 0
@@ -39,21 +43,38 @@ class AirHockeyRenderer constructor(context: Context) : GLSurfaceView.Renderer {
 
     init {
         var tableVerticesWithTriangles = floatArrayOf(
-            //Triangle Fan  X,Y,R,G,B
+            // Order of coordinates: X, Y, Z, W, R, G, B
+//            // Triangle Fan
+//            0f, 0f, 0f, 1.5f, 1f, 1f, 1f,
+//            -0.5f, -0.8f, 0f, 1f, 0.7f, 0.7f, 0.7f,
+//            0.5f, -0.8f, 0f, 1f, 0.7f, 0.7f, 0.7f,
+//            0.5f, 0.8f, 0f, 2f, 0.7f, 0.7f, 0.7f,
+//            -0.5f, 0.8f, 0f, 2f, 0.7f, 0.7f, 0.7f,
+//            -0.5f, -0.8f, 0f, 1f, 0.7f, 0.7f, 0.7f,
+//
+//            // Line 1
+//            -0.5f, 0f, 0f, 1.5f, 1f, 0f, 0f,
+//            0.5f, 0f, 0f, 1.5f, 1f, 0f, 0f,
+//
+//            // Mallets
+//            0f, -0.4f, 0f, 1.25f, 0f, 0f, 1f,
+//            0f, 0.4f, 0f, 1.75f, 1f, 0f, 0f
+
+//            //Triangle Fan  X,Y,R,G,B
             0f, 0f, 1.0f, 1.0f, 1.0f,
-            -0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
-            0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
-            0.5f, 0.5f, 0.7f, 0.7f, 0.7f,
-            -0.5f, 0.5f, 0.7f, 0.7f, 0.7f,
-            -0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
+            -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+            0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+            0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
+            -0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
+            -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
 
             // Line
             -0.5f, 0f, 1.0f, 0f, 0f,
             0.5f, 0f, 1.0f, 0f, 0f,
 
             //Mallets
-            0f, -0.25f, 0f, 0f, 1f,
-            0f, 0.25f, 1f, 0f, 0f
+            0f, -0.4f, 0f, 0f, 1f,
+            0f, 0.4f, 1f, 0f, 0f
 
 //            //Triangle 1,
 //            -0.5f, -0.5f,
@@ -145,17 +166,32 @@ class AirHockeyRenderer constructor(context: Context) : GLSurfaceView.Renderer {
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
         GLES20.glViewport(0, 0, width, height)
 
-        val aspectRatio = when (width > height) {
-            true -> width.toFloat() / height.toFloat()
-            false -> height.toFloat() / width.toFloat()
-        }
+//        val aspectRatio = when (width > height) {
+//            true -> width.toFloat() / height.toFloat()
+//            false -> height.toFloat() / width.toFloat()
+//        }
+//
+////         ortho
+//        if (width > height) {
+//            Matrix.orthoM(projectionMatrix, 0, -aspectRatio, aspectRatio, -1f, 1f, -1f, 1f)
+//        } else {
+//            Matrix.orthoM(projectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, -1f, 1f)
+//        }
+//
+        Matrix.perspectiveM(
+            projectionMatrix, 0, 45f, width.toFloat() / height.toFloat(),
+            1f, 10f
+        )
 
-        // ortho
-        if (width > height) {
-            Matrix.orthoM(projectionMatrix, 0, -aspectRatio, aspectRatio, -1f, 1f, -1f, 1f)
-        } else {
-            Matrix.orthoM(projectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, -1f, 1f)
-        }
+//        MatrixHelper.perspectiveM(projectionMatrix, 45f, width.toFloat() / height.toFloat(), 1f, 10f)
+        // unit matrix
+        Matrix.setIdentityM(modelMatrix, 0)
+        Matrix.translateM(modelMatrix, 0, 0f, 0f, -3.5f)
+        Matrix.rotateM(modelMatrix, 0, -60f, 1f, 0f, 0f)
+
+        val temp = FloatArray(16)
+        Matrix.multiplyMM(temp, 0, projectionMatrix, 0, modelMatrix, 0)
+        System.arraycopy(temp, 0, projectionMatrix, 0, temp.size)
     }
 
     override fun onDrawFrame(gl: GL10?) {
