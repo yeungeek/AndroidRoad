@@ -1,4 +1,4 @@
-package com.yeungeek.avsample.activities.opengl.helper
+package com.yeungeek.avsample.activities.opengl.book.helper
 
 import android.content.res.Resources
 

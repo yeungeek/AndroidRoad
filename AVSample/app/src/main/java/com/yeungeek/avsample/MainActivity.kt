@@ -15,9 +15,8 @@ import com.yeungeek.avsample.activities.media.AudioRecordActivity
 import com.yeungeek.avsample.activities.media.MediaMuxerActivity
 import com.yeungeek.avsample.activities.media.MediaPlayerActivity
 import com.yeungeek.avsample.activities.media.MediaRecorderActivity
-import com.yeungeek.avsample.activities.opengl.airhockey.AirHockeyActivity
-import com.yeungeek.avsample.activities.opengl.first.FirstOpenGLActivity
-import com.yeungeek.avsample.activities.opengl.renderer.FirstOpenGLRenderer
+import com.yeungeek.avsample.activities.opengl.book.airhockey.AirHockeyActivity
+import com.yeungeek.avsample.activities.opengl.book.first.FirstOpenGLActivity
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 

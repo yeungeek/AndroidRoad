@@ -1,4 +1,4 @@
-package com.yeungeek.avsample.activities.opengl.data
+package com.yeungeek.avsample.activities.opengl.book.data
 
 import android.opengl.GLES20.*
 import java.nio.ByteBuffer

@@ -1,4 +1,4 @@
-package com.yeungeek.avsample.activities.opengl.renderer
+package com.yeungeek.avsample.activities.opengl.book.renderer
 
 import android.content.Context
 import android.opengl.GLSurfaceView

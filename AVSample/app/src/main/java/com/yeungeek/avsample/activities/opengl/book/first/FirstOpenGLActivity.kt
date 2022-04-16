@@ -1,11 +1,11 @@
-package com.yeungeek.avsample.activities.opengl.airhockey
+package com.yeungeek.avsample.activities.opengl.book.first
 
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.yeungeek.avsample.activities.opengl.renderer.AirHockeyRenderer
+import com.yeungeek.avsample.activities.opengl.book.renderer.FirstOpenGLRenderer
 
-class AirHockeyActivity : AppCompatActivity() {
+class FirstOpenGLActivity : AppCompatActivity() {
     lateinit var glSurfaceView: GLSurfaceView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +13,7 @@ class AirHockeyActivity : AppCompatActivity() {
         glSurfaceView = GLSurfaceView(this)
         //config
         glSurfaceView.setEGLContextClientVersion(2)
-        glSurfaceView.setRenderer(AirHockeyRenderer(applicationContext))
+        glSurfaceView.setRenderer(FirstOpenGLRenderer())
 
         setContentView(glSurfaceView)
     }

@@ -1,9 +1,9 @@
-package com.yeungeek.avsample.activities.opengl.airhockey
+package com.yeungeek.avsample.activities.opengl.book.airhockey
 
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.yeungeek.avsample.activities.opengl.renderer.AirHTextureRenderer
+import com.yeungeek.avsample.activities.opengl.book.renderer.AirHTextureRenderer
 
 class AirHTextureActivity : AppCompatActivity() {
     lateinit var glSurfaceView: GLSurfaceView

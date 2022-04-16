@@ -1,7 +1,6 @@
-package com.yeungeek.avsample.activities.opengl.helper
+package com.yeungeek.avsample.activities.opengl.book.helper
 
 import android.opengl.GLES20
-import android.util.Log
 import timber.log.Timber
 
 object ShaderHelper {
@@ -90,5 +89,19 @@ object ShaderHelper {
         }
 
         return shaderObjectId
+    }
+
+    fun buildProgram(
+        vertexShaderSource: String,
+        fragmentShaderSource: String
+    ): Int {
+        // Compile ¬the shaders.
+        val vertexShader = compileVertexShader(vertexShaderSource)
+        val fragmentShader = compileFragmentShader(fragmentShaderSource)
+
+        val program = linkProgram(vertexShader, fragmentShader)
+        validateProgram(program)
+
+        return program
     }
 }
