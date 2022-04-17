@@ -15,6 +15,7 @@ import com.yeungeek.avsample.activities.media.AudioRecordActivity
 import com.yeungeek.avsample.activities.media.MediaMuxerActivity
 import com.yeungeek.avsample.activities.media.MediaPlayerActivity
 import com.yeungeek.avsample.activities.media.MediaRecorderActivity
+import com.yeungeek.avsample.activities.opengl.book.airhockey.AirHTextureActivity
 import com.yeungeek.avsample.activities.opengl.book.airhockey.AirHockeyActivity
 import com.yeungeek.avsample.activities.opengl.book.first.FirstOpenGLActivity
 import pub.devrel.easypermissions.AfterPermissionGranted
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         //opengl
         mDatas.add(Pair("first opengl renderer", FirstOpenGLActivity::class.java))
         mDatas.add(Pair("opengl: air hockey", AirHockeyActivity::class.java))
+        mDatas.add(Pair("opengl: air texture hockey", AirHTextureActivity::class.java))
 
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))

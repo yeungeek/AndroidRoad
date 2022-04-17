@@ -38,6 +38,7 @@
         <activity android:name=".activities.media.PlayActivity" />
         <activity android:name="com.yeungeek.avsample.activities.opengl.book.first.FirstOpenGLActivity" />
         <activity android:name="com.yeungeek.avsample.activities.opengl.book.airhockey.AirHockeyActivity" />
+        <activity android:name="com.yeungeek.avsample.activities.opengl.book.airhockey.AirHTextureActivity" />
     </application>
 
 </manifest>
