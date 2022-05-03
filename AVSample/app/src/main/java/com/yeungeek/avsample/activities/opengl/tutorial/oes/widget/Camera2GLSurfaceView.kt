@@ -48,7 +48,7 @@ class Camera2GLSurfaceView : GLSurfaceView,
     }
 
     //GL Method
-    fun loadTexture(): Int {
+    private fun loadTexture(): Int {
         val tex = intArrayOf(1)
         //1. create texture
         GLES30.glGenTextures(1, tex, 0)
