@@ -23,7 +23,7 @@ object TextureHelper {
         val bitmap =
             BitmapFactory.decodeResource(context.resources, resourceId, options) ?: return 0
 
-        // bind to the texture in OpenGL
+        // bind to the texture irequestRendern OpenGL
         glBindTexture(GL_TEXTURE_2D, textureObjects[0])
 
         // set filter

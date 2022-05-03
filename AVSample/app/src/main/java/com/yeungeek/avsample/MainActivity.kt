@@ -43,15 +43,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun initDatas() {
         mDatas = arrayListOf()
-        mDatas.add(Pair("play video with MediaPlayer", MediaPlayerActivity::class.java))
-        mDatas.add(Pair("media recorder", MediaRecorderActivity::class.java))
-        mDatas.add(Pair("audio record", AudioRecordActivity::class.java))
-        mDatas.add(Pair("media muxer", MediaMuxerActivity::class.java))
-
-        //opengl
-        mDatas.add(Pair("first opengl renderer", FirstOpenGLActivity::class.java))
-        mDatas.add(Pair("opengl: air hockey", AirHockeyActivity::class.java))
+//        mDatas.add(Pair("play video with MediaPlayer", MediaPlayerActivity::class.java))
+//        mDatas.add(Pair("media recorder", MediaRecorderActivity::class.java))
+//        mDatas.add(Pair("audio record", AudioRecordActivity::class.java))
+//        mDatas.add(Pair("media muxer", MediaMuxerActivity::class.java))
+//
+//        //opengl
+//        mDatas.add(Pair("first opengl renderer", FirstOpenGLActivity::class.java))
+//        mDatas.add(Pair("opengl: air hockey", AirHockeyActivity::class.java))
         mDatas.add(Pair("opengl: air texture hockey", AirHTextureActivity::class.java))
+
+        // opengl tutorial
+
 
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
