@@ -49,11 +49,11 @@ class Camera2GLSurfaceView : GLSurfaceView,
 
     //GL Method
     private fun loadTexture(): Int {
-        val tex = intArrayOf(1)
+        val texture = intArrayOf(1)
         //1. create texture
-        GLES30.glGenTextures(1, tex, 0)
+        GLES30.glGenTextures(1, texture, 0)
         //2. bind texture oes
-        GLES30.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, tex[0])
+        GLES30.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, texture[0])
         //3. params
         GLES30.glTexParameterf(
             GLES11Ext.GL_TEXTURE_EXTERNAL_OES,
@@ -78,6 +78,6 @@ class Camera2GLSurfaceView : GLSurfaceView,
 
         //4. clear
         GLES30.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, 0)
-        return tex[0]
+        return texture[0]
     }
 }
