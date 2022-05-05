@@ -33,6 +33,11 @@ class Camera2GLSurfaceView : GLSurfaceView,
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         mTextureId = loadTexture()
         mSurfaceTexture = SurfaceTexture(mTextureId)
+        mSurfaceTexture.setOnFrameAvailableListener(this)
+
+        mCamera2Manager.setPreviewSurface(mSurfaceTexture)
+        mCamera2Manager.openCamera(width,height)
+
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
