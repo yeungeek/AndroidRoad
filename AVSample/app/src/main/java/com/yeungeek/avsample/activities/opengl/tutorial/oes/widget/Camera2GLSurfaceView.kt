@@ -29,8 +29,6 @@ class Camera2GLSurfaceView : GLSurfaceView,
         mCamera2Manager = Camera2Manager(context as Activity)
         setEGLContextClientVersion(3)
         setRenderer(this)
-
-
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
@@ -60,6 +58,10 @@ class Camera2GLSurfaceView : GLSurfaceView,
         requestRender()
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        mCamera2Manager.closeCamera()
+    }
     //GL Method
     private fun loadTexture(): Int {
         val texture = intArrayOf(1)
