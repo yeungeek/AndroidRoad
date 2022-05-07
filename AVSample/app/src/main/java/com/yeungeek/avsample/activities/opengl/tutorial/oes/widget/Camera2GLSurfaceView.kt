@@ -8,6 +8,8 @@ import android.opengl.GLES30
 import android.opengl.GLSurfaceView
 import android.util.AttributeSet
 import com.yeungeek.avsample.activities.opengl.tutorial.oes.camera.Camera2Manager
+import com.yeungeek.avsample.activities.opengl.tutorial.oes.objects.Camera2Obj
+import timber.log.Timber
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -16,6 +18,7 @@ class Camera2GLSurfaceView : GLSurfaceView,
     private lateinit var mCamera2Manager: Camera2Manager
     private lateinit var mSurfaceTexture: SurfaceTexture
     private var mTextureId = 0
+    private lateinit var mCameraObj: Camera2Obj
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
@@ -32,20 +35,25 @@ class Camera2GLSurfaceView : GLSurfaceView,
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         mTextureId = loadTexture()
+
+        Timber.d("##### load texture: $mTextureId")
+
         mSurfaceTexture = SurfaceTexture(mTextureId)
         mSurfaceTexture.setOnFrameAvailableListener(this)
-
+        mCamera2Manager.openCamera(width, height)
         mCamera2Manager.setPreviewSurface(mSurfaceTexture)
-        mCamera2Manager.openCamera(width,height)
 
+        mCameraObj = Camera2Obj(context, mSurfaceTexture, mTextureId)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-
+        GLES30.glViewport(0, 0, width, height)
     }
 
     override fun onDrawFrame(gl: GL10?) {
+        GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT)
 
+        mCameraObj.draw()
     }
 
     override fun onFrameAvailable(surfaceTexture: SurfaceTexture?) {

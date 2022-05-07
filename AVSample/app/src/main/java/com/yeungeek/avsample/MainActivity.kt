@@ -18,6 +18,7 @@ import com.yeungeek.avsample.activities.media.MediaRecorderActivity
 import com.yeungeek.avsample.activities.opengl.book.airhockey.AirHTextureActivity
 import com.yeungeek.avsample.activities.opengl.book.airhockey.AirHockeyActivity
 import com.yeungeek.avsample.activities.opengl.book.first.FirstOpenGLActivity
+import com.yeungeek.avsample.activities.opengl.tutorial.oes.OpenGLOESActivity
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 //        //opengl
 //        mDatas.add(Pair("first opengl renderer", FirstOpenGLActivity::class.java))
 //        mDatas.add(Pair("opengl: air hockey", AirHockeyActivity::class.java))
-        mDatas.add(Pair("opengl: air texture hockey", AirHTextureActivity::class.java))
+        mDatas.add(Pair("opengl: air texture hockey", OpenGLOESActivity::class.java))
 
         // opengl tutorial
 
