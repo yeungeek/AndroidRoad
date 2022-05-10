@@ -62,7 +62,7 @@ class Camera2GLSurfaceView : GLSurfaceView,
         super.onDetachedFromWindow()
         mCamera2Manager.closeCamera()
     }
-    //GL Method
+    //GL Method (OES Texture)
     private fun loadTexture(): Int {
         val texture = intArrayOf(1)
         //1. create texture

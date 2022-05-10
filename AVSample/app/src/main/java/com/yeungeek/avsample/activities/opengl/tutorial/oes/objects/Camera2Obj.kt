@@ -54,7 +54,6 @@ class Camera2Obj {
                 .asFloatBuffer().put(POSITION_VERTEX)
         mVertexBuffer.position(0)
 
-        MediaRecorder.AudioSource.MIC
         mTexVertexBuffer =
             ByteBuffer.allocateDirect(TEX_VERTEX.size * 4).order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
