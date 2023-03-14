@@ -5,8 +5,8 @@ import android.graphics.SurfaceTexture
 import android.media.MediaRecorder
 import android.opengl.GLES11Ext
 import android.opengl.GLES30
-import com.yeungeek.avsample.activities.opengl.book.helper.ShaderHelper
-import com.yeungeek.avsample.activities.opengl.book.helper.ShaderResReader
+import com.yeungeek.avsample.activities.opengl.helper.ShaderHelper
+import com.yeungeek.avsample.activities.opengl.helper.ShaderResReader
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer

@@ -1,4 +1,4 @@
-package com.yeungeek.avsample.activities.opengl.book.helper
+package com.yeungeek.avsample.activities.opengl.helper
 
 object MatrixHelper {
     fun perspectiveM(

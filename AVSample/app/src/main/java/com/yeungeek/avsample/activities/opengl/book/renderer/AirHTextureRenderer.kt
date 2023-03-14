@@ -5,7 +5,7 @@ import android.opengl.GLES20.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import com.yeungeek.avsample.R
-import com.yeungeek.avsample.activities.opengl.book.helper.TextureHelper
+import com.yeungeek.avsample.activities.opengl.helper.TextureHelper
 import com.yeungeek.avsample.activities.opengl.book.objects.Mallet
 import com.yeungeek.avsample.activities.opengl.book.objects.Table
 import com.yeungeek.avsample.activities.opengl.book.programs.ColorShaderProgram

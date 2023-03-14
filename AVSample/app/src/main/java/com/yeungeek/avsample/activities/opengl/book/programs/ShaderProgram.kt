@@ -2,8 +2,8 @@ package com.yeungeek.avsample.activities.opengl.book.programs
 
 import android.content.Context
 import android.opengl.GLES20
-import com.yeungeek.avsample.activities.opengl.book.helper.ShaderHelper
-import com.yeungeek.avsample.activities.opengl.book.helper.ShaderResReader
+import com.yeungeek.avsample.activities.opengl.helper.ShaderHelper
+import com.yeungeek.avsample.activities.opengl.helper.ShaderResReader
 
 abstract class ShaderProgram {
     // Uniform constants

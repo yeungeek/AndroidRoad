@@ -4,8 +4,8 @@ import android.content.Context
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
-import com.yeungeek.avsample.activities.opengl.book.helper.ShaderHelper
-import com.yeungeek.avsample.activities.opengl.book.helper.ShaderResReader
+import com.yeungeek.avsample.activities.opengl.helper.ShaderHelper
+import com.yeungeek.avsample.activities.opengl.helper.ShaderResReader
 import timber.log.Timber
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

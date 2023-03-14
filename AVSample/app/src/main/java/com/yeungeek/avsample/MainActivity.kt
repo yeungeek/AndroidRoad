@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 //        //opengl
 //        mDatas.add(Pair("first opengl renderer", FirstOpenGLActivity::class.java))
 //        mDatas.add(Pair("opengl: air hockey", AirHockeyActivity::class.java))
-        mDatas.add(Pair("opengl: oes camera", OpenGLOESActivity::class.java))
+//        mDatas.add(Pair("opengl: oes camera", OpenGLOESActivity::class.java))
 
         // opengl tutorial
 
