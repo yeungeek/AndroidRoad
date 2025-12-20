@@ -6,4 +6,10 @@ package com.yeungeek.tour.beginner
 
 fun main() {
     println("Hello World!")
+
+    val word = "Hello"
+    val num = 10
+
+    var helloWorld = "$word World!"
+    println("$helloWorld ${num + 1}")
 }
