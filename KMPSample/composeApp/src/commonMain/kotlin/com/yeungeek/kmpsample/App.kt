@@ -1,35 +1,32 @@
 package com.yeungeek.kmpsample
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.*
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.painterResource
-import com.yeungeek.kmpsample.getPlatform
-
-import kmpsample.composeapp.generated.resources.Res
-import kmpsample.composeapp.generated.resources.compose_multiplatform
 
 private enum class Screen {
+    Entry,
     Home,
     Login,
 }
@@ -37,12 +34,17 @@ private enum class Screen {
 @Composable
 @Preview
 fun App() {
-    var currentScreen by remember { mutableStateOf(Screen.Home) }
+    var currentScreen by remember { mutableStateOf(Screen.Entry) }
 
     MaterialTheme {
         when (currentScreen) {
+            Screen.Entry -> EntryScreen(
+                onNavigateToHome = { currentScreen = Screen.Home },
+                onNavigateToLogin = { currentScreen = Screen.Login },
+            )
             Screen.Home -> HomeScreen(
-                onNavigateToLogin = { currentScreen = Screen.Login }
+                onBack = { currentScreen = Screen.Entry },
+                onNavigateToLogin = { currentScreen = Screen.Login },
             )
             Screen.Login -> LoginScreen(
                 onBack = { currentScreen = Screen.Home }
@@ -52,49 +54,52 @@ fun App() {
 }
 
 @Composable
-private fun HomeScreen(
+private fun EntryScreen(
+    onNavigateToHome: () -> Unit,
     onNavigateToLogin: () -> Unit,
 ) {
-    var showContent by remember { mutableStateOf(false) }
-    var showPlatform by remember { mutableStateOf(false) }
+    val greeting = remember { Greeting().greet() }
 
-    Column(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.primaryContainer)
-            .safeContentPadding()
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.surface,
     ) {
-        Button(onClick = { showContent = !showContent }) {
-            Text("Click me!")
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = { showPlatform = !showPlatform }) {
-            Text("Display platform")
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = onNavigateToLogin) {
-            Text("Go to Login")
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        AnimatedVisibility(showContent) {
-            val greeting = remember { Greeting().greet() }
-            Column(
+        Column(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.32f))
+                .safeContentPadding()
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                text = "KMP Sample",
+                style = MaterialTheme.typography.headlineLarge,
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = "当前平台：${getPlatform().name}",
+                style = MaterialTheme.typography.bodyLarge,
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = greeting,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Spacer(modifier = Modifier.height(28.dp))
+            Button(
+                onClick = onNavigateToHome,
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Image(painterResource(Res.drawable.compose_multiplatform), null)
-                Text("Compose: $greeting")
+                Text("打开设备页 HomeScreen")
             }
-        }
-        AnimatedVisibility(showPlatform) {
-            Column(
+            Spacer(modifier = Modifier.height(12.dp))
+            OutlinedButton(
+                onClick = onNavigateToLogin,
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text("显示当前平台: ${getPlatform().name}")
+                Text("前往登录页")
             }
         }
     }
