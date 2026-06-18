@@ -1,0 +1,57 @@
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/jian.yang/.ohos/config/default_harmonyApp_2mLq18-Kxj6k4fi-TJJC4EhlJ46sRM6qGVExrFFhpKQ=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B1F01168045D62E8307F0BFECB7406D13EAB17612A49CDF24B186740788225379ED09240EA46E8D",
+          "profile": "/Users/jian.yang/.ohos/config/default_harmonyApp_2mLq18-Kxj6k4fi-TJJC4EhlJ46sRM6qGVExrFFhpKQ=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/jian.yang/.ohos/config/default_harmonyApp_2mLq18-Kxj6k4fi-TJJC4EhlJ46sRM6qGVExrFFhpKQ=.p12",
+          "storePassword": "0000001B303D8C21D88298E844D935337BCFBCBCFC99BBA7508ACCDA2A3ABA7D465D87709557FE6BDD8C0F"
+        }
+      }
+    ],
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+        "targetSdkVersion": "6.0.0(20)",
+        "compatibleSdkVersion": "6.0.0(20)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "nativeCompiler": "BiSheng",
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug",
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}

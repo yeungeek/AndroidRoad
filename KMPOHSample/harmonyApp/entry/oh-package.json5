@@ -1,0 +1,15 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "libentry.so": "file:./src/main/cpp/types/libentry",
+    // 添加 compose.har 依赖
+    "compose": "file:./libs/compose.har",
+    // 添加 skikobridge.har 依赖
+    //"skikobridge": "file:./libs/skikobridge.har"
+  }
+}
