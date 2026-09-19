@@ -143,9 +143,35 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    signingConfigs {
+        create("release") {
+            val storePath = project.findProperty("RELEASE_STORE_FILE")?.toString()
+            val storeFileObj = if (storePath != null) file(storePath) else null
+
+            if (storeFileObj != null && storeFileObj.exists()) {
+                storeFile = storeFileObj
+                storePassword = project.findProperty("RELEASE_STORE_PASSWORD")?.toString()
+                keyAlias = project.findProperty("RELEASE_KEY_ALIAS")?.toString()
+                keyPassword = project.findProperty("RELEASE_KEY_PASSWORD")?.toString()
+            } else {
+                // Fallback to debug keystore to prevent unsigned APK errors during testing
+                val debugConfig = getByName("debug")
+                storeFile = debugConfig.storeFile
+                storePassword = debugConfig.storePassword
+                keyAlias = debugConfig.keyAlias
+                keyPassword = debugConfig.keyPassword
+            }
+
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
+            enableV4Signing = true
+        }
+    }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false     
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
