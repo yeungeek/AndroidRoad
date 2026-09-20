@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeUIViewController
 
 fun MainViewController() = ComposeUIViewController {
-    IosAdaptiveContent { App() }
+    App()
 }
 
 /**
@@ -20,6 +20,7 @@ fun MainViewController() = ComposeUIViewController {
  * therefore scale together without touching common UI code.
  */
 @Composable
+@Suppress("unused")
 private fun IosAdaptiveContent(content: @Composable () -> Unit) {
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val baseDensity = LocalDensity.current
