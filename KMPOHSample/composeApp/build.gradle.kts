@@ -3,12 +3,66 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import android.databinding.tool.ext.capitalizeUS
+import org.gradle.api.attributes.Attribute
+import org.gradle.api.attributes.AttributeCompatibilityRule
+import org.gradle.api.attributes.AttributeDisambiguationRule
+import org.gradle.api.attributes.CompatibilityCheckDetails
+import org.gradle.api.attributes.MultipleCandidatesDetails
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+}
+
+abstract class OhosTargetCompatibilityRule : AttributeCompatibilityRule<String> {
+    override fun execute(details: CompatibilityCheckDetails<String>) {
+        val consumer = details.consumerValue
+        val producer = details.producerValue
+        if (consumer == "ohos_arm64") {
+            if (producer == "ohos_arm64" || producer == "linux_arm64" || producer == "android_arm64") {
+                details.compatible()
+            }
+        } else if (consumer == "ohos_x64") {
+            if (producer == "ohos_x64" || producer == "linux_x64" || producer == "android_x64") {
+                details.compatible()
+            }
+        }
+    }
+}
+
+abstract class OhosTargetDisambiguationRule : AttributeDisambiguationRule<String> {
+    override fun execute(details: MultipleCandidatesDetails<String>) {
+        val consumer = details.consumerValue
+        if (consumer == "ohos_arm64") {
+            if ("ohos_arm64" in details.candidateValues) {
+                details.closestMatch("ohos_arm64")
+            } else if ("linux_arm64" in details.candidateValues) {
+                details.closestMatch("linux_arm64")
+            } else if ("android_arm64" in details.candidateValues) {
+                details.closestMatch("android_arm64")
+            }
+        } else if (consumer == "ohos_x64") {
+            if ("ohos_x64" in details.candidateValues) {
+                details.closestMatch("ohos_x64")
+            } else if ("linux_x64" in details.candidateValues) {
+                details.closestMatch("linux_x64")
+            } else if ("android_x64" in details.candidateValues) {
+                details.closestMatch("android_x64")
+            }
+        }
+    }
+}
+
+val nativeTargetAttr = Attribute.of("org.jetbrains.kotlin.native.target", String::class.java)
+dependencies {
+    attributesSchema {
+        attribute(nativeTargetAttr) {
+            compatibilityRules.add(OhosTargetCompatibilityRule::class.java)
+            disambiguationRules.add(OhosTargetDisambiguationRule::class.java)
+        }
+    }
 }
 
 kotlin {
@@ -97,6 +151,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)   
             implementation(libs.kotlinx.coroutines.core)          
             implementation(libs.atomicFu)                       
+            implementation(libs.kermit)                       
         }
           // iOS平台共享代码
                 val iosMain = sourceSets.create("iosMain").apply {
