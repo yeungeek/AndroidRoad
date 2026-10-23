@@ -26,62 +26,6 @@ import kmpohsample.composeapp.generated.resources.*
 @Preview
 fun App() {
     MaterialTheme {
-        var showCustomLayout by remember { mutableStateOf(false) }
-        var clicks by remember { mutableIntStateOf(0) }
 
-        if (showCustomLayout) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                CustomLayoutSample()
-                Button(
-                    onClick = { showCustomLayout = false },
-                    modifier = Modifier.align(Alignment.TopStart).padding(16.dp)
-                ) {
-                    Text(stringResource(Res.string.back))
-                }
-            }
-        } else {
-            var showContent by remember { mutableStateOf(false) }
-            val density = LocalDensity.current
-            Column(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primaryContainer)
-                    .safeContentPadding()
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Button(onClick = { showContent = !showContent }) {
-                    Text("Click me!")
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Button(onClick = { showCustomLayout = true }) {
-                    Text(stringResource(Res.string.show_custom_layout))
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Density: ${density.density}, fontScale: ${density.fontScale}",
-                    fontSize = 18.sp
-                )
-                AnimatedVisibility(showContent) {
-                    val greeting = remember { Greeting().greet() }
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Image(painterResource(Res.drawable.compose_multiplatform), null)
-                        Text("${stringResource(Res.string.hello)},Compose: $greeting")
-                    }
-                }
-
-                ClickCounter(clicks = clicks, onClick = { clicks++ })
-
-                MyScreen()
-
-                WithConstraintsComposable()
-            }
-        }
     }
 }
