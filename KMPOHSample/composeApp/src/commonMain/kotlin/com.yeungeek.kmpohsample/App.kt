@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.yeungeek.kmpohsample.intro.ClickCounter
+import com.yeungeek.kmpohsample.intro.MyScreen
+import com.yeungeek.kmpohsample.intro.WithConstraintsComposable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -24,6 +27,7 @@ import kmpohsample.composeapp.generated.resources.*
 fun App() {
     MaterialTheme {
         var showCustomLayout by remember { mutableStateOf(false) }
+        var clicks by remember { mutableIntStateOf(0) }
 
         if (showCustomLayout) {
             Box(modifier = Modifier.fillMaxSize()) {
@@ -71,6 +75,12 @@ fun App() {
                         Text("${stringResource(Res.string.hello)},Compose: $greeting")
                     }
                 }
+
+                ClickCounter(clicks = clicks, onClick = { clicks++ })
+
+                MyScreen()
+
+                WithConstraintsComposable()
             }
         }
     }

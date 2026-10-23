@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello</string>
+    <string name="stop">STOP</string>
+    <string name="restart">RESTART</string>
+    <string name="custom_adapt_internal">CUSTOMADAPT(INTERNAL)</string>
+    <string name="custom_adapt_external">CUSTOMADAPT(EXTERNAL)</string>
+    <string name="w_250dp_total_360dp">W-250dp(total:360dp)</string>
+    <string name="w_109dp">W-109dp</string>
+    <string name="w_120dp">W-120dp</string>
+    <string name="w_90dp">W-90dp</string>
+    <string name="w_150dp">W-150dp</string>
+    <string name="show_custom_layout">Show Custom Layout</string>
+    <string name="back">Back</string>
+</resources>

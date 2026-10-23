@@ -151,7 +151,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)   
             implementation(libs.kotlinx.coroutines.core)          
             implementation(libs.atomicFu)                       
-            implementation(libs.kermit)                       
         }
           // iOS平台共享代码
                 val iosMain = sourceSets.create("iosMain").apply {
